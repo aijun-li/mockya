@@ -1,0 +1,24 @@
+{
+  "name": "root",
+  "private": true,
+  "engines": {
+    "node": ">=18",
+    "pnpm": ">=8"
+  },
+  "scripts": {
+    "prepare": "husky install",
+    "build": "pnpm -r --parallel run build",
+    "dev": "pnpm -r --parallel run dev",
+    "dev:fe": "pnpm -F whistle.mockya-ui run dev",
+    "dev:be": "pnpm -F whistle.mockya run dev"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^17.7.1",
+    "@commitlint/config-conventional": "^17.7.0",
+    "husky": "^8.0.3",
+    "lerna": "^7.1.5",
+    "lint-staged": "^14.0.1",
+    "nx": "^16.7.4",
+    "prettier": "^3.0.2"
+  }
+}
