@@ -13,7 +13,7 @@ interface Props {
 }
 
 type Emits = {
-  'update:modelValue': [value: boolean];
+  'update:modelValue': [boolean];
 };
 
 interface Slots {

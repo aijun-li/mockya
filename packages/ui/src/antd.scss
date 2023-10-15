@@ -1,0 +1,29 @@
+.ant-tabs.ant-tabs {
+  .ant-tabs-nav-wrap {
+    @apply pb-[1px];
+  }
+
+  .ant-tabs-ink-bar {
+    @apply bg-primary;
+    transform: translateY(1px);
+  }
+
+  .ant-tabs-nav::before {
+    @apply border-base-300;
+  }
+
+  .ant-tabs-tab {
+    @apply py-2 mx-4 text-xs font-semibold leading-6;
+
+    &.ant-tabs-tab-active .ant-tabs-tab-btn {
+      @apply text-primary opacity-100 hover:text-primary;
+    }
+    .ant-tabs-tab-btn {
+      @apply text-base-content opacity-60 hover:text-base-content hover:opacity-100;
+    }
+  }
+
+  .ant-tabs-tabpane {
+    @apply px-4;
+  }
+}

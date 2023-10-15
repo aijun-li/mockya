@@ -1,7 +1,22 @@
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+interface Slots {
+  default: () => void;
+  header?: () => void;
+}
+
+const slots = defineSlots<Slots>();
+</script>
 
 <template>
-  <div class="p-4 h-full w-full bg-base-100 shadow-md rounded-lg overflow-auto">
+  <div v-if="!slots.header" class="h-full w-full bg-base-100 shadow-md rounded">
     <slot />
+  </div>
+  <div v-else class="h-full w-full bg-base-100 shadow-md rounded flex flex-col">
+    <div class="border-b border-base-300">
+      <slot name="header" />
+    </div>
+    <div class="flex-1 min-h-0">
+      <slot />
+    </div>
   </div>
 </template>

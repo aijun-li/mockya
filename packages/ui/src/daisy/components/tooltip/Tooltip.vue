@@ -16,27 +16,37 @@ const props = withDefaults(defineProps<Props>(), {
   disabled: false,
 });
 
-const classNames = computed(() => ({
-  'tooltip': true,
-  'tooltip-open': props.open,
-  'tooltip-top': props.position === 'top',
-  'tooltip-bottom': props.position === 'bottom',
-  'tooltip-left': props.position === 'left',
-  'tooltip-right': props.position === 'right',
-  'tooltip-primary': props.type === 'primary',
-  'tooltip-secondary': props.type === 'secondary',
-  'tooltip-accent': props.type === 'accent',
-  'tooltip-info': props.type === 'info',
-  'tooltip-success': props.type === 'success',
-  'tooltip-warning': props.type === 'warning',
-  'tooltip-error': props.type === 'error',
-}));
-
 const tooltipDisabled = computed(() => !props.content || props.disabled);
+
+const classNames = computed(() =>
+  tooltipDisabled.value
+    ? {}
+    : {
+        'tooltip': true,
+        'tooltip-open': props.open,
+        'tooltip-top': props.position === 'top',
+        'tooltip-bottom': props.position === 'bottom',
+        'tooltip-left': props.position === 'left',
+        'tooltip-right': props.position === 'right',
+        'tooltip-primary': props.type === 'primary',
+        'tooltip-secondary': props.type === 'secondary',
+        'tooltip-accent': props.type === 'accent',
+        'tooltip-info': props.type === 'info',
+        'tooltip-success': props.type === 'success',
+        'tooltip-warning': props.type === 'warning',
+        'tooltip-error': props.type === 'error',
+      },
+);
 </script>
 
 <template>
-  <div :class="tooltipDisabled ? {} : classNames" :data-tip="content">
+  <div :class="classNames" :data-tip="content">
     <slot />
   </div>
 </template>
+
+<style lang="scss" scoped>
+.tooltip::before {
+  @apply text-xs;
+}
+</style>

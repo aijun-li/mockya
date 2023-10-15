@@ -53,3 +53,9 @@ const classNames = computed(() => ({
     <slot />
   </button>
 </template>
+
+<style lang="scss" scoped>
+.btn-ghost {
+  @apply hover:bg-base-200;
+}
+</style>

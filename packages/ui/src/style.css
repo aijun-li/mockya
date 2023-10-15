@@ -6,4 +6,10 @@
   .flex-center {
     @apply flex items-center justify-center;
   }
+  .shadow-elevate {
+    box-shadow: 0 3px 8px #eee;
+  }
+  .bg-transparent {
+    background-color: transparent;
+  }
 }

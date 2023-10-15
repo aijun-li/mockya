@@ -1,7 +1,7 @@
 <script lang="ts" setup>
+import { Attention, CheckOne, CloseOne, Info } from '@icon-park/vue-next';
 import { computed, onMounted, ref } from 'vue';
 import { ToastProps } from './types';
-import { Attention, CheckOne, CloseOne, Info } from '@icon-park/vue-next';
 
 const props = withDefaults(defineProps<ToastProps>(), {
   position: 'top-center',
@@ -51,7 +51,6 @@ const style = computed(() => ({
 
 const transitionPrefix = computed(() => {
   if (hPosition.value === 'center') {
-    console.log(`toast-${props.position}`);
     return `toast-${props.position}`;
   } else {
     return `toast-${hPosition.value}`;
@@ -77,10 +76,12 @@ function closeToast() {
 <template>
   <Transition :name="transitionPrefix" @before-leave="onClose" @after-leave="onDestroy">
     <div v-show="render" :class="toastClassNames" :style="style">
-      <div :class="alertClassNames">
-        <div class="flex items-center w-max">
-          <Component :is="Icon" />
-          <div class="ml-1 text-sm">{{ content }}</div>
+      <div :class="alertClassNames" class="grid-cols-[unset] text-left">
+        <div class="flex items-start max-w-[75vw] w-max">
+          <div class="h-5 flex-center flex-none">
+            <Component :is="Icon" />
+          </div>
+          <div class="ml-1 text-sm whitespace-normal break-all">{{ content }}</div>
         </div>
       </div>
     </div>

@@ -1,7 +1,6 @@
 <script lang="ts" setup>
+import { useEventListener, useLocalStorage, useResizeObserver, useStyleTag } from '@vueuse/core';
 import { computed, nextTick, onUnmounted, ref } from 'vue';
-import { useEventListener, useLocalStorage, useResizeObserver } from '@vueuse/core';
-import { useStyleTag } from '@vueuse/core';
 
 interface Props {
   vertical?: boolean;
@@ -11,6 +10,9 @@ interface Props {
   barFocusedColor?: string;
   initStartSize?: string;
   localKey?: string;
+
+  startMinSize?: number;
+  startMaxSize?: number;
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -33,15 +35,19 @@ const pressed = ref(false);
 const storedStartSize = useLocalStorage(props.localKey, '');
 const startSize = ref(storedStartSize.value || props.initStartSize || '50%');
 
-const { css: cursorStyle, load: loadCursorStyle, unload: unloadCursorStyle } = useStyleTag(':root { cursor: auto }');
+const { css: resizeStyle, load: loadResizeStyle, unload: unloadResizeStyle } = useStyleTag('');
 
 const startStyle = computed(() =>
   props.vertical
     ? {
-        height: startSize.value,
+        'height': startSize.value,
+        'min-height': props.startMinSize && `${props.startMinSize}px`,
+        'max-height': props.startMaxSize && `${props.startMaxSize}px`,
       }
     : {
-        width: startSize.value,
+        'width': startSize.value,
+        'min-width': props.startMinSize && `${props.startMinSize}px`,
+        'max-width': props.startMaxSize && `${props.startMaxSize}px`,
       },
 );
 
@@ -78,14 +84,22 @@ const barFocusedStyle = computed(() =>
 useEventListener(barRef, 'mousedown', () => {
   pressed.value = true;
 
-  cursorStyle.value = `:root { cursor: ${props.vertical ? 'row-resize' : 'col-resize'} }`;
-  loadCursorStyle();
+  resizeStyle.value = `
+    :root { 
+      cursor: ${props.vertical ? 'row-resize' : 'col-resize'}; 
+    }
+    * {
+      user-select: none;
+      pointer-events: none;
+    }
+  `;
+  loadResizeStyle();
 });
 
 useEventListener(document, 'mouseup', () => {
   pressed.value = false;
 
-  unloadCursorStyle();
+  unloadResizeStyle();
 });
 
 useEventListener(document, 'mousemove', (e) => {
@@ -137,7 +151,7 @@ useResizeObserver(layoutRef, (entries) => {
 });
 
 onUnmounted(() => {
-  unloadCursorStyle();
+  unloadResizeStyle();
 });
 </script>
 

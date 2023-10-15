@@ -1,4 +1,6 @@
 export * from './button';
+export * from './hero';
+export * from './input';
 export * from './loading';
 export * from './modal';
 export * from './progress';
