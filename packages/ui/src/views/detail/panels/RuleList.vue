@@ -31,7 +31,10 @@ async function onCreateRule(name: string) {
   const newName = name.trim();
 
   if (newName) {
-    await createRule(newName);
+    const data = await createRule(newName);
+    if (rules.value.find((rule) => rule.id === data?.id)) {
+      selectedRuleId.value = data!.id;
+    }
   }
 
   createActive.value = false;

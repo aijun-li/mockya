@@ -29,11 +29,12 @@ export const useRuleListStore = withRefs(
 
     async function createRule(name: string) {
       try {
-        await trpc.createRule.mutate({
+        const data = await trpc.createRule.mutate({
           collectionId: collectionId.value,
           name,
         });
         await fetchRuleList();
+        return data;
       } catch (error) {
         handleError(error);
       }

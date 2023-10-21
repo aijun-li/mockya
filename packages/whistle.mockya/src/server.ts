@@ -77,7 +77,7 @@ export default (server: Whistle.PluginServer, options: Whistle.PluginOptions) =>
     const bodyEntries = await getBodyEntries(req);
     const fullEntries = [...queryEntries, ...bodyEntries];
 
-    const targetRule = rules.filter((rule) => rule.enabled).find((rule) => rule.path.trim().includes(path));
+    const targetRule = rules.filter((rule) => rule.enabled).find((rule) => path.includes(rule.path.trim()));
 
     if (targetRule) {
       const { matchers } = targetRule;
