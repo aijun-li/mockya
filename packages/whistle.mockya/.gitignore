@@ -62,3 +62,7 @@ typings/
 /.history
 /dist
 .console.log
+
+prisma/*.db
+
+tsconfig.tsbuildinfo

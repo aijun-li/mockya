@@ -1,0 +1,94 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Collection {
+  id   String @id
+  name String
+
+  rules Rule[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Rule {
+  id      Int     @id @default(dbgenerated())
+  name    String
+  enabled Boolean @default(true)
+  path    String  @default("")
+
+  matchers Matcher[]
+  mocks    Mock[]
+
+  collectionId String
+  collection   Collection @relation(fields: [collectionId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Matcher {
+  id      Int     @id @default(dbgenerated())
+  default Boolean @default(false)
+
+  configs MatcherConfig[]
+
+  ruleId Int
+  rule   Rule @relation(fields: [ruleId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  mockId Int
+  mock   Mock @relation(fields: [mockId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model MatcherConfig {
+  id    Int    @id @default(dbgenerated())
+  key   String @default("")
+  value String @default("")
+
+  matcherId Int
+  matcher   Matcher @relation(fields: [matcherId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Mock {
+  id      Int          @id @default(dbgenerated())
+  name    String
+  default Boolean      @default(false)
+  headers MockHeader[]
+  body    String       @default("")
+
+  matchers Matcher[]
+
+  ruleId Int
+  rule   Rule @relation(fields: [ruleId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model MockHeader {
+  id      Int     @id @default(dbgenerated())
+  key     String
+  value   String  @default("")
+  enabled Boolean @default(true)
+
+  mockId Int
+  mock   Mock @relation(fields: [mockId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}

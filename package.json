@@ -3,13 +3,15 @@
   "private": true,
   "engines": {
     "node": ">=18",
-    "pnpm": ">=8"
+    "pnpm": ">=7"
   },
   "scripts": {
     "prepare": "husky install",
-    "build": "pnpm -r --parallel run build",
+    "build": "pnpm build:be && pnpm build:fe",
+    "build:fe": "pnpm -F @mockya/ui run build",
+    "build:be": "pnpm -F whistle.mockya run build",
     "dev": "pnpm -r --parallel run dev",
-    "dev:fe": "pnpm -F whistle.mockya-ui run dev",
+    "dev:fe": "pnpm -F @mockya/ui run dev",
     "dev:be": "pnpm -F whistle.mockya run dev"
   },
   "devDependencies": {
