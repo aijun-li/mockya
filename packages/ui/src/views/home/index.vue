@@ -13,7 +13,7 @@ function toCollectionPage(id: string) {
 
 const { fetched, collections, fetchCollections } = useCollectionsStore();
 
-const loading = ref(!fetched);
+const loading = ref(!fetched.value);
 
 fetchCollections().then(() => {
   loading.value = false;

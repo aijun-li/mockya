@@ -10,18 +10,19 @@ interface Props {
   barFocusedColor?: string;
   initStartSize?: string;
   localKey?: string;
-
+  reverse?: boolean;
   startMinSize?: number;
   startMaxSize?: number;
 }
 
 const props = withDefaults(defineProps<Props>(), {
   vertical: false,
-  barSize: 6,
+  barSize: 8,
   barColor: 'transparent',
   barFocusedSize: 2,
-  barFocusedColor: 'transparent',
+  barFocusedColor: 'hsl(var(--p))',
   localKey: '',
+  reverse: false,
 });
 
 const layoutRef = ref<HTMLDivElement | null>(null);
@@ -110,11 +111,16 @@ useEventListener(document, 'mousemove', (e) => {
   const { width: layoutWidth = 0, height: layoutHeight = 0 } = layoutRef.value?.getBoundingClientRect() ?? {};
   const { width: startWidth = 0, height: startHeight = 0 } = startRef.value?.getBoundingClientRect() ?? {};
 
-  if (props.vertical) {
-    startSize.value = `${Math.min(startHeight + e.movementY, layoutHeight - props.barSize)}px`;
-  } else {
-    startSize.value = `${Math.min(startWidth + e.movementX, layoutWidth - props.barSize)}px`;
-  }
+  const maxSize = props.vertical ? layoutHeight - props.barSize : layoutWidth - props.barSize;
+  const newSize = props.vertical
+    ? props.reverse
+      ? startHeight - e.movementY
+      : startHeight + e.movementY
+    : props.reverse
+    ? startWidth - e.movementX
+    : startWidth + e.movementX;
+
+  startSize.value = `${Math.min(newSize, maxSize)}px`;
 
   if (props.localKey) {
     storedStartSize.value = startSize.value;
@@ -156,11 +162,19 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <div ref="layoutRef" class="resize-layout flex" :class="{ 'flex-col': vertical }">
+  <div
+    ref="layoutRef"
+    class="resize-layout flex"
+    :class="{
+      'flex-col': vertical && !reverse,
+      'flex-row-reverse': !vertical && reverse,
+      'flex-col-reverse': vertical && reverse,
+    }"
+  >
     <div
       ref="startRef"
       class="start-container flex-none"
-      :class="[vertical ? 'min-h-fit max-h-full h-1/2' : 'min-w-fit max-w-full w-1/2']"
+      :class="[vertical ? 'min-h-0 max-h-full h-1/2' : 'min-w-0 max-w-full w-1/2']"
       :style="startStyle"
     >
       <slot name="start" />
@@ -176,11 +190,7 @@ onUnmounted(() => {
       <div class="transition rounded-full" :style="barFocusedStyle" />
     </div>
 
-    <div
-      ref="endRef"
-      class="end-container flex-1"
-      :class="[vertical ? 'min-h-fit max-h-full' : 'min-w-fit max-w-full']"
-    >
+    <div ref="endRef" class="end-container flex-1" :class="[vertical ? 'min-h-0 max-h-full' : 'min-w-0 max-w-full']">
       <slot name="end" />
     </div>
   </div>

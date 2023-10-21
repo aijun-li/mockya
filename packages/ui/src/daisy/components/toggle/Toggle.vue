@@ -45,5 +45,5 @@ function onInput(event: Event) {
 </script>
 
 <template>
-  <input :class="classNames" type="checkbox" :disabled="disabled" @input="onInput" />
+  <input :class="classNames" :checked="modelValue" type="checkbox" :disabled="disabled" @input="onInput" />
 </template>

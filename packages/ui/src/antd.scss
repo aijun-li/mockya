@@ -8,6 +8,10 @@
     transform: translateY(1px);
   }
 
+  .ant-tabs-nav {
+    @apply m-0;
+  }
+
   .ant-tabs-nav::before {
     @apply border-base-300;
   }
@@ -23,7 +27,11 @@
     }
   }
 
+  .ant-tabs-content {
+    @apply h-full;
+  }
+
   .ant-tabs-tabpane {
-    @apply px-4;
+    @apply p-4;
   }
 }

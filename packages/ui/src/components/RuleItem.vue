@@ -2,8 +2,8 @@
 import { IconButton } from '@/components';
 import { Input } from '@/daisy';
 import { useConfirm } from '@/hooks';
-import { Rule } from '@/types';
-import { Check, Close, Delete, Edit, FileCode } from '@icon-park/vue-next';
+import { BaseRule } from '@/types';
+import { Check, Close, Delete, Dot, Edit, FileCode } from '@icon-park/vue-next';
 import { whenever } from '@vueuse/core';
 import { nextTick, ref } from 'vue';
 
@@ -12,13 +12,13 @@ defineExpose({
 });
 
 interface Props {
-  rule: Rule;
+  rule: BaseRule;
   initEdit?: boolean;
   selected?: boolean;
 }
 
 type Emits = {
-  'edit-confirm': [name: string, exitActive: () => void];
+  'edit-confirm': [name: string];
   'edit-cancel': [];
   'delete': [];
 };
@@ -46,11 +46,6 @@ const {
   emit('delete');
 });
 
-function trys() {
-  console.log('try delete', deleteConfirmed.value);
-  tryDelete();
-}
-
 whenever(editActive, () => {
   editName.value = props.rule.name;
   nextTick(() => {
@@ -59,21 +54,18 @@ whenever(editActive, () => {
 });
 
 function onEditConfirm() {
-  emit('edit-confirm', editName.value, exitEdit);
+  emit('edit-confirm', editName.value);
+  editActive.value = false;
 }
 
 function onEditCancel() {
-  exitEdit();
   emit('edit-cancel');
+  editActive.value = false;
 }
 
 function focusEdit() {
   inputRef.value?.focus();
   inputRef.value?.select();
-}
-
-function exitEdit() {
-  editActive.value = false;
 }
 
 function onIconClick(e: Event) {
@@ -88,29 +80,31 @@ function onIconClick(e: Event) {
   <div
     class="flex items-center text-xs leading-6 cursor-pointer py-1 px-2 rounded"
     :class="{
-      'hover:bg-base-200': !editActive && !selected,
-      'bg-primary-content/40': selected,
+      'hover:bg-base-200/80': !selected,
+      'bg-primary-content/30': selected,
     }"
     @mouseenter="hovered = true"
     @mouseleave="hovered = false"
   >
-    <FileCode :class="editActive ? 'mr-1' : 'mr-2'" :size="14" @click="onIconClick" />
+    <FileCode
+      :class="{
+        'mr-1': editActive,
+        'mr-2': !editActive,
+      }"
+      :size="14"
+      @click="onIconClick"
+    />
 
     <template v-if="!editActive">
-      <div class="flex-1 truncate mr-1">{{ rule.name }}</div>
+      <div class="flex-1 truncate mr-1">
+        {{ rule.name }}
+      </div>
 
       <template v-if="hovered">
-        <IconButton class="mr-1 hover:!bg-transparent" transparent @click.stop="editActive = true">
+        <IconButton transparent @click.stop="editActive = true">
           <Edit />
         </IconButton>
-        <IconButton
-          :class="{
-            'hover:!bg-transparent': !deleteConfirmed,
-            '!bg-error text-base-100': deleteConfirmed,
-          }"
-          @click.stop="trys"
-          @mouseleave="cancelDelete"
-        >
+        <IconButton transparent :danger="deleteConfirmed" @click.stop="tryDelete" @mouseleave="cancelDelete">
           <Delete />
         </IconButton>
       </template>
@@ -123,15 +117,18 @@ function onIconClick(e: Event) {
         class="flex-1 text-xs px-1 rounded"
         size="xs"
         bordered
+        @click.stop
         @keydown.enter="onEditConfirm"
         @keydown.esc="onEditCancel"
       />
-      <IconButton class="ml-1" @click.stop="onEditConfirm">
+      <IconButton class="ml-2" transparent @click.stop="onEditConfirm">
         <Check />
       </IconButton>
-      <IconButton class="ml-1" @click.stop="onEditCancel">
+      <IconButton transparent @click.stop="onEditCancel">
         <Close />
       </IconButton>
     </template>
+
+    <Dot class="ml-1" :class="[rule.enabled ? 'text-success' : 'text-base-300']" />
   </div>
 </template>

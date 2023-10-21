@@ -3,10 +3,21 @@ import type Koa from 'koa';
 import { createKoaMiddleware } from 'trpc-koa-adapter';
 import collectionRouter from './collection';
 import ruleRouter from './rule';
+import mockRouter from './mock';
+import mockHeaderRouter from './mock-header';
+import matcherRouter from './matcher';
+import matcherConfigRouter from './matcher-config';
 
 const RPC_PREFIX = '/trpc';
 
-export const trpcRouter = mergeRouters(collectionRouter, ruleRouter);
+export const trpcRouter = mergeRouters(
+  collectionRouter,
+  ruleRouter,
+  mockRouter,
+  mockHeaderRouter,
+  matcherRouter,
+  matcherConfigRouter,
+);
 
 export type AppRouter = typeof trpcRouter;
 

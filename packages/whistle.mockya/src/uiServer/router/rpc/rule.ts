@@ -8,6 +8,16 @@ export default router({
     return data;
   }),
 
+  getRuleFull: procedure.input(z.number()).query(async ({ input: id }) => {
+    const data = await db.rule.getFull(id);
+    return data;
+  }),
+
+  getRuleList: procedure.input(z.string()).query(async ({ input: collectionId }) => {
+    const data = await db.rule.getList(collectionId);
+    return data;
+  }),
+
   createRule: procedure
     .input(
       z.object({
@@ -25,12 +35,14 @@ export default router({
     .input(
       z.object({
         id: z.number(),
-        name: z.string(),
+        name: z.string().optional(),
+        enabled: z.boolean().optional(),
+        path: z.string().optional(),
       }),
     )
     .mutation(async ({ input }) => {
-      const { id, name } = input;
-      const data = await db.rule.update({ id, name });
+      const { id, name, enabled, path } = input;
+      const data = await db.rule.update({ id, name, enabled, path });
       return data;
     }),
 

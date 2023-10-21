@@ -2,14 +2,14 @@
 import { ContentCard, IconButton, RuleItem } from '@/components';
 import { Tooltip } from '@/daisy';
 import { useRuleListStore } from '@/store';
-import { Rule } from '@/types';
+import { BaseRule } from '@/types';
 import { FileAddition } from '@icon-park/vue-next';
 
 import { nextTick, ref } from 'vue';
 
 const emptyRule = {
   name: 'new rule',
-} as Rule;
+} as BaseRule;
 
 const { rules, createRule, updateRule, deleteRule, selectedRuleId } = useRuleListStore();
 
@@ -41,26 +41,27 @@ async function onDeleteRule(id: number) {
   await deleteRule(id);
 }
 
-async function onUpdateRule(rule: Rule, name: string, exitActive: () => void) {
+async function onUpdateRule(id: number, name: string) {
   const newName = name.trim();
+  const target = rules.value.find((rule) => rule.id === id);
 
-  if (newName && newName !== rule.name) {
+  if (newName && target && newName !== target.name) {
+    target.name = newName;
+
     await updateRule({
-      id: rule.id,
+      id,
       name: newName,
     });
   }
-
-  exitActive();
 }
 </script>
 
 <template>
   <ContentCard>
     <template #header>
-      <div class="px-4 py-2 flex items-center justify-between">
-        <span class="text-xs font-semibold">Rules</span>
-        <Tooltip class="flex text-xs" content="Add Rule" position="bottom">
+      <div class="px-4 py-2 pr-3 flex items-center justify-between">
+        <span>Rules</span>
+        <Tooltip class="flex text-xs" content="Add Rule" position="left">
           <IconButton @click="onCreateBtnClick">
             <FileAddition />
           </IconButton>
@@ -76,7 +77,7 @@ async function onUpdateRule(rule: Rule, name: string, exitActive: () => void) {
             :rule="rule"
             :selected="selectedRuleId === rule.id"
             @delete="onDeleteRule(rule.id)"
-            @edit-confirm="(name, exitActive) => onUpdateRule(rule, name, exitActive)"
+            @edit-confirm="onUpdateRule(rule.id, $event)"
             @click="selectedRuleId = rule.id"
           />
         </div>

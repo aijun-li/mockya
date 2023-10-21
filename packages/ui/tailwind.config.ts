@@ -19,6 +19,12 @@ const tailwindConfig: Config = {
       minHeight: {
         ...remToPx(),
       },
+      maxHeight: {
+        ...remToPx(),
+      },
+      minWidth: {
+        ...remToPx(),
+      },
       maxWidth: {
         ...remToPx(),
       },

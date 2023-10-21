@@ -8,8 +8,18 @@ export default router({
     return data;
   }),
 
+  getCollectionFull: procedure.input(z.string()).query(async ({ input: id }) => {
+    const data = await db.collection.getFull(id);
+    return data;
+  }),
+
   getAllCollections: procedure.query(async () => {
     const data = await db.collection.getAll();
+    return data;
+  }),
+
+  getAllCollectionsFull: procedure.query(async () => {
+    const data = await db.collection.getAllFull();
     return data;
   }),
 

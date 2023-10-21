@@ -4,6 +4,8 @@ import { computed } from 'vue';
 
 interface Props {
   size?: number;
+  transparent?: boolean;
+  danger?: boolean;
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -18,7 +20,16 @@ const styles = computed(() => ({
 </script>
 
 <template>
-  <Button class="min-h-0 rounded" :style="styles" shape="square" type="ghost">
+  <Button
+    class="min-h-0 rounded"
+    :class="{
+      'hover:!bg-transparent': transparent && !danger,
+      'text-base-100': danger,
+    }"
+    :style="styles"
+    shape="square"
+    :type="danger ? 'error' : 'ghost'"
+  >
     <slot />
   </Button>
 </template>

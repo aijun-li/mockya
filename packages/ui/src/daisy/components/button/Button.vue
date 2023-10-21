@@ -49,7 +49,7 @@ const classNames = computed(() => ({
 </script>
 
 <template>
-  <button :class="classNames">
+  <button :class="classNames" class="rounded">
     <slot />
   </button>
 </template>

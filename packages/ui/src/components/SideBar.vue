@@ -19,7 +19,6 @@ const topConfigs = [
     tip: 'Search',
     handler: () => {
       toast.warning('Not Implemented 嘿嘿');
-      trpc.getAllCollections.query().then((res) => console.log(res));
     },
   },
 ];

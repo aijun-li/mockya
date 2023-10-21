@@ -1,9 +1,7 @@
-export interface Rule {
-  id: number;
-  name: string;
+import { trpc } from '@/service';
 
-  collectionId: string;
+export type BaseRule = Awaited<ReturnType<typeof trpc.getRule.query>>;
 
-  createdAt: string;
-  updatedAt: string;
-}
+export type Rule = Awaited<ReturnType<typeof trpc.getRuleFull.query>>;
+
+export type BaseRuleConfig = Pick<BaseRule, 'name' | 'enabled' | 'path'>;

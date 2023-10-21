@@ -69,17 +69,22 @@ function onInput(e: Event) {
   emit('input', value);
   emit('update:modelValue', value);
 }
+
+function onEnter() {
+  blur();
+}
 </script>
 
 <template>
   <input
     ref="input"
     :value="modelValue"
-    class="w-full"
+    class="w-full rounded"
     :class="classNames"
     :placeholder="placeholder"
     type="text"
     @change="onChange"
     @input="onInput"
+    @keydown.enter="onEnter"
   />
 </template>
