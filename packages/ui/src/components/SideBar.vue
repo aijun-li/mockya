@@ -1,6 +1,5 @@
 <script lang="ts" setup>
 import { Button, Tooltip, toast } from '@/daisy';
-import { trpc } from '@/service';
 import { Analysis, Home, MonitorOne, Search, Setting } from '@icon-park/vue-next';
 import { useRouter } from 'vue-router';
 

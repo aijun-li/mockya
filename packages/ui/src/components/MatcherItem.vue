@@ -65,14 +65,14 @@ function onMockChange(id: number) {
                 v-model="config.key"
                 bordered
                 size="sm"
-                @input="onConfigFieldInput({ id: config.id, key: $event })"
+                @input="onConfigFieldInput({ id: config.id, key: $event.trim() })"
               />
-              <span class="leading-8 mx-4">=</span>
+              <span class="leading-8 mx-2">=</span>
               <Input
                 v-model="config.value"
                 bordered
                 size="sm"
-                @input="onConfigFieldInput({ id: config.id, value: $event })"
+                @input="onConfigFieldInput({ id: config.id, value: $event.trim() })"
               />
               <div class="ml-2 h-full flex-center">
                 <IconButton transparent @click="emit('delete-config', config.id)">

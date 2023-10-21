@@ -8,7 +8,11 @@ const fullIncludeConfig = {
   },
   matchers: {
     include: {
-      mock: true,
+      mock: {
+        include: {
+          headers: true,
+        },
+      },
       configs: true,
     },
   },

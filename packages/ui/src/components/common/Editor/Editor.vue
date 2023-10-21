@@ -1,16 +1,16 @@
 <script lang="ts" setup>
-import { Codemirror } from 'vue-codemirror';
-import { computed, nextTick, shallowRef } from 'vue';
-import { defaultExtensions } from './config';
+import { IconButton } from '@/components';
+import { LocalStorageKey } from '@/const';
+import { Tooltip } from '@/daisy';
+import { EditorView, keymap } from '@codemirror/view';
+import { AlignTextLeft, ParagraphBreak } from '@icon-park/vue-next';
+import { useLocalStorage } from '@vueuse/core';
 import * as prettier from 'prettier';
-import { EditorView } from '@codemirror/view';
 import babelPlugin from 'prettier/plugins/babel';
 import estreePlugin from 'prettier/plugins/estree';
-import { Tooltip } from '@/daisy';
-import { ParagraphBreak, AlignTextLeft } from '@icon-park/vue-next';
-import { IconButton } from '@/components';
-import { useLocalStorage } from '@vueuse/core';
-import { LocalStorageKey } from '@/const';
+import { computed, nextTick, shallowRef } from 'vue';
+import { Codemirror } from 'vue-codemirror';
+import { defaultExtensions } from './config';
 
 defineExpose({
   format,
@@ -43,8 +43,29 @@ const content = computed({
 
 const wrapLine = useLocalStorage(LocalStorageKey.EditorLineWrap, false);
 
+const isMac = navigator.platform.toLowerCase().includes('mac');
+
+const keyMap = keymap.of([
+  {
+    win: 'Shift-Alt-f',
+    mac: 'Shift-Cmd-f',
+    run: () => {
+      format();
+      return true;
+    },
+  },
+  {
+    win: 'Shift-Alt-z',
+    mac: 'Shift-Cmd-z',
+    run: () => {
+      toggleLineWrap();
+      return true;
+    },
+  },
+]);
+
 const extensions = computed(() =>
-  wrapLine.value ? [...defaultExtensions, EditorView.lineWrapping] : defaultExtensions,
+  wrapLine.value ? [...defaultExtensions, keyMap, EditorView.lineWrapping] : [...defaultExtensions, keyMap],
 );
 
 function getCursorPosition() {
@@ -57,6 +78,7 @@ async function format() {
     cursorOffset: getCursorPosition(),
     parser: 'json5',
     plugins: [babelPlugin, estreePlugin],
+    singleQuote: true,
   });
 
   emit('update:modelValue', result.formatted);
@@ -82,7 +104,7 @@ function toggleLineWrap() {
 <template>
   <div class="flex flex-col">
     <div class="flex items-center justify-end">
-      <Tooltip content="Line Wrap">
+      <Tooltip :content="`Line Wrap (${isMac ? '⇧ + ⌘ + Z' : 'Shift + Alt + Z'})`" position="left">
         <IconButton
           :class="{
             'text-success': wrapLine,
@@ -93,7 +115,7 @@ function toggleLineWrap() {
           <ParagraphBreak :size="16" />
         </IconButton>
       </Tooltip>
-      <Tooltip class="ml-1" content="Format">
+      <Tooltip class="ml-1" :content="`Format (${isMac ? '⇧ + ⌘ + F' : 'Shift + Alt + F'})`" position="left">
         <IconButton :size="28" @click="format">
           <AlignTextLeft :size="16" />
         </IconButton>

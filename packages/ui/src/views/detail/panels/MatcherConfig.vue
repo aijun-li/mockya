@@ -28,7 +28,7 @@ const {
       </div>
     </template>
     <template #default>
-      <div class="p-4 text-sm">
+      <div class="p-4 text-sm overflow-auto h-full">
         <template v-for="(matcher, index) in matcherList" :key="matcher.id">
           <div v-if="index !== 0" class="divider my-2" />
           <MatcherItem

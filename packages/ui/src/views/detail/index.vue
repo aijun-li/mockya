@@ -44,7 +44,7 @@ setDetailCollectionId(props.id);
         <template #start>
           <div class="flex flex-col h-full gap-2">
             <BasicConfigPanel class="!h-fit" />
-            <MatcherConfigPanel />
+            <MatcherConfigPanel class="flex-1 min-h-0" />
           </div>
         </template>
         <template #end>

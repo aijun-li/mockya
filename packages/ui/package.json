@@ -9,6 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@codemirror/autocomplete": "^6.10.2",
     "@codemirror/lint": "^6.4.2",
     "@codemirror/view": "^6.21.2",
     "@icon-park/vue-next": "^1.4.2",
@@ -20,6 +21,7 @@
     "codemirror-json5": "^1.0.3",
     "copy-to-clipboard": "^3.3.3",
     "dayjs": "^1.11.10",
+    "mockjs": "^1.1.0",
     "pinia": "^2.1.6",
     "vue": "^3.3.4",
     "vue-codemirror": "^6.1.1",
@@ -27,6 +29,7 @@
   },
   "devDependencies": {
     "@mockya/config": "workspace:*",
+    "@types/mockjs": "^1.0.9",
     "@typescript-eslint/eslint-plugin": "^6.4.1",
     "@typescript-eslint/parser": "^6.4.1",
     "@vitejs/plugin-vue": "^4.2.3",

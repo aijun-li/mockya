@@ -14,7 +14,11 @@ export default {
         id,
       },
       include: {
-        mock: true,
+        mock: {
+          include: {
+            headers: true,
+          },
+        },
         configs: true,
       },
     }),

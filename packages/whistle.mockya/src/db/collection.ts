@@ -10,7 +10,11 @@ const fullIncludeConfig = {
       },
       matchers: {
         include: {
-          mock: true,
+          mock: {
+            include: {
+              headers: true,
+            },
+          },
           configs: true,
         },
       },
@@ -33,6 +37,30 @@ export default {
         id,
       },
       include: fullIncludeConfig,
+    });
+  },
+
+  getFullWithoutMocks: (id: string) => {
+    return prisma.collection.findUniqueOrThrow({
+      where: {
+        id,
+      },
+      include: {
+        rules: {
+          include: {
+            matchers: {
+              include: {
+                mock: {
+                  include: {
+                    headers: true,
+                  },
+                },
+                configs: true,
+              },
+            },
+          },
+        },
+      },
     });
   },
 
