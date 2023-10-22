@@ -26,7 +26,8 @@
     "index.js",
     "public",
     "prisma",
-    "scripts"
+    "scripts",
+    "CHANGELOG.md"
   ],
   "whistleConfig": {
     "hintUrl": "/api/hint",
