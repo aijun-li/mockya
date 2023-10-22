@@ -152,10 +152,10 @@
 .sidebar-btn-wrapper + .sidebar-btn-wrapper[data-v-9bdc50d8] {
   margin-top: 4px;
 }
-.info-label[data-v-34b3e882] {
+.info-label[data-v-55066e46] {
   line-height: 2rem;
 }
-.empty-placeholder[data-v-34b3e882] {
+.empty-placeholder[data-v-55066e46] {
   width: 24px;
   flex: none;
 }
@@ -209,7 +209,7 @@
   padding: 16px;
 }
 .config-label[data-v-dffe5ed4],
-.config-label[data-v-cc45d921] {
+.config-label[data-v-8005d4df] {
   display: flex;
   flex: none;
   align-items: center;

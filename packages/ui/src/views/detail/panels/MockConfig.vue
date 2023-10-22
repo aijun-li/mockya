@@ -9,17 +9,17 @@ import { computed, ref, watch } from 'vue';
 
 const { selectedRule, deleteMock, updateMock } = useRuleConfigStore();
 
-const mockList = computed(() => selectedRule.value!.mocks);
+const mockList = computed(() => selectedRule.value?.mocks ?? []);
 
 const createVisible = ref(false);
 
-const defaultMockId = computed(() => mockList.value.find((mock) => mock.default)!.id);
+const defaultMockId = computed(() => mockList.value.find((mock) => mock.default)?.id);
 
-const selectedMockId = ref(defaultMockId.value);
+const selectedMockId = ref(defaultMockId.value ?? 0);
 
-const selectedMock = computed(() => mockList.value.find((mock) => mock.id === selectedMockId.value)!);
+const selectedMock = computed(() => mockList.value.find((mock) => mock.id === selectedMockId.value));
 
-const code = ref(selectedMock.value.body);
+const code = ref(selectedMock.value?.body ?? '');
 
 const bus = useEventBus(GlobalEvents.ChangeSelectMock);
 
@@ -30,11 +30,11 @@ bus.on((e) => {
 });
 
 watch(selectedMockId, () => {
-  code.value = selectedMock.value.body;
+  code.value = selectedMock.value?.body ?? '';
 });
 
 watch(defaultMockId, () => {
-  selectedMockId.value = defaultMockId.value;
+  selectedMockId.value = defaultMockId.value ?? 0;
 });
 
 const saveCode = useDebounceFn((params: { id: number; body: string }) => {
@@ -44,12 +44,14 @@ const saveCode = useDebounceFn((params: { id: number; body: string }) => {
 function onCodeChange() {
   const id = selectedMockId.value;
   const body = code.value;
-  saveCode({ id, body });
+  if (id) {
+    saveCode({ id, body });
+  }
 }
 
 async function onDeleteMock(id: number) {
   if (id === selectedMockId.value) {
-    selectedMockId.value = defaultMockId.value;
+    selectedMockId.value = defaultMockId.value ?? 0;
   }
   await deleteMock(id);
 }
@@ -60,11 +62,6 @@ async function onUpdateMock(id: number, name: string) {
 }
 
 function onCreated(id?: number) {
-  console.log(
-    'created',
-    id,
-    mockList.value.find((mock) => mock.id === id),
-  );
   if (!id || !mockList.value.find((mock) => mock.id === id)) {
     return;
   }

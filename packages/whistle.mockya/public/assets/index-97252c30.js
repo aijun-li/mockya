@@ -43,453 +43,463 @@ var commonjsGlobal =
 function getDefaultExportFromCjs(r) {
   return r && r.__esModule && Object.prototype.hasOwnProperty.call(r, 'default') ? r.default : r;
 }
-var dayjs_min = { exports: {} };
-(function (r, e) {
-  (function (n, s) {
-    r.exports = s();
-  })(commonjsGlobal, function () {
-    var n = 1e3,
-      s = 6e4,
-      o = 36e5,
-      a = 'millisecond',
-      l = 'second',
-      f = 'minute',
-      m = 'hour',
-      v = 'day',
-      I = 'week',
-      L = 'month',
-      V = 'quarter',
-      se = 'year',
-      Ee = 'date',
-      ht = 'Invalid Date',
-      ar = /^(\d{4})[-/]?(\d{1,2})?[-/]?(\d{0,2})[Tt\s]*(\d{1,2})?:?(\d{1,2})?:?(\d{1,2})?[.:]?(\d+)?$/,
-      Vi = /\[([^\]]+)]|Y{1,4}|M{1,4}|D{1,2}|d{1,4}|H{1,2}|h{1,2}|a|A|m{1,2}|s{1,2}|Z{1,2}|SSS/g,
-      tl = {
-        name: 'en',
-        weekdays: 'Sunday_Monday_Tuesday_Wednesday_Thursday_Friday_Saturday'.split('_'),
-        months: 'January_February_March_April_May_June_July_August_September_October_November_December'.split('_'),
-        ordinal: function (Il) {
-          var Ll = ['th', 'st', 'nd', 'rd'],
-            Nl = Il % 100;
-          return '[' + Il + (Ll[(Nl - 20) % 10] || Ll[Nl] || Ll[0]) + ']';
-        },
-      },
-      Wi = function (Il, Ll, Nl) {
-        var Hl = String(Il);
-        return !Hl || Hl.length >= Ll ? Il : '' + Array(Ll + 1 - Hl.length).join(Nl) + Il;
-      },
-      hl = {
-        s: Wi,
-        z: function (Il) {
-          var Ll = -Il.utcOffset(),
-            Nl = Math.abs(Ll),
-            Hl = Math.floor(Nl / 60),
-            Bl = Nl % 60;
-          return (Ll <= 0 ? '+' : '-') + Wi(Hl, 2, '0') + ':' + Wi(Bl, 2, '0');
-        },
-        m: function Il(Ll, Nl) {
-          if (Ll.date() < Nl.date()) return -Il(Nl, Ll);
-          var Hl = 12 * (Nl.year() - Ll.year()) + (Nl.month() - Ll.month()),
-            Bl = Ll.clone().add(Hl, L),
-            ql = Nl - Bl < 0,
-            Yl = Ll.clone().add(Hl + (ql ? -1 : 1), L);
-          return +(-(Hl + (Nl - Bl) / (ql ? Bl - Yl : Yl - Bl)) || 0);
-        },
-        a: function (Il) {
-          return Il < 0 ? Math.ceil(Il) || 0 : Math.floor(Il);
-        },
-        p: function (Il) {
-          return (
-            { M: L, y: se, w: I, d: v, D: Ee, h: m, m: f, s: l, ms: a, Q: V }[Il] ||
-            String(Il || '')
-              .toLowerCase()
-              .replace(/s$/, '')
-          );
-        },
-        u: function (Il) {
-          return Il === void 0;
-        },
-      },
-      fl = 'en',
-      dl = {};
-    dl[fl] = tl;
-    var Al = '$isDayjsObject',
-      Fl = function (Il) {
-        return Il instanceof Jl || !(!Il || !Il[Al]);
-      },
-      vl = function Il(Ll, Nl, Hl) {
-        var Bl;
-        if (!Ll) return fl;
-        if (typeof Ll == 'string') {
-          var ql = Ll.toLowerCase();
-          dl[ql] && (Bl = ql), Nl && ((dl[ql] = Nl), (Bl = ql));
-          var Yl = Ll.split('-');
-          if (!Bl && Yl.length > 1) return Il(Yl[0]);
-        } else {
-          var ih = Ll.name;
-          (dl[ih] = Ll), (Bl = ih);
-        }
-        return !Hl && Bl && (fl = Bl), Bl || (!Hl && fl);
-      },
-      kl = function (Il, Ll) {
-        if (Fl(Il)) return Il.clone();
-        var Nl = typeof Ll == 'object' ? Ll : {};
-        return (Nl.date = Il), (Nl.args = arguments), new Jl(Nl);
-      },
-      El = hl;
-    (El.l = vl),
-      (El.i = Fl),
-      (El.w = function (Il, Ll) {
-        return kl(Il, { locale: Ll.$L, utc: Ll.$u, x: Ll.$x, $offset: Ll.$offset });
-      });
-    var Jl = (function () {
-        function Il(Nl) {
-          (this.$L = vl(Nl.locale, null, !0)), this.parse(Nl), (this.$x = this.$x || Nl.x || {}), (this[Al] = !0);
-        }
-        var Ll = Il.prototype;
-        return (
-          (Ll.parse = function (Nl) {
-            (this.$d = (function (Hl) {
-              var Bl = Hl.date,
-                ql = Hl.utc;
-              if (Bl === null) return new Date(NaN);
-              if (El.u(Bl)) return new Date();
-              if (Bl instanceof Date) return new Date(Bl);
-              if (typeof Bl == 'string' && !/Z$/i.test(Bl)) {
-                var Yl = Bl.match(ar);
-                if (Yl) {
-                  var ih = Yl[2] - 1 || 0,
-                    ph = (Yl[7] || '0').substring(0, 3);
-                  return ql
-                    ? new Date(Date.UTC(Yl[1], ih, Yl[3] || 1, Yl[4] || 0, Yl[5] || 0, Yl[6] || 0, ph))
-                    : new Date(Yl[1], ih, Yl[3] || 1, Yl[4] || 0, Yl[5] || 0, Yl[6] || 0, ph);
-                }
-              }
-              return new Date(Bl);
-            })(Nl)),
-              this.init();
-          }),
-          (Ll.init = function () {
-            var Nl = this.$d;
-            (this.$y = Nl.getFullYear()),
-              (this.$M = Nl.getMonth()),
-              (this.$D = Nl.getDate()),
-              (this.$W = Nl.getDay()),
-              (this.$H = Nl.getHours()),
-              (this.$m = Nl.getMinutes()),
-              (this.$s = Nl.getSeconds()),
-              (this.$ms = Nl.getMilliseconds());
-          }),
-          (Ll.$utils = function () {
-            return El;
-          }),
-          (Ll.isValid = function () {
-            return this.$d.toString() !== ht;
-          }),
-          (Ll.isSame = function (Nl, Hl) {
-            var Bl = kl(Nl);
-            return this.startOf(Hl) <= Bl && Bl <= this.endOf(Hl);
-          }),
-          (Ll.isAfter = function (Nl, Hl) {
-            return kl(Nl) < this.startOf(Hl);
-          }),
-          (Ll.isBefore = function (Nl, Hl) {
-            return this.endOf(Hl) < kl(Nl);
-          }),
-          (Ll.$g = function (Nl, Hl, Bl) {
-            return El.u(Nl) ? this[Hl] : this.set(Bl, Nl);
-          }),
-          (Ll.unix = function () {
-            return Math.floor(this.valueOf() / 1e3);
-          }),
-          (Ll.valueOf = function () {
-            return this.$d.getTime();
-          }),
-          (Ll.startOf = function (Nl, Hl) {
-            var Bl = this,
-              ql = !!El.u(Hl) || Hl,
-              Yl = El.p(Nl),
-              ih = function (zc, Ul) {
-                var Dh = El.w(Bl.$u ? Date.UTC(Bl.$y, Ul, zc) : new Date(Bl.$y, Ul, zc), Bl);
-                return ql ? Dh : Dh.endOf(v);
+var dayjs_min = { exports: {} },
+  hasRequiredDayjs_min;
+function requireDayjs_min() {
+  return (
+    hasRequiredDayjs_min ||
+      ((hasRequiredDayjs_min = 1),
+      (function (r, e) {
+        (function (n, s) {
+          r.exports = s();
+        })(commonjsGlobal, function () {
+          var n = 1e3,
+            s = 6e4,
+            o = 36e5,
+            a = 'millisecond',
+            l = 'second',
+            f = 'minute',
+            m = 'hour',
+            v = 'day',
+            I = 'week',
+            L = 'month',
+            V = 'quarter',
+            se = 'year',
+            Ee = 'date',
+            ht = 'Invalid Date',
+            ar = /^(\d{4})[-/]?(\d{1,2})?[-/]?(\d{0,2})[Tt\s]*(\d{1,2})?:?(\d{1,2})?:?(\d{1,2})?[.:]?(\d+)?$/,
+            $i = /\[([^\]]+)]|Y{1,4}|M{1,4}|D{1,2}|d{1,4}|H{1,2}|h{1,2}|a|A|m{1,2}|s{1,2}|Z{1,2}|SSS/g,
+            tl = {
+              name: 'en',
+              weekdays: 'Sunday_Monday_Tuesday_Wednesday_Thursday_Friday_Saturday'.split('_'),
+              months: 'January_February_March_April_May_June_July_August_September_October_November_December'.split(
+                '_',
+              ),
+              ordinal: function (Il) {
+                var Ll = ['th', 'st', 'nd', 'rd'],
+                  Nl = Il % 100;
+                return '[' + Il + (Ll[(Nl - 20) % 10] || Ll[Nl] || Ll[0]) + ']';
               },
-              ph = function (zc, Ul) {
-                return El.w(
-                  Bl.toDate()[zc].apply(Bl.toDate('s'), (ql ? [0, 0, 0, 0] : [23, 59, 59, 999]).slice(Ul)),
-                  Bl,
+            },
+            Wi = function (Il, Ll, Nl) {
+              var Hl = String(Il);
+              return !Hl || Hl.length >= Ll ? Il : '' + Array(Ll + 1 - Hl.length).join(Nl) + Il;
+            },
+            hl = {
+              s: Wi,
+              z: function (Il) {
+                var Ll = -Il.utcOffset(),
+                  Nl = Math.abs(Ll),
+                  Hl = Math.floor(Nl / 60),
+                  Bl = Nl % 60;
+                return (Ll <= 0 ? '+' : '-') + Wi(Hl, 2, '0') + ':' + Wi(Bl, 2, '0');
+              },
+              m: function Il(Ll, Nl) {
+                if (Ll.date() < Nl.date()) return -Il(Nl, Ll);
+                var Hl = 12 * (Nl.year() - Ll.year()) + (Nl.month() - Ll.month()),
+                  Bl = Ll.clone().add(Hl, L),
+                  ql = Nl - Bl < 0,
+                  Yl = Ll.clone().add(Hl + (ql ? -1 : 1), L);
+                return +(-(Hl + (Nl - Bl) / (ql ? Bl - Yl : Yl - Bl)) || 0);
+              },
+              a: function (Il) {
+                return Il < 0 ? Math.ceil(Il) || 0 : Math.floor(Il);
+              },
+              p: function (Il) {
+                return (
+                  { M: L, y: se, w: I, d: v, D: Ee, h: m, m: f, s: l, ms: a, Q: V }[Il] ||
+                  String(Il || '')
+                    .toLowerCase()
+                    .replace(/s$/, '')
                 );
               },
-              gh = this.$W,
-              xh = this.$M,
-              bh = this.$D,
-              Ah = 'set' + (this.$u ? 'UTC' : '');
-            switch (Yl) {
-              case se:
-                return ql ? ih(1, 0) : ih(31, 11);
-              case L:
-                return ql ? ih(1, xh) : ih(0, xh + 1);
-              case I:
-                var wl = this.$locale().weekStart || 0,
-                  zl = (gh < wl ? gh + 7 : gh) - wl;
-                return ih(ql ? bh - zl : bh + (6 - zl), xh);
-              case v:
-              case Ee:
-                return ph(Ah + 'Hours', 0);
-              case m:
-                return ph(Ah + 'Minutes', 1);
-              case f:
-                return ph(Ah + 'Seconds', 2);
-              case l:
-                return ph(Ah + 'Milliseconds', 3);
-              default:
-                return this.clone();
-            }
-          }),
-          (Ll.endOf = function (Nl) {
-            return this.startOf(Nl, !1);
-          }),
-          (Ll.$set = function (Nl, Hl) {
-            var Bl,
-              ql = El.p(Nl),
-              Yl = 'set' + (this.$u ? 'UTC' : ''),
-              ih = ((Bl = {}),
-              (Bl[v] = Yl + 'Date'),
-              (Bl[Ee] = Yl + 'Date'),
-              (Bl[L] = Yl + 'Month'),
-              (Bl[se] = Yl + 'FullYear'),
-              (Bl[m] = Yl + 'Hours'),
-              (Bl[f] = Yl + 'Minutes'),
-              (Bl[l] = Yl + 'Seconds'),
-              (Bl[a] = Yl + 'Milliseconds'),
-              Bl)[ql],
-              ph = ql === v ? this.$D + (Hl - this.$W) : Hl;
-            if (ql === L || ql === se) {
-              var gh = this.clone().set(Ee, 1);
-              gh.$d[ih](ph), gh.init(), (this.$d = gh.set(Ee, Math.min(this.$D, gh.daysInMonth())).$d);
-            } else ih && this.$d[ih](ph);
-            return this.init(), this;
-          }),
-          (Ll.set = function (Nl, Hl) {
-            return this.clone().$set(Nl, Hl);
-          }),
-          (Ll.get = function (Nl) {
-            return this[El.p(Nl)]();
-          }),
-          (Ll.add = function (Nl, Hl) {
-            var Bl,
-              ql = this;
-            Nl = Number(Nl);
-            var Yl = El.p(Hl),
-              ih = function (xh) {
-                var bh = kl(ql);
-                return El.w(bh.date(bh.date() + Math.round(xh * Nl)), ql);
-              };
-            if (Yl === L) return this.set(L, this.$M + Nl);
-            if (Yl === se) return this.set(se, this.$y + Nl);
-            if (Yl === v) return ih(1);
-            if (Yl === I) return ih(7);
-            var ph = ((Bl = {}), (Bl[f] = s), (Bl[m] = o), (Bl[l] = n), Bl)[Yl] || 1,
-              gh = this.$d.getTime() + Nl * ph;
-            return El.w(gh, this);
-          }),
-          (Ll.subtract = function (Nl, Hl) {
-            return this.add(-1 * Nl, Hl);
-          }),
-          (Ll.format = function (Nl) {
-            var Hl = this,
-              Bl = this.$locale();
-            if (!this.isValid()) return Bl.invalidDate || ht;
-            var ql = Nl || 'YYYY-MM-DDTHH:mm:ssZ',
-              Yl = El.z(this),
-              ih = this.$H,
-              ph = this.$m,
-              gh = this.$M,
-              xh = Bl.weekdays,
-              bh = Bl.months,
-              Ah = Bl.meridiem,
-              wl = function (Ul, Dh, gl, bl) {
-                return (Ul && (Ul[Dh] || Ul(Hl, ql))) || gl[Dh].slice(0, bl);
+              u: function (Il) {
+                return Il === void 0;
               },
-              zl = function (Ul) {
-                return El.s(ih % 12 || 12, Ul, '0');
-              },
-              zc =
-                Ah ||
-                function (Ul, Dh, gl) {
-                  var bl = Ul < 12 ? 'AM' : 'PM';
-                  return gl ? bl.toLowerCase() : bl;
-                };
-            return ql.replace(Vi, function (Ul, Dh) {
-              return (
-                Dh ||
-                (function (gl) {
-                  switch (gl) {
-                    case 'YY':
-                      return String(Hl.$y).slice(-2);
-                    case 'YYYY':
-                      return El.s(Hl.$y, 4, '0');
-                    case 'M':
-                      return gh + 1;
-                    case 'MM':
-                      return El.s(gh + 1, 2, '0');
-                    case 'MMM':
-                      return wl(Bl.monthsShort, gh, bh, 3);
-                    case 'MMMM':
-                      return wl(bh, gh);
-                    case 'D':
-                      return Hl.$D;
-                    case 'DD':
-                      return El.s(Hl.$D, 2, '0');
-                    case 'd':
-                      return String(Hl.$W);
-                    case 'dd':
-                      return wl(Bl.weekdaysMin, Hl.$W, xh, 2);
-                    case 'ddd':
-                      return wl(Bl.weekdaysShort, Hl.$W, xh, 3);
-                    case 'dddd':
-                      return xh[Hl.$W];
-                    case 'H':
-                      return String(ih);
-                    case 'HH':
-                      return El.s(ih, 2, '0');
-                    case 'h':
-                      return zl(1);
-                    case 'hh':
-                      return zl(2);
-                    case 'a':
-                      return zc(ih, ph, !0);
-                    case 'A':
-                      return zc(ih, ph, !1);
-                    case 'm':
-                      return String(ph);
-                    case 'mm':
-                      return El.s(ph, 2, '0');
-                    case 's':
-                      return String(Hl.$s);
-                    case 'ss':
-                      return El.s(Hl.$s, 2, '0');
-                    case 'SSS':
-                      return El.s(Hl.$ms, 3, '0');
-                    case 'Z':
-                      return Yl;
-                  }
-                  return null;
-                })(Ul) ||
-                Yl.replace(':', '')
-              );
+            },
+            fl = 'en',
+            dl = {};
+          dl[fl] = tl;
+          var Al = '$isDayjsObject',
+            Fl = function (Il) {
+              return Il instanceof Jl || !(!Il || !Il[Al]);
+            },
+            vl = function Il(Ll, Nl, Hl) {
+              var Bl;
+              if (!Ll) return fl;
+              if (typeof Ll == 'string') {
+                var ql = Ll.toLowerCase();
+                dl[ql] && (Bl = ql), Nl && ((dl[ql] = Nl), (Bl = ql));
+                var Yl = Ll.split('-');
+                if (!Bl && Yl.length > 1) return Il(Yl[0]);
+              } else {
+                var ih = Ll.name;
+                (dl[ih] = Ll), (Bl = ih);
+              }
+              return !Hl && Bl && (fl = Bl), Bl || (!Hl && fl);
+            },
+            kl = function (Il, Ll) {
+              if (Fl(Il)) return Il.clone();
+              var Nl = typeof Ll == 'object' ? Ll : {};
+              return (Nl.date = Il), (Nl.args = arguments), new Jl(Nl);
+            },
+            El = hl;
+          (El.l = vl),
+            (El.i = Fl),
+            (El.w = function (Il, Ll) {
+              return kl(Il, { locale: Ll.$L, utc: Ll.$u, x: Ll.$x, $offset: Ll.$offset });
             });
-          }),
-          (Ll.utcOffset = function () {
-            return 15 * -Math.round(this.$d.getTimezoneOffset() / 15);
-          }),
-          (Ll.diff = function (Nl, Hl, Bl) {
-            var ql,
-              Yl = this,
-              ih = El.p(Hl),
-              ph = kl(Nl),
-              gh = (ph.utcOffset() - this.utcOffset()) * s,
-              xh = this - ph,
-              bh = function () {
-                return El.m(Yl, ph);
+          var Jl = (function () {
+              function Il(Nl) {
+                (this.$L = vl(Nl.locale, null, !0)), this.parse(Nl), (this.$x = this.$x || Nl.x || {}), (this[Al] = !0);
+              }
+              var Ll = Il.prototype;
+              return (
+                (Ll.parse = function (Nl) {
+                  (this.$d = (function (Hl) {
+                    var Bl = Hl.date,
+                      ql = Hl.utc;
+                    if (Bl === null) return new Date(NaN);
+                    if (El.u(Bl)) return new Date();
+                    if (Bl instanceof Date) return new Date(Bl);
+                    if (typeof Bl == 'string' && !/Z$/i.test(Bl)) {
+                      var Yl = Bl.match(ar);
+                      if (Yl) {
+                        var ih = Yl[2] - 1 || 0,
+                          ph = (Yl[7] || '0').substring(0, 3);
+                        return ql
+                          ? new Date(Date.UTC(Yl[1], ih, Yl[3] || 1, Yl[4] || 0, Yl[5] || 0, Yl[6] || 0, ph))
+                          : new Date(Yl[1], ih, Yl[3] || 1, Yl[4] || 0, Yl[5] || 0, Yl[6] || 0, ph);
+                      }
+                    }
+                    return new Date(Bl);
+                  })(Nl)),
+                    this.init();
+                }),
+                (Ll.init = function () {
+                  var Nl = this.$d;
+                  (this.$y = Nl.getFullYear()),
+                    (this.$M = Nl.getMonth()),
+                    (this.$D = Nl.getDate()),
+                    (this.$W = Nl.getDay()),
+                    (this.$H = Nl.getHours()),
+                    (this.$m = Nl.getMinutes()),
+                    (this.$s = Nl.getSeconds()),
+                    (this.$ms = Nl.getMilliseconds());
+                }),
+                (Ll.$utils = function () {
+                  return El;
+                }),
+                (Ll.isValid = function () {
+                  return this.$d.toString() !== ht;
+                }),
+                (Ll.isSame = function (Nl, Hl) {
+                  var Bl = kl(Nl);
+                  return this.startOf(Hl) <= Bl && Bl <= this.endOf(Hl);
+                }),
+                (Ll.isAfter = function (Nl, Hl) {
+                  return kl(Nl) < this.startOf(Hl);
+                }),
+                (Ll.isBefore = function (Nl, Hl) {
+                  return this.endOf(Hl) < kl(Nl);
+                }),
+                (Ll.$g = function (Nl, Hl, Bl) {
+                  return El.u(Nl) ? this[Hl] : this.set(Bl, Nl);
+                }),
+                (Ll.unix = function () {
+                  return Math.floor(this.valueOf() / 1e3);
+                }),
+                (Ll.valueOf = function () {
+                  return this.$d.getTime();
+                }),
+                (Ll.startOf = function (Nl, Hl) {
+                  var Bl = this,
+                    ql = !!El.u(Hl) || Hl,
+                    Yl = El.p(Nl),
+                    ih = function (zc, Ul) {
+                      var Dh = El.w(Bl.$u ? Date.UTC(Bl.$y, Ul, zc) : new Date(Bl.$y, Ul, zc), Bl);
+                      return ql ? Dh : Dh.endOf(v);
+                    },
+                    ph = function (zc, Ul) {
+                      return El.w(
+                        Bl.toDate()[zc].apply(Bl.toDate('s'), (ql ? [0, 0, 0, 0] : [23, 59, 59, 999]).slice(Ul)),
+                        Bl,
+                      );
+                    },
+                    gh = this.$W,
+                    xh = this.$M,
+                    bh = this.$D,
+                    Ah = 'set' + (this.$u ? 'UTC' : '');
+                  switch (Yl) {
+                    case se:
+                      return ql ? ih(1, 0) : ih(31, 11);
+                    case L:
+                      return ql ? ih(1, xh) : ih(0, xh + 1);
+                    case I:
+                      var wl = this.$locale().weekStart || 0,
+                        zl = (gh < wl ? gh + 7 : gh) - wl;
+                      return ih(ql ? bh - zl : bh + (6 - zl), xh);
+                    case v:
+                    case Ee:
+                      return ph(Ah + 'Hours', 0);
+                    case m:
+                      return ph(Ah + 'Minutes', 1);
+                    case f:
+                      return ph(Ah + 'Seconds', 2);
+                    case l:
+                      return ph(Ah + 'Milliseconds', 3);
+                    default:
+                      return this.clone();
+                  }
+                }),
+                (Ll.endOf = function (Nl) {
+                  return this.startOf(Nl, !1);
+                }),
+                (Ll.$set = function (Nl, Hl) {
+                  var Bl,
+                    ql = El.p(Nl),
+                    Yl = 'set' + (this.$u ? 'UTC' : ''),
+                    ih = ((Bl = {}),
+                    (Bl[v] = Yl + 'Date'),
+                    (Bl[Ee] = Yl + 'Date'),
+                    (Bl[L] = Yl + 'Month'),
+                    (Bl[se] = Yl + 'FullYear'),
+                    (Bl[m] = Yl + 'Hours'),
+                    (Bl[f] = Yl + 'Minutes'),
+                    (Bl[l] = Yl + 'Seconds'),
+                    (Bl[a] = Yl + 'Milliseconds'),
+                    Bl)[ql],
+                    ph = ql === v ? this.$D + (Hl - this.$W) : Hl;
+                  if (ql === L || ql === se) {
+                    var gh = this.clone().set(Ee, 1);
+                    gh.$d[ih](ph), gh.init(), (this.$d = gh.set(Ee, Math.min(this.$D, gh.daysInMonth())).$d);
+                  } else ih && this.$d[ih](ph);
+                  return this.init(), this;
+                }),
+                (Ll.set = function (Nl, Hl) {
+                  return this.clone().$set(Nl, Hl);
+                }),
+                (Ll.get = function (Nl) {
+                  return this[El.p(Nl)]();
+                }),
+                (Ll.add = function (Nl, Hl) {
+                  var Bl,
+                    ql = this;
+                  Nl = Number(Nl);
+                  var Yl = El.p(Hl),
+                    ih = function (xh) {
+                      var bh = kl(ql);
+                      return El.w(bh.date(bh.date() + Math.round(xh * Nl)), ql);
+                    };
+                  if (Yl === L) return this.set(L, this.$M + Nl);
+                  if (Yl === se) return this.set(se, this.$y + Nl);
+                  if (Yl === v) return ih(1);
+                  if (Yl === I) return ih(7);
+                  var ph = ((Bl = {}), (Bl[f] = s), (Bl[m] = o), (Bl[l] = n), Bl)[Yl] || 1,
+                    gh = this.$d.getTime() + Nl * ph;
+                  return El.w(gh, this);
+                }),
+                (Ll.subtract = function (Nl, Hl) {
+                  return this.add(-1 * Nl, Hl);
+                }),
+                (Ll.format = function (Nl) {
+                  var Hl = this,
+                    Bl = this.$locale();
+                  if (!this.isValid()) return Bl.invalidDate || ht;
+                  var ql = Nl || 'YYYY-MM-DDTHH:mm:ssZ',
+                    Yl = El.z(this),
+                    ih = this.$H,
+                    ph = this.$m,
+                    gh = this.$M,
+                    xh = Bl.weekdays,
+                    bh = Bl.months,
+                    Ah = Bl.meridiem,
+                    wl = function (Ul, Dh, gl, bl) {
+                      return (Ul && (Ul[Dh] || Ul(Hl, ql))) || gl[Dh].slice(0, bl);
+                    },
+                    zl = function (Ul) {
+                      return El.s(ih % 12 || 12, Ul, '0');
+                    },
+                    zc =
+                      Ah ||
+                      function (Ul, Dh, gl) {
+                        var bl = Ul < 12 ? 'AM' : 'PM';
+                        return gl ? bl.toLowerCase() : bl;
+                      };
+                  return ql.replace($i, function (Ul, Dh) {
+                    return (
+                      Dh ||
+                      (function (gl) {
+                        switch (gl) {
+                          case 'YY':
+                            return String(Hl.$y).slice(-2);
+                          case 'YYYY':
+                            return El.s(Hl.$y, 4, '0');
+                          case 'M':
+                            return gh + 1;
+                          case 'MM':
+                            return El.s(gh + 1, 2, '0');
+                          case 'MMM':
+                            return wl(Bl.monthsShort, gh, bh, 3);
+                          case 'MMMM':
+                            return wl(bh, gh);
+                          case 'D':
+                            return Hl.$D;
+                          case 'DD':
+                            return El.s(Hl.$D, 2, '0');
+                          case 'd':
+                            return String(Hl.$W);
+                          case 'dd':
+                            return wl(Bl.weekdaysMin, Hl.$W, xh, 2);
+                          case 'ddd':
+                            return wl(Bl.weekdaysShort, Hl.$W, xh, 3);
+                          case 'dddd':
+                            return xh[Hl.$W];
+                          case 'H':
+                            return String(ih);
+                          case 'HH':
+                            return El.s(ih, 2, '0');
+                          case 'h':
+                            return zl(1);
+                          case 'hh':
+                            return zl(2);
+                          case 'a':
+                            return zc(ih, ph, !0);
+                          case 'A':
+                            return zc(ih, ph, !1);
+                          case 'm':
+                            return String(ph);
+                          case 'mm':
+                            return El.s(ph, 2, '0');
+                          case 's':
+                            return String(Hl.$s);
+                          case 'ss':
+                            return El.s(Hl.$s, 2, '0');
+                          case 'SSS':
+                            return El.s(Hl.$ms, 3, '0');
+                          case 'Z':
+                            return Yl;
+                        }
+                        return null;
+                      })(Ul) ||
+                      Yl.replace(':', '')
+                    );
+                  });
+                }),
+                (Ll.utcOffset = function () {
+                  return 15 * -Math.round(this.$d.getTimezoneOffset() / 15);
+                }),
+                (Ll.diff = function (Nl, Hl, Bl) {
+                  var ql,
+                    Yl = this,
+                    ih = El.p(Hl),
+                    ph = kl(Nl),
+                    gh = (ph.utcOffset() - this.utcOffset()) * s,
+                    xh = this - ph,
+                    bh = function () {
+                      return El.m(Yl, ph);
+                    };
+                  switch (ih) {
+                    case se:
+                      ql = bh() / 12;
+                      break;
+                    case L:
+                      ql = bh();
+                      break;
+                    case V:
+                      ql = bh() / 3;
+                      break;
+                    case I:
+                      ql = (xh - gh) / 6048e5;
+                      break;
+                    case v:
+                      ql = (xh - gh) / 864e5;
+                      break;
+                    case m:
+                      ql = xh / o;
+                      break;
+                    case f:
+                      ql = xh / s;
+                      break;
+                    case l:
+                      ql = xh / n;
+                      break;
+                    default:
+                      ql = xh;
+                  }
+                  return Bl ? ql : El.a(ql);
+                }),
+                (Ll.daysInMonth = function () {
+                  return this.endOf(L).$D;
+                }),
+                (Ll.$locale = function () {
+                  return dl[this.$L];
+                }),
+                (Ll.locale = function (Nl, Hl) {
+                  if (!Nl) return this.$L;
+                  var Bl = this.clone(),
+                    ql = vl(Nl, Hl, !0);
+                  return ql && (Bl.$L = ql), Bl;
+                }),
+                (Ll.clone = function () {
+                  return El.w(this.$d, this);
+                }),
+                (Ll.toDate = function () {
+                  return new Date(this.valueOf());
+                }),
+                (Ll.toJSON = function () {
+                  return this.isValid() ? this.toISOString() : null;
+                }),
+                (Ll.toISOString = function () {
+                  return this.$d.toISOString();
+                }),
+                (Ll.toString = function () {
+                  return this.$d.toUTCString();
+                }),
+                Il
+              );
+            })(),
+            Kc = Jl.prototype;
+          return (
+            (kl.prototype = Kc),
+            [
+              ['$ms', a],
+              ['$s', l],
+              ['$m', f],
+              ['$H', m],
+              ['$W', v],
+              ['$M', L],
+              ['$y', se],
+              ['$D', Ee],
+            ].forEach(function (Il) {
+              Kc[Il[1]] = function (Ll) {
+                return this.$g(Ll, Il[0], Il[1]);
               };
-            switch (ih) {
-              case se:
-                ql = bh() / 12;
-                break;
-              case L:
-                ql = bh();
-                break;
-              case V:
-                ql = bh() / 3;
-                break;
-              case I:
-                ql = (xh - gh) / 6048e5;
-                break;
-              case v:
-                ql = (xh - gh) / 864e5;
-                break;
-              case m:
-                ql = xh / o;
-                break;
-              case f:
-                ql = xh / s;
-                break;
-              case l:
-                ql = xh / n;
-                break;
-              default:
-                ql = xh;
-            }
-            return Bl ? ql : El.a(ql);
-          }),
-          (Ll.daysInMonth = function () {
-            return this.endOf(L).$D;
-          }),
-          (Ll.$locale = function () {
-            return dl[this.$L];
-          }),
-          (Ll.locale = function (Nl, Hl) {
-            if (!Nl) return this.$L;
-            var Bl = this.clone(),
-              ql = vl(Nl, Hl, !0);
-            return ql && (Bl.$L = ql), Bl;
-          }),
-          (Ll.clone = function () {
-            return El.w(this.$d, this);
-          }),
-          (Ll.toDate = function () {
-            return new Date(this.valueOf());
-          }),
-          (Ll.toJSON = function () {
-            return this.isValid() ? this.toISOString() : null;
-          }),
-          (Ll.toISOString = function () {
-            return this.$d.toISOString();
-          }),
-          (Ll.toString = function () {
-            return this.$d.toUTCString();
-          }),
-          Il
-        );
-      })(),
-      Kc = Jl.prototype;
-    return (
-      (kl.prototype = Kc),
-      [
-        ['$ms', a],
-        ['$s', l],
-        ['$m', f],
-        ['$H', m],
-        ['$W', v],
-        ['$M', L],
-        ['$y', se],
-        ['$D', Ee],
-      ].forEach(function (Il) {
-        Kc[Il[1]] = function (Ll) {
-          return this.$g(Ll, Il[0], Il[1]);
-        };
-      }),
-      (kl.extend = function (Il, Ll) {
-        return Il.$i || (Il(Ll, Jl, kl), (Il.$i = !0)), kl;
-      }),
-      (kl.locale = vl),
-      (kl.isDayjs = Fl),
-      (kl.unix = function (Il) {
-        return kl(1e3 * Il);
-      }),
-      (kl.en = dl[fl]),
-      (kl.Ls = dl),
-      (kl.p = {}),
-      kl
-    );
-  });
-})(dayjs_min);
-var dayjs_minExports = dayjs_min.exports;
+            }),
+            (kl.extend = function (Il, Ll) {
+              return Il.$i || (Il(Ll, Jl, kl), (Il.$i = !0)), kl;
+            }),
+            (kl.locale = vl),
+            (kl.isDayjs = Fl),
+            (kl.unix = function (Il) {
+              return kl(1e3 * Il);
+            }),
+            (kl.en = dl[fl]),
+            (kl.Ls = dl),
+            (kl.p = {}),
+            kl
+          );
+        });
+      })(dayjs_min)),
+    dayjs_min.exports
+  );
+}
+var dayjs_minExports = requireDayjs_min();
 const dayjs = getDefaultExportFromCjs(dayjs_minExports);
 var zhCn = { exports: {} };
 (function (r, e) {
   (function (n, s) {
-    r.exports = s(dayjs_minExports);
+    r.exports = s(requireDayjs_min());
   })(commonjsGlobal, function (n) {
     function s(l) {
       return l && typeof l == 'object' && 'default' in l ? l : { default: l };
@@ -584,7 +594,7 @@ var relativeTime$1 = { exports: {} };
             var Ee,
               ht,
               ar,
-              Vi = L.$locale().relativeTime || l,
+              $i = L.$locale().relativeTime || l,
               tl = n.thresholds || [
                 { l: 's', r: 44, d: 'second' },
                 { l: 'm', r: 89 },
@@ -608,13 +618,13 @@ var relativeTime$1 = { exports: {} };
             var dl = (n.rounding || Math.round)(Math.abs(Ee));
             if (((ar = Ee > 0), dl <= fl.r || !fl.r)) {
               dl <= 1 && hl > 0 && (fl = tl[hl - 1]);
-              var Al = Vi[fl.l];
+              var Al = $i[fl.l];
               se && (dl = se('' + dl)), (ht = typeof Al == 'string' ? Al.replace('%d', dl) : Al(dl, I, fl.l, ar));
               break;
             }
           }
           if (I) return ht;
-          var Fl = ar ? Vi.future : Vi.past;
+          var Fl = ar ? $i.future : $i.past;
           return typeof Fl == 'function' ? Fl(ht) : Fl.replace('%s', ht);
         }),
         (a.to = function (v, I) {
@@ -1669,27 +1679,27 @@ function renderComponentRoot(r) {
     ctx: Ee,
     inheritAttrs: ht,
   } = r;
-  let ar, Vi;
+  let ar, $i;
   const tl = setCurrentRenderingInstance(r);
   try {
     if (n.shapeFlag & 4) {
       const hl = o || s;
-      (ar = normalizeVNode(I.call(hl, hl, L, a, se, V, Ee))), (Vi = m);
+      (ar = normalizeVNode(I.call(hl, hl, L, a, se, V, Ee))), ($i = m);
     } else {
       const hl = e;
       (ar = normalizeVNode(hl.length > 1 ? hl(a, { attrs: m, slots: f, emit: v }) : hl(a, null))),
-        (Vi = e.props ? m : getFunctionalFallthrough(m));
+        ($i = e.props ? m : getFunctionalFallthrough(m));
     }
   } catch (hl) {
     (blockStack.length = 0), handleError$1(hl, r, 1), (ar = createVNode(Comment));
   }
   let Wi = ar;
-  if (Vi && ht !== !1) {
-    const hl = Object.keys(Vi),
+  if ($i && ht !== !1) {
+    const hl = Object.keys($i),
       { shapeFlag: fl } = Wi;
     hl.length &&
       fl & 7 &&
-      (l && hl.some(isModelListener) && (Vi = filterModelListeners(Vi, l)), (Wi = cloneVNode(Wi, Vi)));
+      (l && hl.some(isModelListener) && ($i = filterModelListeners($i, l)), (Wi = cloneVNode(Wi, $i)));
   }
   return (
     n.dirs && ((Wi = cloneVNode(Wi)), (Wi.dirs = Wi.dirs ? Wi.dirs.concat(n.dirs) : n.dirs)),
@@ -1810,13 +1820,13 @@ function doWatch(r, e, { immediate: n, deep: s, flush: o, onTrack: a, onTrigger:
       } else tl.run();
   };
   ar.allowRecurse = !!e;
-  let Vi;
+  let $i;
   o === 'sync'
-    ? (Vi = ar)
+    ? ($i = ar)
     : o === 'post'
-    ? (Vi = () => queuePostRenderEffect(ar, m && m.suspense))
-    : ((ar.pre = !0), m && (ar.id = m.uid), (Vi = () => queueJob(ar)));
-  const tl = new ReactiveEffect(v, Vi);
+    ? ($i = () => queuePostRenderEffect(ar, m && m.suspense))
+    : ((ar.pre = !0), m && (ar.id = m.uid), ($i = () => queueJob(ar)));
+  const tl = new ReactiveEffect(v, $i);
   e ? (n ? ar() : (ht = tl.run())) : o === 'post' ? queuePostRenderEffect(tl.run.bind(tl), m && m.suspense) : tl.run();
   const Wi = () => {
     tl.stop(), m && m.scope && remove$1(m.scope.effects, tl);
@@ -1951,11 +1961,11 @@ const TransitionHookValidator = [Function, Array],
             );
           m === 'in-out' &&
             v.type !== Comment &&
-            (ht.delayLeave = (ar, Vi, tl) => {
+            (ht.delayLeave = (ar, $i, tl) => {
               const Wi = getLeavingNodesForType(s, V);
               (Wi[String(V.key)] = V),
                 (ar._leaveCb = () => {
-                  Vi(), (ar._leaveCb = void 0), delete I.delayedLeave;
+                  $i(), (ar._leaveCb = void 0), delete I.delayedLeave;
                 }),
                 (I.delayedLeave = tl);
             });
@@ -1985,7 +1995,7 @@ function resolveTransitionHooks(r, e, n, s) {
       onLeaveCancelled: Ee,
       onBeforeAppear: ht,
       onAppear: ar,
-      onAfterAppear: Vi,
+      onAfterAppear: $i,
       onAppearCancelled: tl,
     } = e,
     Wi = String(r.key),
@@ -2014,7 +2024,7 @@ function resolveTransitionHooks(r, e, n, s) {
           kl = v,
           El = I;
         if (!n.isMounted)
-          if (o) (vl = ar || m), (kl = Vi || v), (El = tl || I);
+          if (o) (vl = ar || m), (kl = $i || v), (El = tl || I);
           else return;
         let Jl = !1;
         const Kc = (Fl._enterCb = (Il) => {
@@ -2302,7 +2312,7 @@ function applyOptions(r) {
     updated: Ee,
     activated: ht,
     deactivated: ar,
-    beforeDestroy: Vi,
+    beforeDestroy: $i,
     beforeUnmount: tl,
     destroyed: Wi,
     unmounted: hl,
@@ -2868,7 +2878,7 @@ function baseCreateRenderer(r, e) {
           ar(gl, bl, Pl, Rl);
           break;
         case Comment:
-          Vi(gl, bl, Pl, Rl);
+          $i(gl, bl, Pl, Rl);
           break;
         case Static:
           gl == null && tl(bl, Pl, Rl, th);
@@ -2892,7 +2902,7 @@ function baseCreateRenderer(r, e) {
         bl.children !== gl.children && v(Wl, bl.children);
       }
     },
-    Vi = (gl, bl, Pl, Rl) => {
+    $i = (gl, bl, Pl, Rl) => {
       gl == null ? s((bl.el = m(bl.children || '')), Pl, Rl) : (bl.el = gl.el);
     },
     tl = (gl, bl, Pl, Rl) => {
@@ -3035,7 +3045,7 @@ function baseCreateRenderer(r, e) {
       if ((isKeepAlive(gl) && (Hc.ctx.renderer = zc), setupComponent(Hc), Hc.asyncDep)) {
         if ((Wl && Wl.registerDep(Hc, Nl), !gl.el)) {
           const Qc = (Hc.subTree = createVNode(Comment));
-          Vi(null, Qc, bl, Pl);
+          $i(null, Qc, bl, Pl);
         }
         return;
       }
@@ -4044,12 +4054,12 @@ function resolveTransitionProps(r) {
     ht = Ee && Ee[0],
     ar = Ee && Ee[1],
     {
-      onBeforeEnter: Vi,
+      onBeforeEnter: $i,
       onEnter: tl,
       onEnterCancelled: Wi,
       onLeave: hl,
       onLeaveCancelled: fl,
-      onBeforeAppear: dl = Vi,
+      onBeforeAppear: dl = $i,
       onAppear: Al = tl,
       onAppearCancelled: Fl = Wi,
     } = e,
@@ -4075,7 +4085,7 @@ function resolveTransitionProps(r) {
     };
   return extend$1(e, {
     onBeforeEnter(Jl) {
-      callHook(Vi, [Jl]), addTransitionClass(Jl, a), addTransitionClass(Jl, l);
+      callHook($i, [Jl]), addTransitionClass(Jl, a), addTransitionClass(Jl, l);
     },
     onBeforeAppear(Jl) {
       callHook(dl, [Jl]), addTransitionClass(Jl, m), addTransitionClass(Jl, v);
@@ -4406,7 +4416,7 @@ function createSetupStore(r, e, n = {}, s, o, a) {
       (I = !0),
       triggerSubscriptions(L, vl, s.state.value[r]);
   }
-  const Vi = a
+  const $i = a
     ? function () {
         const { state: vl } = n,
           kl = vl ? vl() : {};
@@ -4449,7 +4459,7 @@ function createSetupStore(r, e, n = {}, s, o, a) {
       $id: r,
       $onAction: addSubscription.bind(null, V),
       $patch: ar,
-      $reset: Vi,
+      $reset: $i,
       $subscribe(Fl, vl = {}) {
         const kl = addSubscription(L, Fl, vl.detached, () => El()),
           El = l.run(() =>
@@ -4692,8 +4702,8 @@ function useHistoryListeners(r, e, n, s) {
       }
       ar = ht ? V.position - ht.position : 0;
     } else s(se);
-    o.forEach((Vi) => {
-      Vi(n.value, Ee, {
+    o.forEach(($i) => {
+      $i(n.value, Ee, {
         delta: ar,
         type: NavigationType.pop,
         direction: ar ? (ar > 0 ? NavigationDirection.forward : NavigationDirection.back) : NavigationDirection.unknown,
@@ -4827,9 +4837,9 @@ function tokensToParser(r, e) {
       let se = 40 + (n.sensitive ? 0.25 : 0);
       if (V.type === 0) L || (o += '/'), (o += V.value.replace(REGEX_CHARS_RE, '\\$&')), (se += 40);
       else if (V.type === 1) {
-        const { value: Ee, repeatable: ht, optional: ar, regexp: Vi } = V;
+        const { value: Ee, repeatable: ht, optional: ar, regexp: $i } = V;
         a.push({ name: Ee, repeatable: ht, optional: ar });
-        const tl = Vi || BASE_PARAM_PATTERN;
+        const tl = $i || BASE_PARAM_PATTERN;
         if (tl !== BASE_PARAM_PATTERN) {
           se += 10;
           try {
@@ -4877,10 +4887,10 @@ function tokensToParser(r, e) {
         if (se.type === 0) I += se.value;
         else if (se.type === 1) {
           const { value: Ee, repeatable: ht, optional: ar } = se,
-            Vi = Ee in v ? v[Ee] : '';
-          if (isArray(Vi) && !ht)
+            $i = Ee in v ? v[Ee] : '';
+          if (isArray($i) && !ht)
             throw new Error(`Provided param "${Ee}" is an array but it is not repeatable (* or + modifiers)`);
-          const tl = isArray(Vi) ? Vi.join('/') : Vi;
+          const tl = isArray($i) ? $i.join('/') : $i;
           if (!tl)
             if (ar) V.length < 2 && (I.endsWith('/') ? (I = I.slice(0, -1)) : (L = !0));
             else throw new Error(`Missing required param "${Ee}"`);
@@ -5021,7 +5031,7 @@ function createRouterMatcher(r, e) {
           assign({}, Ee, { components: V ? V.record.components : Ee.components, path: hl, aliasOf: V ? V.record : Ee }),
         );
     }
-    let Vi, tl;
+    let $i, tl;
     for (const Wi of ar) {
       const { path: hl } = Wi;
       if (L && hl[0] !== '/') {
@@ -5030,18 +5040,18 @@ function createRouterMatcher(r, e) {
         Wi.path = L.record.path + (hl && dl + hl);
       }
       if (
-        ((Vi = createRouteRecordMatcher(Wi, L, ht)),
+        (($i = createRouteRecordMatcher(Wi, L, ht)),
         V
-          ? V.alias.push(Vi)
-          : ((tl = tl || Vi), tl !== Vi && tl.alias.push(Vi), se && I.name && !isAliasRecord(Vi) && l(I.name)),
+          ? V.alias.push($i)
+          : ((tl = tl || $i), tl !== $i && tl.alias.push($i), se && I.name && !isAliasRecord($i) && l(I.name)),
         Ee.children)
       ) {
         const fl = Ee.children;
-        for (let dl = 0; dl < fl.length; dl++) a(fl[dl], Vi, V && V.children[dl]);
+        for (let dl = 0; dl < fl.length; dl++) a(fl[dl], $i, V && V.children[dl]);
       }
-      (V = V || Vi),
-        ((Vi.record.components && Object.keys(Vi.record.components).length) || Vi.record.name || Vi.record.redirect) &&
-          m(Vi);
+      (V = V || $i),
+        (($i.record.components && Object.keys($i.record.components).length) || $i.record.name || $i.record.redirect) &&
+          m($i);
     }
     return tl
       ? () => {
@@ -5101,8 +5111,8 @@ function createRouterMatcher(r, e) {
       (ht = V.record.name), (se = assign({}, L.params, I.params)), (Ee = V.stringify(se));
     }
     const ar = [];
-    let Vi = V;
-    for (; Vi; ) ar.unshift(Vi.record), (Vi = Vi.parent);
+    let $i = V;
+    for (; $i; ) ar.unshift($i.record), ($i = $i.parent);
     return { name: ht, path: Ee, params: se, matched: ar, meta: mergeMetaFields(ar) };
   }
   return r.forEach((I) => a(I)), { addRoute: a, resolve: v, removeRoute: l, getRoutes: f, getRecordMatcher: o };
@@ -5448,8 +5458,8 @@ const getLinkClass = (r, e, n) => r ?? e ?? n,
             ar = h$1(
               V,
               assign({}, Ee, e, {
-                onVnodeUnmounted: (Vi) => {
-                  Vi.component.isUnmounted && (L.instances[I] = null);
+                onVnodeUnmounted: ($i) => {
+                  $i.component.isUnmounted && (L.instances[I] = null);
                 },
                 ref: m,
               }),
@@ -5493,7 +5503,7 @@ function createRouter(r) {
   function ar(wl) {
     return !!e.getRecordMatcher(wl);
   }
-  function Vi(wl, zl) {
+  function $i(wl, zl) {
     if (((zl = assign({}, zl || m.value)), typeof wl == 'string')) {
       const Pl = parseURL(n, wl, zl.path),
         Rl = e.resolve({ path: Pl.path }, zl),
@@ -5543,7 +5553,7 @@ function createRouter(r) {
     }
   }
   function Al(wl, zl) {
-    const zc = (v = Vi(wl)),
+    const zc = (v = $i(wl)),
       Ul = m.value,
       Dh = wl.state,
       gl = wl.force,
@@ -5651,7 +5661,7 @@ function createRouter(r) {
     Kc ||
       (Kc = o.listen((wl, zl, zc) => {
         if (!bh.listening) return;
-        const Ul = Vi(wl),
+        const Ul = $i(wl),
           Dh = dl(Ul);
         if (Dh) {
           Al(assign(Dh, { replace: !0 }), Ul).catch(noop$2);
@@ -5724,7 +5734,7 @@ function createRouter(r) {
       removeRoute: Ee,
       hasRoute: ar,
       getRoutes: ht,
-      resolve: Vi,
+      resolve: $i,
       options: r,
       push: hl,
       replace: fl,
@@ -7709,14 +7719,14 @@ function useStorage(r, e, n, s = {}) {
   if (!n) return Ee;
   const ht = toValue(e),
     ar = guessSerializerType(ht),
-    Vi = (o = s.serializer) != null ? o : StorageSerializers[ar],
+    $i = (o = s.serializer) != null ? o : StorageSerializers[ar],
     { pause: tl, resume: Wi } = watchPausable(Ee, () => hl(Ee.value), { flush: a, deep: l, eventFilter: V });
   return L && f && (useEventListener(L, 'storage', Al), useEventListener(L, customStorageEventName, dl)), Al(), Ee;
   function hl(Fl) {
     try {
       if (Fl == null) n.removeItem(r);
       else {
-        const vl = Vi.write(Fl),
+        const vl = $i.write(Fl),
           kl = n.getItem(r);
         kl !== vl &&
           (n.setItem(r, vl),
@@ -7733,11 +7743,11 @@ function useStorage(r, e, n, s = {}) {
   }
   function fl(Fl) {
     const vl = Fl ? Fl.newValue : n.getItem(r);
-    if (vl == null) return m && ht !== null && n.setItem(r, Vi.write(ht)), ht;
+    if (vl == null) return m && ht !== null && n.setItem(r, $i.write(ht)), ht;
     if (!Fl && v) {
-      const kl = Vi.read(vl);
+      const kl = $i.read(vl);
       return typeof v == 'function' ? v(kl, ht) : ar === 'object' && !Array.isArray(kl) ? { ...ht, ...kl } : kl;
-    } else return typeof vl != 'string' ? vl : Vi.read(vl);
+    } else return typeof vl != 'string' ? vl : $i.read(vl);
   }
   function dl(Fl) {
     Al(Fl.detail);
@@ -7751,7 +7761,7 @@ function useStorage(r, e, n, s = {}) {
       if (!(Fl && Fl.key !== r)) {
         tl();
         try {
-          (Fl == null ? void 0 : Fl.newValue) !== Vi.write(Ee.value) && (Ee.value = fl(Fl));
+          (Fl == null ? void 0 : Fl.newValue) !== $i.write(Ee.value) && (Ee.value = fl(Fl));
         } catch (vl) {
           se(vl);
         } finally {
@@ -7920,10 +7930,10 @@ const _sfc_main$k = defineComponent({
         useEventListener(document, 'mousemove', (ar) => {
           var Al, Fl;
           if (!f.value) return;
-          const { width: Vi = 0, height: tl = 0 } =
+          const { width: $i = 0, height: tl = 0 } =
               ((Al = n.value) == null ? void 0 : Al.getBoundingClientRect()) ?? {},
             { width: Wi = 0, height: hl = 0 } = ((Fl = o.value) == null ? void 0 : Fl.getBoundingClientRect()) ?? {},
-            fl = e.vertical ? tl - e.barSize : Vi - e.barSize,
+            fl = e.vertical ? tl - e.barSize : $i - e.barSize,
             dl = e.vertical
               ? e.reverse
                 ? hl - ar.movementY
@@ -7966,8 +7976,8 @@ const _sfc_main$k = defineComponent({
         }),
         useResizeObserver(n, (ar) => {
           var dl;
-          const Vi = ar[0],
-            { width: tl, height: Wi } = Vi.contentRect,
+          const $i = ar[0],
+            { width: tl, height: Wi } = $i.contentRect,
             { width: hl = 0, height: fl = 0 } = ((dl = o.value) == null ? void 0 : dl.getBoundingClientRect()) ?? {};
           e.vertical
             ? (v.value = `${Math.min(fl, Wi - e.barSize)}px`)
@@ -7977,7 +7987,7 @@ const _sfc_main$k = defineComponent({
         onUnmounted(() => {
           V();
         }),
-        (ar, Vi) => (
+        (ar, $i) => (
           openBlock(),
           createElementBlock(
             'div',
@@ -8015,8 +8025,8 @@ const _sfc_main$k = defineComponent({
                   ref: s,
                   class: 'flex-none flex-center',
                   style: normalizeStyle(Ee.value),
-                  onMouseenter: Vi[0] || (Vi[0] = (tl) => (l.value = !0)),
-                  onMouseleave: Vi[1] || (Vi[1] = (tl) => (l.value = !1)),
+                  onMouseenter: $i[0] || ($i[0] = (tl) => (l.value = !0)),
+                  onMouseleave: $i[1] || ($i[1] = (tl) => (l.value = !1)),
                 },
                 [
                   createBaseVNode(
@@ -9253,14 +9263,14 @@ class Configuration {
       if (se.every((ar) => ar.type == 0))
         if (((f[Ee.id] = (m.length << 1) | 1), sameArray$1(ht, se))) m.push(s.facet(Ee));
         else {
-          let ar = Ee.combine(se.map((Vi) => Vi.value));
+          let ar = Ee.combine(se.map(($i) => $i.value));
           m.push(s && Ee.compare(ar, s.facet(Ee)) ? s.facet(Ee) : ar);
         }
       else {
         for (let ar of se)
           ar.type == 0
             ? ((f[ar.id] = (m.length << 1) | 1), m.push(ar.value))
-            : ((f[ar.id] = v.length << 1), v.push((Vi) => ar.dynamicSlot(Vi)));
+            : ((f[ar.id] = v.length << 1), v.push(($i) => ar.dynamicSlot($i)));
         (f[Ee.id] = v.length << 1), v.push((ar) => dynamicFacetSlot(ar, Ee, se));
       }
     }
@@ -10611,16 +10621,16 @@ function scrollRectIntoView(r, e, n, s, o, a, l, f) {
           });
       }
       let ar = 0,
-        Vi = 0;
+        $i = 0;
       if (o == 'nearest')
         e.top < V.top
-          ? ((Vi = -(V.top - e.top + l)), n > 0 && e.bottom > V.bottom + Vi && (Vi = e.bottom - V.bottom + Vi + l))
+          ? (($i = -(V.top - e.top + l)), n > 0 && e.bottom > V.bottom + $i && ($i = e.bottom - V.bottom + $i + l))
           : e.bottom > V.bottom &&
-            ((Vi = e.bottom - V.bottom + l), n < 0 && e.top - Vi < V.top && (Vi = -(V.top + Vi - e.top + l)));
+            (($i = e.bottom - V.bottom + l), n < 0 && e.top - $i < V.top && ($i = -(V.top + $i - e.top + l)));
       else {
         let tl = e.bottom - e.top,
           Wi = V.bottom - V.top;
-        Vi =
+        $i =
           (o == 'center' && tl <= Wi
             ? e.top + tl / 2 - Wi / 2
             : o == 'start' || (o == 'center' && n < 0)
@@ -10639,15 +10649,15 @@ function scrollRectIntoView(r, e, n, s, o, a, l, f) {
                 : (s == 'start') == f
                 ? e.left - a
                 : e.right - (V.right - V.left) + a) - V.left),
-        ar || Vi)
+        ar || $i)
       )
-        if (se) v.scrollBy(ar, Vi);
+        if (se) v.scrollBy(ar, $i);
         else {
           let tl = 0,
             Wi = 0;
-          if (Vi) {
+          if ($i) {
             let hl = I.scrollTop;
-            (I.scrollTop += Vi / ht), (Wi = (I.scrollTop - hl) * ht);
+            (I.scrollTop += $i / ht), (Wi = (I.scrollTop - hl) * ht);
           }
           if (ar) {
             let hl = I.scrollLeft;
@@ -10655,7 +10665,7 @@ function scrollRectIntoView(r, e, n, s, o, a, l, f) {
           }
           (e = { left: e.left - tl, top: e.top - Wi, right: e.right - tl, bottom: e.bottom - Wi }),
             tl && Math.abs(tl - ar) < 1 && (s = 'nearest'),
-            Wi && Math.abs(Wi - Vi) < 1 && (o = 'nearest');
+            Wi && Math.abs(Wi - $i) < 1 && (o = 'nearest');
         }
       if (se) break;
       I = I.assignedSlot || I.parentNode;
@@ -12185,8 +12195,8 @@ function processBracketPairs(r, e, n, s, o) {
           for (let ht = f - 3; ht >= 0; ht -= 3)
             if (BracketStack[ht + 1] == -se) {
               let ar = BracketStack[ht + 2],
-                Vi = ar & 2 ? o : ar & 4 ? (ar & 1 ? a : o) : 0;
-              Vi && (types[L] = types[BracketStack[ht]] = Vi), (f = ht);
+                $i = ar & 2 ? o : ar & 4 ? (ar & 1 ? a : o) : 0;
+              $i && (types[L] = types[BracketStack[ht]] = $i), (f = ht);
               break;
             }
         } else {
@@ -12197,11 +12207,11 @@ function processBracketPairs(r, e, n, s, o) {
         let ht = Ee == o;
         m = ht ? 0 : 1;
         for (let ar = f - 3; ar >= 0; ar -= 3) {
-          let Vi = BracketStack[ar + 2];
-          if (Vi & 2) break;
+          let $i = BracketStack[ar + 2];
+          if ($i & 2) break;
           if (ht) BracketStack[ar + 2] |= 2;
           else {
-            if (Vi & 4) break;
+            if ($i & 4) break;
             BracketStack[ar + 2] |= 4;
           }
         }
@@ -12250,9 +12260,9 @@ function emitSpans(r, e, n, s, o, a, l) {
           if (L) break e;
           let ht = a[v];
           if (!I)
-            for (let ar = ht.to, Vi = v + 1; ; ) {
+            for (let ar = ht.to, $i = v + 1; ; ) {
               if (ar == n) break e;
-              if (Vi < a.length && a[Vi].from == ar) ar = a[Vi++].to;
+              if ($i < a.length && a[$i].from == ar) ar = a[$i++].to;
               else {
                 if (types[ar] == f) break e;
                 break;
@@ -12287,9 +12297,9 @@ function emitSpans(r, e, n, s, o, a, l) {
           if (L) break e;
           let ht = a[--v];
           if (!I)
-            for (let ar = ht.from, Vi = v; ; ) {
+            for (let ar = ht.from, $i = v; ; ) {
               if (ar == e) break e;
-              if (Vi && a[Vi - 1].to == ar) ar = a[--Vi].from;
+              if ($i && a[$i - 1].to == ar) ar = a[--$i].from;
               else {
                 if (types[ar - 1] == f) break e;
                 break;
@@ -12469,9 +12479,9 @@ class DocView extends ContentView {
           openStart: Ee,
           openEnd: ht,
         } = ContentBuilder.build(this.view.state.doc, I, L, this.decorations, this.dynamicDecorationMap));
-      let { i: ar, off: Vi } = a.findPos(v, 1),
+      let { i: ar, off: $i } = a.findPos(v, 1),
         { i: tl, off: Wi } = a.findPos(m, -1);
-      replaceRange(this, tl, Wi, ar, Vi, V, se, Ee, ht);
+      replaceRange(this, tl, Wi, ar, $i, V, se, Ee, ht);
     }
     s && this.fixCompositionDOM(s);
   }
@@ -12663,8 +12673,8 @@ class DocView extends ContentView {
             ht = Ee ? clientRectsFor(Ee) : [];
           if (ht.length) {
             let ar = ht[ht.length - 1],
-              Vi = m ? ar.right - se.left : se.right - ar.left;
-            Vi > f && ((f = Vi), (this.minWidth = a), (this.minWidthFrom = v), (this.minWidthTo = V));
+              $i = m ? ar.right - se.left : se.right - ar.left;
+            $i > f && ((f = $i), (this.minWidth = a), (this.minWidthFrom = v), (this.minWidthTo = V));
           }
         }
       }
@@ -12912,23 +12922,23 @@ function domPosAtCoords(r, e, n) {
   for (let Ee = r.firstChild; Ee; Ee = Ee.nextSibling) {
     let ht = clientRectsFor(Ee);
     for (let ar = 0; ar < ht.length; ar++) {
-      let Vi = ht[ar];
-      o && yOverlap(o, Vi) && (Vi = upTop(upBot(Vi, o.bottom), o.top));
-      let tl = getdx(e, Vi),
-        Wi = getdy(n, Vi);
+      let $i = ht[ar];
+      o && yOverlap(o, $i) && ($i = upTop(upBot($i, o.bottom), o.top));
+      let tl = getdx(e, $i),
+        Wi = getdy(n, $i);
       if (tl == 0 && Wi == 0) return Ee.nodeType == 3 ? domPosInText(Ee, e, n) : domPosAtCoords(Ee, e, n);
       if (!s || l > Wi || (l == Wi && a > tl)) {
-        (s = Ee), (o = Vi), (a = tl), (l = Wi);
-        let hl = Wi ? (n < Vi.top ? -1 : 1) : tl ? (e < Vi.left ? -1 : 1) : 0;
+        (s = Ee), (o = $i), (a = tl), (l = Wi);
+        let hl = Wi ? (n < $i.top ? -1 : 1) : tl ? (e < $i.left ? -1 : 1) : 0;
         f = !hl || (hl > 0 ? ar < ht.length - 1 : ar > 0);
       }
       tl == 0
-        ? n > Vi.bottom && (!I || I.bottom < Vi.bottom)
-          ? ((m = Ee), (I = Vi))
-          : n < Vi.top && (!L || L.top > Vi.top) && ((v = Ee), (L = Vi))
-        : I && yOverlap(I, Vi)
-        ? (I = upBot(I, Vi.bottom))
-        : L && yOverlap(L, Vi) && (L = upTop(L, Vi.top));
+        ? n > $i.bottom && (!I || I.bottom < $i.bottom)
+          ? ((m = Ee), (I = $i))
+          : n < $i.top && (!L || L.top > $i.top) && ((v = Ee), (L = $i))
+        : I && yOverlap(I, $i)
+        ? (I = upBot(I, $i.bottom))
+        : L && yOverlap(L, $i) && (L = upTop(L, $i.top));
     }
   }
   if ((I && I.bottom >= n ? ((s = m), (o = I)) : L && L.top <= n && ((s = v), (o = L)), !s))
@@ -12997,33 +13007,33 @@ function posAtCoords(r, e, n, s = -1) {
       ((I = Math.max(l.left + 1, Math.min(l.right - 1, I))),
       (ar = ht.elementFromPoint(I, L)),
       ar && !r.contentDOM.contains(ar) && (ar = null));
-  let Vi,
+  let $i,
     tl = -1;
   if (ar && ((o = r.docView.nearest(ar)) === null || o === void 0 ? void 0 : o.isEditable) != !1) {
     if (Ee.caretPositionFromPoint) {
       let hl = Ee.caretPositionFromPoint(I, L);
-      hl && ({ offsetNode: Vi, offset: tl } = hl);
+      hl && ({ offsetNode: $i, offset: tl } = hl);
     } else if (Ee.caretRangeFromPoint) {
       let hl = Ee.caretRangeFromPoint(I, L);
       hl &&
-        (({ startContainer: Vi, startOffset: tl } = hl),
-        (!r.contentDOM.contains(Vi) ||
-          (browser.safari && isSuspiciousSafariCaretResult(Vi, tl, I)) ||
-          (browser.chrome && isSuspiciousChromeCaretResult(Vi, tl, I))) &&
-          (Vi = void 0));
+        (({ startContainer: $i, startOffset: tl } = hl),
+        (!r.contentDOM.contains($i) ||
+          (browser.safari && isSuspiciousSafariCaretResult($i, tl, I)) ||
+          (browser.chrome && isSuspiciousChromeCaretResult($i, tl, I))) &&
+          ($i = void 0));
     }
   }
-  if (!Vi || !r.docView.dom.contains(Vi)) {
+  if (!$i || !r.docView.dom.contains($i)) {
     let hl = LineView.find(r.docView, se);
     if (!hl) return V > m.top + m.height / 2 ? m.to : m.from;
-    ({ node: Vi, offset: tl } = domPosAtCoords(hl.dom, I, L));
+    ({ node: $i, offset: tl } = domPosAtCoords(hl.dom, I, L));
   }
-  let Wi = r.docView.nearest(Vi);
+  let Wi = r.docView.nearest($i);
   if (!Wi) return null;
   if (Wi.isWidget && ((a = Wi.dom) === null || a === void 0 ? void 0 : a.nodeType) == 1) {
     let hl = Wi.dom.getBoundingClientRect();
     return e.y < hl.top || (e.y <= hl.bottom && e.x <= (hl.left + hl.right) / 2) ? Wi.posAtStart : Wi.posAtEnd;
-  } else return Wi.localPosFromDOM(Vi, tl) + Wi.posAtStart;
+  } else return Wi.localPosFromDOM($i, tl) + Wi.posAtStart;
 }
 function posAtCoordsImprecise(r, e, n, s, o) {
   let a = Math.round((s - e.left) * r.defaultCharacterWidth);
@@ -13130,8 +13140,8 @@ function moveVertically(r, e, n, s) {
       ht = posAtCoords(r, { x: L, y: Ee }, !1, a);
     if (Ee < m.top || Ee > m.bottom || (a < 0 ? ht < o : ht > o)) {
       let ar = r.docView.coordsForChar(ht),
-        Vi = !ar || Ee < ar.top ? -1 : 1;
-      return EditorSelection.cursor(ht, Vi, void 0, l);
+        $i = !ar || Ee < ar.top ? -1 : 1;
+      return EditorSelection.cursor(ht, $i, void 0, l);
     }
   }
 }
@@ -14510,8 +14520,8 @@ class ViewState {
       ht = Ee.top - this.pixelViewport.top,
       ar = Ee.bottom - this.pixelViewport.bottom;
     this.pixelViewport = Ee;
-    let Vi = this.pixelViewport.bottom > this.pixelViewport.top && this.pixelViewport.right > this.pixelViewport.left;
-    if ((Vi != this.inView && ((this.inView = Vi), Vi && (m = !0)), !this.inView && !this.scrollTarget)) return 0;
+    let $i = this.pixelViewport.bottom > this.pixelViewport.top && this.pixelViewport.right > this.pixelViewport.left;
+    if (($i != this.inView && ((this.inView = $i), $i && (m = !0)), !this.inView && !this.scrollTarget)) return 0;
     let tl = f.width;
     if (
       ((this.contentDOMWidth != tl || this.editorHeight != e.scrollDOM.clientHeight) &&
@@ -14638,7 +14648,7 @@ class ViewState {
             ar.to <= L.to &&
             Math.abs(ar.from - v) < a &&
             Math.abs(ar.to - I) < a &&
-            !Ee.some((Vi) => ar.from < Vi && ar.to > Vi),
+            !Ee.some(($i) => ar.from < $i && ar.to > $i),
         );
         if (!ht) {
           if (I < L.to && n && s && n.visibleRanges.some((ar) => ar.from <= I && ar.to >= I)) {
@@ -14661,22 +14671,22 @@ class ViewState {
           ht,
           ar;
         if (L != null) {
-          let Vi = findFraction(I, L),
+          let $i = findFraction(I, L),
             tl = ((this.visibleBottom - this.visibleTop) / 2 + Ee) / v.height;
-          (ht = Vi - tl), (ar = Vi + tl);
+          (ht = $i - tl), (ar = $i + tl);
         } else (ht = (this.visibleTop - v.top - Ee) / v.height), (ar = (this.visibleBottom - v.top + Ee) / v.height);
         (V = findPosition(I, ht)), (se = findPosition(I, ar));
       } else {
         let Ee = I.total * this.heightOracle.charWidth,
           ht = o * this.heightOracle.charWidth,
           ar,
-          Vi;
+          $i;
         if (L != null) {
           let tl = findFraction(I, L),
             Wi = ((this.pixelViewport.right - this.pixelViewport.left) / 2 + ht) / Ee;
-          (ar = tl - Wi), (Vi = tl + Wi);
-        } else (ar = (this.pixelViewport.left - ht) / Ee), (Vi = (this.pixelViewport.right + ht) / Ee);
-        (V = findPosition(I, ar)), (se = findPosition(I, Vi));
+          (ar = tl - Wi), ($i = tl + Wi);
+        } else (ar = (this.pixelViewport.left - ht) / Ee), ($i = (this.pixelViewport.right + ht) / Ee);
+        (V = findPosition(I, ar)), (se = findPosition(I, $i));
       }
       V > v.from && m(v.from, V, v, I), se < v.to && m(se, v.to, v, I);
     }
@@ -15236,11 +15246,11 @@ function applyDefaultInsert(r, e, n) {
           ar = ht - v.length;
         if (Ee.to - Ee.from != se || r.state.sliceDoc(ar, ht) != v || (Ee.to >= I.from && Ee.from <= I.to))
           return { range: Ee };
-        let Vi = o.changes({ from: ar, to: ht, insert: e.insert }),
+        let $i = o.changes({ from: ar, to: ht, insert: e.insert }),
           tl = Ee.to - a.to;
         return {
-          changes: Vi,
-          range: m ? EditorSelection.range(Math.max(0, m.anchor + tl), Math.max(0, m.head + tl)) : Ee.map(Vi),
+          changes: $i,
+          range: m ? EditorSelection.range(Math.max(0, m.anchor + tl), Math.max(0, m.head + tl)) : Ee.map($i),
         };
       });
     } else s = { changes: f, selection: m && o.selection.replaceRange(m) };
@@ -16201,9 +16211,9 @@ function buildKeymap(r, e = currentPlatform) {
     a = (l, f, m, v, I) => {
       var L, V;
       let se = n[l] || (n[l] = Object.create(null)),
-        Ee = f.split(/ (?!$)/).map((Vi) => normalizeKeyName(Vi, e));
-      for (let Vi = 1; Vi < Ee.length; Vi++) {
-        let tl = Ee.slice(0, Vi).join(' ');
+        Ee = f.split(/ (?!$)/).map(($i) => normalizeKeyName($i, e));
+      for (let $i = 1; $i < Ee.length; $i++) {
+        let tl = Ee.slice(0, $i).join(' ');
         o(tl, !0),
           se[tl] ||
             (se[tl] = {
@@ -16267,7 +16277,7 @@ function runHandlers(r, e, n, s) {
   let L = new Set(),
     V = (ar) => {
       if (ar) {
-        for (let Vi of ar.run) if (!L.has(Vi) && (L.add(Vi), Vi(n, e))) return ar.stopPropagation && (I = !0), !0;
+        for (let $i of ar.run) if (!L.has($i) && (L.add($i), $i(n, e))) return ar.stopPropagation && (I = !0), !0;
         ar.preventDefault && (ar.stopPropagation && (I = !0), (v = !0));
       }
       return !1;
@@ -16375,19 +16385,19 @@ function rectanglesForRange(r, e, n) {
     return (
       (ht || se).to < (ar || Ee).from - (ht && ar ? 1 : 0) ||
       (se.widgetLineBreaks > 1 && fl.bottom + r.defaultLineHeight / 2 < dl.top)
-        ? Al.push(Vi(L, fl.bottom, V, dl.top))
+        ? Al.push($i(L, fl.bottom, V, dl.top))
         : fl.bottom < dl.top &&
           r.elementAtHeight((fl.bottom + dl.top) / 2).type == BlockType.Text &&
           (fl.bottom = dl.top = (fl.bottom + dl.top) / 2),
       tl(fl).concat(Al).concat(tl(dl))
     );
   }
-  function Vi(fl, dl, Al, Fl) {
+  function $i(fl, dl, Al, Fl) {
     return new RectangleMarker(e, fl - m.left, dl - m.top - 0.01, Al - fl, Fl - dl + 0.01);
   }
   function tl({ top: fl, bottom: dl, horizontal: Al }) {
     let Fl = [];
-    for (let vl = 0; vl < Al.length; vl += 2) Fl.push(Vi(Al[vl], fl, Al[vl + 1], dl));
+    for (let vl = 0; vl < Al.length; vl += 2) Fl.push($i(Al[vl], fl, Al[vl + 1], dl));
     return Fl;
   }
   function Wi(fl, dl, Al) {
@@ -16713,7 +16723,7 @@ class MatchDecorator {
         }
         let V = [],
           se,
-          Ee = (ht, ar, Vi) => V.push(Vi.range(ht, ar));
+          Ee = (ht, ar, $i) => V.push($i.range(ht, ar));
         if (m == v)
           for (this.regexp.lastIndex = I - m.from; (se = this.regexp.exec(m.text)) && se.index < L - m.from; )
             this.addMatch(se, e, se.index + m.from, Ee);
@@ -17239,7 +17249,7 @@ const tooltipConfig = Facet.define({
             Ee = se ? 7 : 0,
             ht = V.right - V.left,
             ar = (e = knownHeight.get(v)) !== null && e !== void 0 ? e : V.bottom - V.top,
-            Vi = v.offset || noOffset,
+            $i = v.offset || noOffset,
             tl = this.view.textDirection == Direction.LTR,
             Wi =
               V.width > s.right - s.left
@@ -17247,11 +17257,11 @@ const tooltipConfig = Facet.define({
                   ? s.left
                   : s.right - V.width
                 : tl
-                ? Math.min(L.left - (se ? 14 : 0) + Vi.x, s.right - ht)
-                : Math.max(s.left, L.left - ht + (se ? 14 : 0) - Vi.x),
+                ? Math.min(L.left - (se ? 14 : 0) + $i.x, s.right - ht)
+                : Math.max(s.left, L.left - ht + (se ? 14 : 0) - $i.x),
             hl = !!m.above;
           !m.strictSide &&
-            (hl ? L.top - (V.bottom - V.top) - Vi.y < s.top : L.bottom + (V.bottom - V.top) + Vi.y > s.bottom) &&
+            (hl ? L.top - (V.bottom - V.top) - $i.y < s.top : L.bottom + (V.bottom - V.top) + $i.y > s.bottom) &&
             hl == s.bottom - L.bottom > L.top - s.top &&
             (hl = !hl);
           let fl = (hl ? L.top - s.top : s.bottom - L.bottom) - Ee;
@@ -17262,7 +17272,7 @@ const tooltipConfig = Facet.define({
             }
             knownHeight.set(v, ar), (I.style.height = (ar = fl) / a + 'px');
           } else I.style.height && (I.style.height = '');
-          let dl = hl ? L.top - ar - Ee - Vi.y : L.bottom + Ee + Vi.y,
+          let dl = hl ? L.top - ar - Ee - $i.y : L.bottom + Ee + $i.y,
             Al = Wi + ht;
           if (v.overlap !== !0)
             for (let Fl of l)
@@ -17277,7 +17287,7 @@ const tooltipConfig = Facet.define({
               : ((I.style.top = dl / a + 'px'), (I.style.left = Wi / o + 'px')),
             se)
           ) {
-            let Fl = L.left + (tl ? Vi.x : -Vi.x) - (Wi + 14 - 7);
+            let Fl = L.left + (tl ? $i.x : -$i.x) - (Wi + 14 - 7);
             se.style.left = Fl / o + 'px';
           }
           v.overlap !== !0 && l.push({ left: Wi, top: dl, right: Al, bottom: dl + ar }),
@@ -17996,12 +18006,12 @@ var standalone = { exports: {} };
       I = (W, Ge) => {
         for (var An in Ge) s(W, An, { get: Ge[An], enumerable: !0 });
       },
-      L = (W, Ge, An, $i) => {
+      L = (W, Ge, An, Vi) => {
         if ((Ge && typeof Ge == 'object') || typeof Ge == 'function')
           for (let qi of a(Ge))
             !f.call(W, qi) &&
               qi !== An &&
-              s(W, qi, { get: () => Ge[qi], enumerable: !($i = o(Ge, qi)) || $i.enumerable });
+              s(W, qi, { get: () => Ge[qi], enumerable: !(Vi = o(Ge, qi)) || Vi.enumerable });
         return W;
       },
       V = (W, Ge, An) => (
@@ -18017,7 +18027,7 @@ var standalone = { exports: {} };
         Ge instanceof WeakSet ? Ge.add(W) : Ge.set(W, An);
       },
       ar = (W, Ge, An) => (Ee(W, Ge, 'access private method'), An),
-      Vi = v((W) => {
+      $i = v((W) => {
         Object.defineProperty(W, '__esModule', { value: !0 }), (W.default = Ge);
         function Ge() {}
         Ge.prototype = {
@@ -18061,7 +18071,7 @@ var standalone = { exports: {} };
                 }
                 if (
                   (!zh || (Gh && Bh.newPos < Nh.newPos)
-                    ? ((wh = $i(Nh)), Tl.pushComponent(wh.components, void 0, !0))
+                    ? ((wh = Vi(Nh)), Tl.pushComponent(wh.components, void 0, !0))
                     : ((wh = Bh), wh.newPos++, Tl.pushComponent(wh.components, !0, void 0)),
                   (qh = Tl.extractCommon(wh, el, qi, Eh)),
                   wh.newPos + 1 >= $l && qh + 1 >= Ql)
@@ -18148,27 +18158,27 @@ var standalone = { exports: {} };
             el
           );
         }
-        function $i(qi) {
+        function Vi(qi) {
           return { newPos: qi.newPos, components: qi.components.slice(0) };
         }
       }),
       tl = v((W) => {
         Object.defineProperty(W, '__esModule', { value: !0 }), (W.diffArrays = qi), (W.arrayDiff = void 0);
-        var Ge = An(Vi());
+        var Ge = An($i());
         function An(el) {
           return el && el.__esModule ? el : { default: el };
         }
-        var $i = new Ge.default();
-        (W.arrayDiff = $i),
-          ($i.tokenize = function (el) {
+        var Vi = new Ge.default();
+        (W.arrayDiff = Vi),
+          (Vi.tokenize = function (el) {
             return el.slice();
           }),
-          ($i.join = $i.removeEmpty =
+          (Vi.join = Vi.removeEmpty =
             function (el) {
               return el;
             });
         function qi(el, Cl, Sl) {
-          return $i.diff(el, Cl, Sl);
+          return Vi.diff(el, Cl, Sl);
         }
       }),
       Wi = v((W, Ge) => {
@@ -18186,10 +18196,10 @@ var standalone = { exports: {} };
         Object.defineProperty(W, '__esModule', { value: !0 }), (W.codeFrameColumns = $l), (W.default = Ql);
         var Ge = (Al(), se(hl)),
           An = Wi(),
-          $i = An,
+          Vi = An,
           qi;
         function el(Ol) {
-          return Ol ? (qi != null || (qi = new $i.constructor({ enabled: !0, level: 1 })), qi) : $i;
+          return Ol ? (qi != null || (qi = new Vi.constructor({ enabled: !0, level: 1 })), qi) : Vi;
         }
         var Cl = !1;
         function Sl(Ol) {
@@ -18293,9 +18303,9 @@ ${Ed}`),
       util: () => Z0,
       version: () => s1,
     });
-    var kl = (W, Ge, An, $i) => {
+    var kl = (W, Ge, An, Vi) => {
         if (!(W && Ge == null))
-          return Ge.replaceAll ? Ge.replaceAll(An, $i) : An.global ? Ge.replace(An, $i) : Ge.split(An).join($i);
+          return Ge.replaceAll ? Ge.replaceAll(An, Vi) : An.global ? Ge.replace(An, Vi) : Ge.split(An).join(Vi);
       },
       El = kl,
       Jl = V(tl(), 1),
@@ -18332,9 +18342,9 @@ Expected it to be 'string' or 'object'.`;
       if (Ul(W)) throw new Error('doc is valid.');
       let An = Object.prototype.toString.call(W);
       if (An !== '[object Object]') return `Unexpected doc '${An}'.`;
-      let $i = Dh([...zl].map((qi) => `'${qi}'`));
+      let Vi = Dh([...zl].map((qi) => `'${qi}'`));
       return `Unexpected doc.type '${W.type}'.
-Expected it to be ${$i}.`;
+Expected it to be ${Vi}.`;
     }
     var bl = class extends Error {
         constructor(Ge) {
@@ -18345,7 +18355,7 @@ Expected it to be ${$i}.`;
       },
       Pl = bl,
       Rl = {};
-    function Wl(W, Ge, An, $i) {
+    function Wl(W, Ge, An, Vi) {
       let qi = [W];
       for (; qi.length > 0; ) {
         let el = qi.pop();
@@ -18368,7 +18378,7 @@ Expected it to be ${$i}.`;
               qi.push(el.flatContents, el.breakContents);
               break;
             case ql:
-              if ($i && el.expandedStates)
+              if (Vi && el.expandedStates)
                 for (let Sl = el.expandedStates.length, Tl = Sl - 1; Tl >= 0; --Tl) qi.push(el.expandedStates[Tl]);
               else qi.push(el.contents);
               break;
@@ -18442,16 +18452,16 @@ Expected it to be ${$i}.`;
       $d = { type: Ll };
     function qd(W, Ge) {
       let An = [];
-      for (let $i = 0; $i < Ge.length; $i++) $i !== 0 && An.push(W), An.push(Ge[$i]);
+      for (let Vi = 0; Vi < Ge.length; Vi++) Vi !== 0 && An.push(W), An.push(Ge[Vi]);
       return An;
     }
     function Kd(W, Ge, An) {
-      let $i = W;
+      let Vi = W;
       if (Ge > 0) {
-        for (let qi = 0; qi < Math.floor(Ge / An); ++qi) $i = Qc($i);
-        ($i = Gl(Ge % An, $i)), ($i = Gl(Number.NEGATIVE_INFINITY, $i));
+        for (let qi = 0; qi < Math.floor(Ge / An); ++qi) Vi = Qc(Vi);
+        (Vi = Gl(Ge % An, Vi)), (Vi = Gl(Number.NEGATIVE_INFINITY, Vi));
       }
-      return $i;
+      return Vi;
     }
     function Jd(W, Ge) {
       return W ? { type: Ah, label: W, contents: Ge } : Ge;
@@ -18500,8 +18510,8 @@ Expected it to be ${$i}.`;
         default:
           throw new Error(`Unexpected "eol" ${JSON.stringify(Ge)}.`);
       }
-      let $i = W.match(An);
-      return $i ? $i.length : 0;
+      let Vi = W.match(An);
+      return Vi ? Vi.length : 0;
     }
     function dd(W) {
       return El(
@@ -18518,53 +18528,53 @@ Expected it to be ${$i}.`;
         eastAsianWidth(W) {
           var Ge = W.charCodeAt(0),
             An = W.length == 2 ? W.charCodeAt(1) : 0,
-            $i = Ge;
+            Vi = Ge;
           return (
             55296 <= Ge &&
               Ge <= 56319 &&
               56320 <= An &&
               An <= 57343 &&
-              ((Ge &= 1023), (An &= 1023), ($i = (Ge << 10) | An), ($i += 65536)),
-            $i == 12288 || (65281 <= $i && $i <= 65376) || (65504 <= $i && $i <= 65510)
+              ((Ge &= 1023), (An &= 1023), (Vi = (Ge << 10) | An), (Vi += 65536)),
+            Vi == 12288 || (65281 <= Vi && Vi <= 65376) || (65504 <= Vi && Vi <= 65510)
               ? 'F'
-              : (4352 <= $i && $i <= 4447) ||
-                (4515 <= $i && $i <= 4519) ||
-                (4602 <= $i && $i <= 4607) ||
-                (9001 <= $i && $i <= 9002) ||
-                (11904 <= $i && $i <= 11929) ||
-                (11931 <= $i && $i <= 12019) ||
-                (12032 <= $i && $i <= 12245) ||
-                (12272 <= $i && $i <= 12283) ||
-                (12289 <= $i && $i <= 12350) ||
-                (12353 <= $i && $i <= 12438) ||
-                (12441 <= $i && $i <= 12543) ||
-                (12549 <= $i && $i <= 12589) ||
-                (12593 <= $i && $i <= 12686) ||
-                (12688 <= $i && $i <= 12730) ||
-                (12736 <= $i && $i <= 12771) ||
-                (12784 <= $i && $i <= 12830) ||
-                (12832 <= $i && $i <= 12871) ||
-                (12880 <= $i && $i <= 13054) ||
-                (13056 <= $i && $i <= 19903) ||
-                (19968 <= $i && $i <= 42124) ||
-                (42128 <= $i && $i <= 42182) ||
-                (43360 <= $i && $i <= 43388) ||
-                (44032 <= $i && $i <= 55203) ||
-                (55216 <= $i && $i <= 55238) ||
-                (55243 <= $i && $i <= 55291) ||
-                (63744 <= $i && $i <= 64255) ||
-                (65040 <= $i && $i <= 65049) ||
-                (65072 <= $i && $i <= 65106) ||
-                (65108 <= $i && $i <= 65126) ||
-                (65128 <= $i && $i <= 65131) ||
-                (110592 <= $i && $i <= 110593) ||
-                (127488 <= $i && $i <= 127490) ||
-                (127504 <= $i && $i <= 127546) ||
-                (127552 <= $i && $i <= 127560) ||
-                (127568 <= $i && $i <= 127569) ||
-                (131072 <= $i && $i <= 194367) ||
-                (177984 <= $i && $i <= 196605) ||
-                (196608 <= $i && $i <= 262141)
+              : (4352 <= Vi && Vi <= 4447) ||
+                (4515 <= Vi && Vi <= 4519) ||
+                (4602 <= Vi && Vi <= 4607) ||
+                (9001 <= Vi && Vi <= 9002) ||
+                (11904 <= Vi && Vi <= 11929) ||
+                (11931 <= Vi && Vi <= 12019) ||
+                (12032 <= Vi && Vi <= 12245) ||
+                (12272 <= Vi && Vi <= 12283) ||
+                (12289 <= Vi && Vi <= 12350) ||
+                (12353 <= Vi && Vi <= 12438) ||
+                (12441 <= Vi && Vi <= 12543) ||
+                (12549 <= Vi && Vi <= 12589) ||
+                (12593 <= Vi && Vi <= 12686) ||
+                (12688 <= Vi && Vi <= 12730) ||
+                (12736 <= Vi && Vi <= 12771) ||
+                (12784 <= Vi && Vi <= 12830) ||
+                (12832 <= Vi && Vi <= 12871) ||
+                (12880 <= Vi && Vi <= 13054) ||
+                (13056 <= Vi && Vi <= 19903) ||
+                (19968 <= Vi && Vi <= 42124) ||
+                (42128 <= Vi && Vi <= 42182) ||
+                (43360 <= Vi && Vi <= 43388) ||
+                (44032 <= Vi && Vi <= 55203) ||
+                (55216 <= Vi && Vi <= 55238) ||
+                (55243 <= Vi && Vi <= 55291) ||
+                (63744 <= Vi && Vi <= 64255) ||
+                (65040 <= Vi && Vi <= 65049) ||
+                (65072 <= Vi && Vi <= 65106) ||
+                (65108 <= Vi && Vi <= 65126) ||
+                (65128 <= Vi && Vi <= 65131) ||
+                (110592 <= Vi && Vi <= 110593) ||
+                (127488 <= Vi && Vi <= 127490) ||
+                (127504 <= Vi && Vi <= 127546) ||
+                (127552 <= Vi && Vi <= 127560) ||
+                (127568 <= Vi && Vi <= 127569) ||
+                (131072 <= Vi && Vi <= 194367) ||
+                (177984 <= Vi && Vi <= 196605) ||
+                (196608 <= Vi && Vi <= 262141)
               ? 'W'
               : 'N'
           );
@@ -18577,8 +18587,8 @@ Expected it to be ${$i}.`;
       W = W.replace(t0(), '  ');
       let Ge = 0;
       for (let An of W) {
-        let $i = An.codePointAt(0);
-        if ($i <= 31 || ($i >= 127 && $i <= 159) || ($i >= 768 && $i <= 879)) continue;
+        let Vi = An.codePointAt(0);
+        if (Vi <= 31 || (Vi >= 127 && Vi <= 159) || (Vi >= 768 && Vi <= 879)) continue;
         let qi = Yd.eastAsianWidth(An);
         Ge += qi === 'F' || qi === 'W' ? 2 : 1;
       }
@@ -18593,8 +18603,8 @@ Expected it to be ${$i}.`;
     function vd(W, Ge) {
       if (typeof W == 'string') return Ge(W);
       let An = new Map();
-      return $i(W);
-      function $i(el) {
+      return Vi(W);
+      function Vi(el) {
         if (An.has(el)) return An.get(el);
         let Cl = qi(el);
         return An.set(el, Cl), Cl;
@@ -18602,15 +18612,15 @@ Expected it to be ${$i}.`;
       function qi(el) {
         switch (Ul(el)) {
           case Il:
-            return Ge(el.map($i));
+            return Ge(el.map(Vi));
           case Yl:
-            return Ge({ ...el, parts: el.parts.map($i) });
+            return Ge({ ...el, parts: el.parts.map(Vi) });
           case ih:
-            return Ge({ ...el, breakContents: $i(el.breakContents), flatContents: $i(el.flatContents) });
+            return Ge({ ...el, breakContents: Vi(el.breakContents), flatContents: Vi(el.flatContents) });
           case ql: {
             let { expandedStates: Cl, contents: Sl } = el;
             return (
-              Cl ? ((Cl = Cl.map($i)), (Sl = Cl[0])) : (Sl = $i(Sl)), Ge({ ...el, contents: Sl, expandedStates: Cl })
+              Cl ? ((Cl = Cl.map(Vi)), (Sl = Cl[0])) : (Sl = Vi(Sl)), Ge({ ...el, contents: Sl, expandedStates: Cl })
             );
           }
           case Hl:
@@ -18618,7 +18628,7 @@ Expected it to be ${$i}.`;
           case ph:
           case Ah:
           case gh:
-            return Ge({ ...el, contents: $i(el.contents) });
+            return Ge({ ...el, contents: Vi(el.contents) });
           case Kc:
           case Ll:
           case Bl:
@@ -18632,14 +18642,14 @@ Expected it to be ${$i}.`;
       }
     }
     function Qd(W, Ge, An) {
-      let $i = An,
+      let Vi = An,
         qi = !1;
       function el(Cl) {
         if (qi) return !1;
         let Sl = Ge(Cl);
-        Sl !== void 0 && ((qi = !0), ($i = Sl));
+        Sl !== void 0 && ((qi = !0), (Vi = Sl));
       }
-      return Kl(W, el), $i;
+      return Kl(W, el), Vi;
     }
     function Sd(W) {
       if ((W.type === ql && W.break) || (W.type === bh && W.hard) || W.type === wl) return !0;
@@ -18657,7 +18667,7 @@ Expected it to be ${$i}.`;
     function Af(W) {
       let Ge = new Set(),
         An = [];
-      function $i(el) {
+      function Vi(el) {
         if ((el.type === wl && bf(An), el.type === ql)) {
           if ((An.push(el), Ge.has(el))) return !1;
           Ge.add(el);
@@ -18666,7 +18676,7 @@ Expected it to be ${$i}.`;
       function qi(el) {
         el.type === ql && An.pop().break && bf(An);
       }
-      Kl(W, $i, qi, !0);
+      Kl(W, Vi, qi, !0);
     }
     function Vd(W) {
       return W.type === bh && !W.hard ? (W.soft ? '' : ' ') : W.type === ih ? W.flatContents : W;
@@ -18743,8 +18753,8 @@ Expected it to be ${$i}.`;
           let Ge = [];
           for (let An of W) {
             if (!An) continue;
-            let [$i, ...qi] = Array.isArray(An) ? An : [An];
-            typeof $i == 'string' && typeof Ih(!1, Ge, -1) == 'string' ? (Ge[Ge.length - 1] += $i) : Ge.push($i),
+            let [Vi, ...qi] = Array.isArray(An) ? An : [An];
+            typeof Vi == 'string' && typeof Ih(!1, Ge, -1) == 'string' ? (Ge[Ge.length - 1] += Vi) : Ge.push(Vi),
               Ge.push(...qi);
           }
           return Ge.length === 0 ? '' : Ge.length === 1 ? Ge[0] : Ge;
@@ -18806,12 +18816,12 @@ Expected it to be ${$i}.`;
         : W;
     }
     function nf(W, Ge, An) {
-      let $i = Ge.type === 'dedent' ? W.queue.slice(0, -1) : [...W.queue, Ge],
+      let Vi = Ge.type === 'dedent' ? W.queue.slice(0, -1) : [...W.queue, Ge],
         qi = '',
         el = 0,
         Cl = 0,
         Sl = 0;
-      for (let Vl of $i)
+      for (let Vl of Vi)
         switch (Vl.type) {
           case 'indent':
             $l(), An.useTabs ? Tl(1) : Ml(An.tabWidth);
@@ -18825,7 +18835,7 @@ Expected it to be ${$i}.`;
           default:
             throw new Error(`Unexpected type '${Vl.type}'`);
         }
-      return Ol(), { ...W, value: qi, length: el, queue: $i };
+      return Ol(), { ...W, value: qi, length: el, queue: Vi };
       function Tl(Vl) {
         (qi += '	'.repeat(Vl)), (el += An.tabWidth * Vl);
       }
@@ -18848,9 +18858,9 @@ Expected it to be ${$i}.`;
     function sd(W) {
       let Ge = 0,
         An = 0,
-        $i = W.length;
-      e: for (; $i--; ) {
-        let qi = W[$i];
+        Vi = W.length;
+      e: for (; Vi--; ) {
+        let qi = W[Vi];
         if (qi === ud) {
           An++;
           continue;
@@ -18859,15 +18869,15 @@ Expected it to be ${$i}.`;
           let Cl = qi[el];
           if (Cl === ' ' || Cl === '	') Ge++;
           else {
-            W[$i] = qi.slice(0, el + 1);
+            W[Vi] = qi.slice(0, el + 1);
             break e;
           }
         }
       }
-      if (Ge > 0 || An > 0) for (W.length = $i + 1; An-- > 0; ) W.push(ud);
+      if (Ge > 0 || An > 0) for (W.length = Vi + 1; An-- > 0; ) W.push(ud);
       return Ge;
     }
-    function Fd(W, Ge, An, $i, qi, el) {
+    function Fd(W, Ge, An, Vi, qi, el) {
       if (An === Number.POSITIVE_INFINITY) return !0;
       let Cl = Ge.length,
         Sl = [W],
@@ -18915,10 +18925,10 @@ Expected it to be ${$i}.`;
             $l.soft || (Tl.push(' '), An--);
             break;
           case gh:
-            $i = !0;
+            Vi = !0;
             break;
           case xh:
-            if ($i) return !1;
+            if (Vi) return !1;
             break;
         }
       }
@@ -18926,7 +18936,7 @@ Expected it to be ${$i}.`;
     }
     function Jh(W, Ge) {
       let An = {},
-        $i = Ge.printWidth,
+        Vi = Ge.printWidth,
         qi = _d(Ge.endOfLine),
         el = 0,
         Cl = [{ ind: rf(), mode: _h, doc: W }],
@@ -18979,7 +18989,7 @@ Expected it to be ${$i}.`;
               case _h: {
                 Tl = !1;
                 let nh = { ind: Ol, mode: Xh, doc: Vl.contents },
-                  fh = $i - el,
+                  fh = Vi - el,
                   vh = Ml.length > 0;
                 if (!Vl.break && Fd(nh, Cl, fh, vh, An)) Cl.push(nh);
                 else if (Vl.expandedStates) {
@@ -19007,7 +19017,7 @@ Expected it to be ${$i}.`;
             Vl.id && (An[Vl.id] = Ih(!1, Cl, -1).mode);
             break;
           case Yl: {
-            let nh = $i - el,
+            let nh = Vi - el,
               { parts: fh } = Vl;
             if (fh.length === 0) break;
             let [vh, Eh] = fh,
@@ -19099,10 +19109,10 @@ Expected it to be ${$i}.`;
       if (!W) return '';
       if (Array.isArray(W)) {
         let An = [];
-        for (let $i of W)
-          if (Array.isArray($i)) An.push(...Qh($i));
+        for (let Vi of W)
+          if (Array.isArray(Vi)) An.push(...Qh(Vi));
           else {
-            let qi = Qh($i);
+            let qi = Qh(Vi);
             qi !== '' && An.push(qi);
           }
         return An;
@@ -19120,12 +19130,12 @@ Expected it to be ${$i}.`;
     function Ff(W) {
       let Ge = Object.create(null),
         An = new Set();
-      return $i(Qh(W));
-      function $i(el, Cl, Sl) {
+      return Vi(Qh(W));
+      function Vi(el, Cl, Sl) {
         var Tl, Ml;
         if (typeof el == 'string') return JSON.stringify(el);
         if (Array.isArray(el)) {
-          let $l = el.map($i).filter(Boolean);
+          let $l = el.map(Vi).filter(Boolean);
           return $l.length === 1 ? $l[0] : `[${$l.join(', ')}]`;
         }
         if (el.type === bh) {
@@ -19147,20 +19157,20 @@ Expected it to be ${$i}.`;
             ? void 0
             : 'breakParent';
         if (el.type === Bl) return 'trim';
-        if (el.type === Nl) return 'indent(' + $i(el.contents) + ')';
+        if (el.type === Nl) return 'indent(' + Vi(el.contents) + ')';
         if (el.type === Hl)
           return el.n === Number.NEGATIVE_INFINITY
-            ? 'dedentToRoot(' + $i(el.contents) + ')'
+            ? 'dedentToRoot(' + Vi(el.contents) + ')'
             : el.n < 0
-            ? 'dedent(' + $i(el.contents) + ')'
+            ? 'dedent(' + Vi(el.contents) + ')'
             : el.n.type === 'root'
-            ? 'markAsRoot(' + $i(el.contents) + ')'
-            : 'align(' + JSON.stringify(el.n) + ', ' + $i(el.contents) + ')';
+            ? 'markAsRoot(' + Vi(el.contents) + ')'
+            : 'align(' + JSON.stringify(el.n) + ', ' + Vi(el.contents) + ')';
         if (el.type === ih)
           return (
             'ifBreak(' +
-            $i(el.breakContents) +
-            (el.flatContents ? ', ' + $i(el.flatContents) : '') +
+            Vi(el.breakContents) +
+            (el.flatContents ? ', ' + Vi(el.flatContents) : '') +
             (el.groupId ? (el.flatContents ? '' : ', ""') + `, { groupId: ${qi(el.groupId)} }` : '') +
             ')'
           );
@@ -19168,20 +19178,20 @@ Expected it to be ${$i}.`;
           let $l = [];
           el.negate && $l.push('negate: true'), el.groupId && $l.push(`groupId: ${qi(el.groupId)}`);
           let Ql = $l.length > 0 ? `, { ${$l.join(', ')} }` : '';
-          return `indentIfBreak(${$i(el.contents)}${Ql})`;
+          return `indentIfBreak(${Vi(el.contents)}${Ql})`;
         }
         if (el.type === ql) {
           let $l = [];
           el.break && el.break !== 'propagated' && $l.push('shouldBreak: true'), el.id && $l.push(`id: ${qi(el.id)}`);
           let Ql = $l.length > 0 ? `, { ${$l.join(', ')} }` : '';
           return el.expandedStates
-            ? `conditionalGroup([${el.expandedStates.map((Ol) => $i(Ol)).join(',')}]${Ql})`
-            : `group(${$i(el.contents)}${Ql})`;
+            ? `conditionalGroup([${el.expandedStates.map((Ol) => Vi(Ol)).join(',')}]${Ql})`
+            : `group(${Vi(el.contents)}${Ql})`;
         }
-        if (el.type === Yl) return `fill([${el.parts.map(($l) => $i($l)).join(', ')}])`;
-        if (el.type === gh) return 'lineSuffix(' + $i(el.contents) + ')';
+        if (el.type === Yl) return `fill([${el.parts.map(($l) => Vi($l)).join(', ')}])`;
+        if (el.type === gh) return 'lineSuffix(' + Vi(el.contents) + ')';
         if (el.type === xh) return 'lineSuffixBoundary';
-        if (el.type === Ah) return `label(${JSON.stringify(el.label)}, ${$i(el.contents)})`;
+        if (el.type === Ah) return `label(${JSON.stringify(el.label)}, ${Vi(el.contents)})`;
         throw new Error('Unknown doc type ' + el.type);
       }
       function qi(el) {
@@ -19195,9 +19205,9 @@ Expected it to be ${$i}.`;
       }
     }
     function s0(W, Ge, An = 0) {
-      let $i = 0;
-      for (let qi = An; qi < W.length; ++qi) W[qi] === '	' ? ($i = $i + Ge - ($i % Ge)) : $i++;
-      return $i;
+      let Vi = 0;
+      for (let qi = An; qi < W.length; ++qi) W[qi] === '	' ? (Vi = Vi + Ge - (Vi % Ge)) : Vi++;
+      return Vi;
     }
     var md = s0,
       sf = class extends Error {
@@ -19356,7 +19366,7 @@ in order for it to be formatted.`,
       };
     function kf({ plugins: W = [], showDeprecated: Ge = !1 } = {}) {
       let An = W.flatMap((qi) => qi.languages ?? []),
-        $i = [];
+        Vi = [];
       for (let qi of of(Object.assign({}, ...W.map(({ options: el }) => el), o0)))
         (!Ge && qi.deprecated) ||
           (Array.isArray(qi.choices) &&
@@ -19368,16 +19378,16 @@ in order for it to be formatted.`,
               return ((Cl = el.defaultOptions) == null ? void 0 : Cl[qi.name]) !== void 0;
             }).map((el) => [el.name, el.defaultOptions[qi.name]]),
           )),
-          $i.push(qi));
-      return { languages: An, options: $i };
+          Vi.push(qi));
+      return { languages: An, options: Vi };
     }
     function* a0(W, Ge, An) {
-      let $i = new Set(W.map((qi) => qi.value));
+      let Vi = new Set(W.map((qi) => qi.value));
       for (let qi of Ge)
         if (qi.parsers) {
           for (let el of qi.parsers)
-            if (!$i.has(el)) {
-              $i.add(el);
+            if (!Vi.has(el)) {
+              Vi.add(el);
               let Cl = An.find((Tl) => Tl.parsers && Object.prototype.hasOwnProperty.call(Tl.parsers, el)),
                 Sl = qi.name;
               Cl != null && Cl.name && (Sl += ` (plugin: ${Cl.name})`), yield { value: el, description: Sl };
@@ -19386,8 +19396,8 @@ in order for it to be formatted.`,
     }
     function of(W) {
       let Ge = [];
-      for (let [An, $i] of Object.entries(W)) {
-        let qi = { name: An, ...$i };
+      for (let [An, Vi] of Object.entries(W)) {
+        let qi = { name: An, ...Vi };
         Array.isArray(qi.default) && (qi.default = Ih(!1, qi.default, -1).value), Ge.push(qi);
       }
       return Ge;
@@ -19396,11 +19406,11 @@ in order for it to be formatted.`,
     function af(W, Ge) {
       if (!Ge) return;
       let An = gd(Ge).toLowerCase();
-      return W.find(($i) => {
+      return W.find((Vi) => {
         var qi, el;
         return (
-          ((qi = $i.extensions) == null ? void 0 : qi.some((Cl) => An.endsWith(Cl))) ||
-          ((el = $i.filenames) == null ? void 0 : el.some((Cl) => Cl.toLowerCase() === An))
+          ((qi = Vi.extensions) == null ? void 0 : qi.some((Cl) => An.endsWith(Cl))) ||
+          ((el = Vi.filenames) == null ? void 0 : el.some((Cl) => Cl.toLowerCase() === An))
         );
       });
     }
@@ -19414,8 +19424,8 @@ in order for it to be formatted.`,
     }
     function Pf(W, Ge) {
       let An = W.plugins.flatMap((qi) => qi.languages ?? []),
-        $i = Td(An, Ge.language) ?? af(An, Ge.physicalFile) ?? af(An, Ge.file) ?? (Ge.physicalFile, void 0);
-      return $i == null ? void 0 : $i.parsers[0];
+        Vi = Td(An, Ge.language) ?? af(An, Ge.physicalFile) ?? af(An, Ge.file) ?? (Ge.physicalFile, void 0);
+      return Vi == null ? void 0 : Vi.parsers[0];
     }
     var yd = Pf,
       cd = {
@@ -19430,10 +19440,10 @@ in order for it to be formatted.`,
       },
       kd = V(Wi(), 1),
       l0 = (W, Ge, { descriptor: An }) => {
-        let $i = [`${kd.default.yellow(typeof W == 'string' ? An.key(W) : An.pair(W))} is deprecated`];
+        let Vi = [`${kd.default.yellow(typeof W == 'string' ? An.key(W) : An.pair(W))} is deprecated`];
         return (
-          Ge && $i.push(`we now treat it as ${kd.default.blue(typeof Ge == 'string' ? An.key(Ge) : An.pair(Ge))}`),
-          $i.join('; ') + '.'
+          Ge && Vi.push(`we now treat it as ${kd.default.blue(typeof Ge == 'string' ? An.key(Ge) : An.pair(Ge))}`),
+          Vi.join('; ') + '.'
         );
       },
       Zh = V(Wi(), 1),
@@ -19441,10 +19451,10 @@ in order for it to be formatted.`,
       Dd = Symbol.for('vnopts.VALUE_UNCHANGED'),
       Bf = ' '.repeat(2),
       ed = (W, Ge, An) => {
-        let { text: $i, list: qi } = An.normalizeExpectedResult(An.schemas[W].expected(An)),
+        let { text: Vi, list: qi } = An.normalizeExpectedResult(An.schemas[W].expected(An)),
           el = [];
         return (
-          $i && el.push(Nf(W, Ge, $i, An.descriptor)),
+          Vi && el.push(Nf(W, Ge, Vi, An.descriptor)),
           qi &&
             el.push(
               [Nf(W, Ge, qi.title, An.descriptor)].concat(qi.values.map((Cl) => If(Cl, An.loggerPrintWidth))).join(`
@@ -19453,30 +19463,30 @@ in order for it to be formatted.`,
           Mf(el, An.loggerPrintWidth)
         );
       };
-    function Nf(W, Ge, An, $i) {
+    function Nf(W, Ge, An, Vi) {
       return [
-        `Invalid ${Zh.default.red($i.key(W))} value.`,
+        `Invalid ${Zh.default.red(Vi.key(W))} value.`,
         `Expected ${Zh.default.blue(An)},`,
-        `but received ${Ge === Pd ? Zh.default.gray('nothing') : Zh.default.red($i.value(Ge))}.`,
+        `but received ${Ge === Pd ? Zh.default.gray('nothing') : Zh.default.red(Vi.value(Ge))}.`,
       ].join(' ');
     }
     function If({ text: W, list: Ge }, An) {
-      let $i = [];
+      let Vi = [];
       return (
-        W && $i.push(`- ${Zh.default.blue(W)}`),
+        W && Vi.push(`- ${Zh.default.blue(W)}`),
         Ge &&
-          $i.push(
+          Vi.push(
             [`- ${Zh.default.blue(Ge.title)}:`].concat(
               Ge.values.map((qi) => If(qi, An - Bf.length).replace(/^|\n/g, `$&${Bf}`)),
             ).join(`
 `),
           ),
-        Mf($i, An)
+        Mf(Vi, An)
       );
     }
     function Mf(W, Ge) {
       if (W.length === 1) return W[0];
-      let [An, $i] = W,
+      let [An, Vi] = W,
         [qi, el] = W.map(
           (Cl) =>
             Cl.split(
@@ -19485,7 +19495,7 @@ in order for it to be formatted.`,
               1,
             )[0].length,
         );
-      return qi > Ge && qi > el ? $i : An;
+      return qi > Ge && qi > el ? Vi : An;
     }
     var hh = V(Wi(), 1),
       lf = [],
@@ -19494,32 +19504,32 @@ in order for it to be formatted.`,
       if (W === Ge) return 0;
       let An = W;
       W.length > Ge.length && ((W = Ge), (Ge = An));
-      let $i = W.length,
+      let Vi = W.length,
         qi = Ge.length;
-      for (; $i > 0 && W.charCodeAt(~-$i) === Ge.charCodeAt(~-qi); ) $i--, qi--;
+      for (; Vi > 0 && W.charCodeAt(~-Vi) === Ge.charCodeAt(~-qi); ) Vi--, qi--;
       let el = 0;
-      for (; el < $i && W.charCodeAt(el) === Ge.charCodeAt(el); ) el++;
-      if ((($i -= el), (qi -= el), $i === 0)) return qi;
+      for (; el < Vi && W.charCodeAt(el) === Ge.charCodeAt(el); ) el++;
+      if (((Vi -= el), (qi -= el), Vi === 0)) return qi;
       let Cl,
         Sl,
         Tl,
         Ml,
         $l = 0,
         Ql = 0;
-      for (; $l < $i; ) (uf[$l] = W.charCodeAt(el + $l)), (lf[$l] = ++$l);
+      for (; $l < Vi; ) (uf[$l] = W.charCodeAt(el + $l)), (lf[$l] = ++$l);
       for (; Ql < qi; )
-        for (Cl = Ge.charCodeAt(el + Ql), Tl = Ql++, Sl = Ql, $l = 0; $l < $i; $l++)
+        for (Cl = Ge.charCodeAt(el + Ql), Tl = Ql++, Sl = Ql, $l = 0; $l < Vi; $l++)
           (Ml = Cl === uf[$l] ? Tl : Tl + 1),
             (Tl = lf[$l]),
             (Sl = lf[$l] = Tl > Sl ? (Ml > Sl ? Sl + 1 : Ml) : Ml > Tl ? Tl + 1 : Ml);
       return Sl;
     }
-    var Of = (W, Ge, { descriptor: An, logger: $i, schemas: qi }) => {
+    var Of = (W, Ge, { descriptor: An, logger: Vi, schemas: qi }) => {
         let el = [`Ignored unknown option ${hh.default.yellow(An.pair({ key: W, value: Ge }))}.`],
           Cl = Object.keys(qi)
             .sort()
             .find((Sl) => u0(W, Sl) < 3);
-        Cl && el.push(`Did you mean ${hh.default.blue(An.key(Cl))}?`), $i.warn(el.join(' '));
+        Cl && el.push(`Did you mean ${hh.default.blue(An.key(Cl))}?`), Vi.warn(el.join(' '));
       },
       cf = [
         'default',
@@ -19534,9 +19544,9 @@ in order for it to be formatted.`,
       ];
     function c0(W, Ge) {
       let An = new W(Ge),
-        $i = Object.create(An);
-      for (let qi of cf) qi in Ge && ($i[qi] = od(Ge[qi], An, jh.prototype[qi].length));
-      return $i;
+        Vi = Object.create(An);
+      for (let qi of cf) qi in Ge && (Vi[qi] = od(Ge[qi], An, jh.prototype[qi].length));
+      return Vi;
     }
     var jh = class {
       static create(W) {
@@ -19568,7 +19578,7 @@ in order for it to be formatted.`,
       }
     };
     function od(W, Ge, An) {
-      return typeof W == 'function' ? (...$i) => W(...$i.slice(0, An - 1), Ge, ...$i.slice(An - 1)) : () => W;
+      return typeof W == 'function' ? (...Vi) => W(...Vi.slice(0, An - 1), Ge, ...Vi.slice(An - 1)) : () => W;
     }
     var xd = class extends jh {
         constructor(W) {
@@ -19606,36 +19616,36 @@ in order for it to be formatted.`,
         validate(W, Ge) {
           if (!Array.isArray(W)) return !1;
           let An = [];
-          for (let $i of W) {
-            let qi = Ge.normalizeValidateResult(this._valueSchema.validate($i, Ge), $i);
+          for (let Vi of W) {
+            let qi = Ge.normalizeValidateResult(this._valueSchema.validate(Vi, Ge), Vi);
             qi !== !0 && An.push(qi.value);
           }
           return An.length === 0 ? !0 : { value: An };
         }
         deprecated(W, Ge) {
           let An = [];
-          for (let $i of W) {
-            let qi = Ge.normalizeDeprecatedResult(this._valueSchema.deprecated($i, Ge), $i);
+          for (let Vi of W) {
+            let qi = Ge.normalizeDeprecatedResult(this._valueSchema.deprecated(Vi, Ge), Vi);
             qi !== !1 && An.push(...qi.map(({ value: el }) => ({ value: [el] })));
           }
           return An;
         }
         forward(W, Ge) {
           let An = [];
-          for (let $i of W) {
-            let qi = Ge.normalizeForwardResult(this._valueSchema.forward($i, Ge), $i);
+          for (let Vi of W) {
+            let qi = Ge.normalizeForwardResult(this._valueSchema.forward(Vi, Ge), Vi);
             An.push(...qi.map(Bd));
           }
           return An;
         }
         redirect(W, Ge) {
           let An = [],
-            $i = [];
+            Vi = [];
           for (let qi of W) {
             let el = Ge.normalizeRedirectResult(this._valueSchema.redirect(qi, Ge), qi);
-            'remain' in el && An.push(el.remain), $i.push(...el.redirect.map(Bd));
+            'remain' in el && An.push(el.remain), Vi.push(...el.redirect.map(Bd));
           }
-          return An.length === 0 ? { redirect: $i } : { redirect: $i, remain: An };
+          return An.length === 0 ? { redirect: Vi } : { redirect: Vi, remain: An };
         }
         overlap(W, Ge) {
           return W.concat(Ge);
@@ -19654,19 +19664,19 @@ in order for it to be formatted.`,
     };
     function $f(W, Ge) {
       let An = Object.create(null);
-      for (let $i of W) {
-        let qi = $i[Ge];
+      for (let Vi of W) {
+        let qi = Vi[Ge];
         if (An[qi]) throw new Error(`Duplicate ${Ge} ${JSON.stringify(qi)}`);
-        An[qi] = $i;
+        An[qi] = Vi;
       }
       return An;
     }
     function d0(W, Ge) {
       let An = new Map();
-      for (let $i of W) {
-        let qi = $i[Ge];
+      for (let Vi of W) {
+        let qi = Vi[Ge];
         if (An.has(qi)) throw new Error(`Duplicate ${Ge} ${JSON.stringify(qi)}`);
-        An.set(qi, $i);
+        An.set(qi, Vi);
       }
       return An;
     }
@@ -19679,9 +19689,9 @@ in order for it to be formatted.`,
     }
     function f0(W, Ge) {
       let An = [],
-        $i = [];
-      for (let qi of W) Ge(qi) ? An.push(qi) : $i.push(qi);
-      return [An, $i];
+        Vi = [];
+      for (let qi of W) Ge(qi) ? An.push(qi) : Vi.push(qi);
+      return [An, Vi];
     }
     function _f(W) {
       return W === Math.floor(W);
@@ -19689,10 +19699,10 @@ in order for it to be formatted.`,
     function sh(W, Ge) {
       if (W === Ge) return 0;
       let An = typeof W,
-        $i = typeof Ge,
+        Vi = typeof Ge,
         qi = ['undefined', 'object', 'boolean', 'number', 'string'];
-      return An !== $i
-        ? qi.indexOf(An) - qi.indexOf($i)
+      return An !== Vi
+        ? qi.indexOf(An) - qi.indexOf(Vi)
         : An !== 'string'
         ? Number(W) - Number(Ge)
         : W.localeCompare(Ge);
@@ -19757,9 +19767,9 @@ in order for it to be formatted.`,
               .sort(sh)
               .map(W.value),
             An = Ge.slice(0, -2),
-            $i = Ge.slice(-2);
+            Vi = Ge.slice(-2);
           return {
-            text: An.concat($i.join(' or ')).join(', '),
+            text: An.concat(Vi.join(' or ')).join(', '),
             list: { title: 'one of the following values', values: Ge },
           };
         }
@@ -19811,7 +19821,7 @@ in order for it to be formatted.`,
         constructor(W, Ge) {
           let {
             logger: An = console,
-            loggerPrintWidth: $i = 80,
+            loggerPrintWidth: Vi = 80,
             descriptor: qi = hd,
             unknown: el = mf,
             invalid: Cl = Uf,
@@ -19824,7 +19834,7 @@ in order for it to be formatted.`,
           (this._utils = {
             descriptor: qi,
             logger: An || { warn: () => {} },
-            loggerPrintWidth: $i,
+            loggerPrintWidth: Vi,
             schemas: $f(W, 'name'),
             normalizeDefaultResult: hf,
             normalizeExpectedResult: pf,
@@ -19848,14 +19858,14 @@ in order for it to be formatted.`,
         normalize(W) {
           let Ge = {},
             An = [this._preprocess(W, this._utils)],
-            $i = () => {
+            Vi = () => {
               for (; An.length !== 0; ) {
                 let qi = An.shift(),
                   el = this._applyNormalization(qi, Ge);
                 An.push(...el);
               }
             };
-          $i();
+          Vi();
           for (let qi of Object.keys(this._utils.schemas)) {
             let el = this._utils.schemas[qi];
             if (!(qi in Ge)) {
@@ -19863,7 +19873,7 @@ in order for it to be formatted.`,
               'value' in Cl && An.push({ [qi]: Cl.value });
             }
           }
-          $i();
+          Vi();
           for (let qi of Object.keys(this._utils.schemas)) {
             if (!(qi in Ge)) continue;
             let el = this._utils.schemas[qi],
@@ -19875,8 +19885,8 @@ in order for it to be formatted.`,
         }
         _applyNormalization(W, Ge) {
           let An = [],
-            { knownKeys: $i, unknownKeys: qi } = this._partitionOptionKeys(W);
-          for (let el of $i) {
+            { knownKeys: Vi, unknownKeys: qi } = this._partitionOptionKeys(W);
+          for (let el of Vi) {
             let Cl = this._utils.schemas[el],
               Sl = Cl.preprocess(W[el], this._utils);
             this._applyValidation(Sl, el, Cl);
@@ -19921,22 +19931,22 @@ in order for it to be formatted.`,
         }
         _partitionOptionKeys(W) {
           let [Ge, An] = f0(
-            Object.keys(W).filter(($i) => !this._identifyMissing($i, W)),
-            ($i) => $i in this._utils.schemas,
+            Object.keys(W).filter((Vi) => !this._identifyMissing(Vi, W)),
+            (Vi) => Vi in this._utils.schemas,
           );
           return { knownKeys: Ge, unknownKeys: An };
         }
         _applyValidation(W, Ge, An) {
-          let $i = jf(An.validate(W, this._utils), W);
-          if ($i !== !0) throw this._invalidHandler(Ge, $i.value, this._utils);
+          let Vi = jf(An.validate(W, this._utils), W);
+          if (Vi !== !0) throw this._invalidHandler(Ge, Vi.value, this._utils);
         }
-        _applyUnknownHandler(W, Ge, An, $i) {
+        _applyUnknownHandler(W, Ge, An, Vi) {
           let qi = this._unknownHandler(W, Ge, this._utils);
           if (qi)
             for (let el of Object.keys(qi)) {
               if (this._identifyMissing(el, qi)) continue;
               let Cl = qi[el];
-              el in this._utils.schemas ? $i(el, Cl) : (An[el] = Cl);
+              el in this._utils.schemas ? Vi(el, Cl) : (An[el] = Cl);
             }
         }
         _applyPostprocess(W) {
@@ -19944,12 +19954,12 @@ in order for it to be formatted.`,
           if (Ge !== Dd) {
             if (Ge.delete) for (let An of Ge.delete) delete W[An];
             if (Ge.override) {
-              let { knownKeys: An, unknownKeys: $i } = this._partitionOptionKeys(Ge.override);
+              let { knownKeys: An, unknownKeys: Vi } = this._partitionOptionKeys(Ge.override);
               for (let qi of An) {
                 let el = Ge.override[qi];
                 this._applyValidation(el, qi, this._utils.schemas[qi]), (W[qi] = el);
               }
-              for (let qi of $i) {
+              for (let qi of Vi) {
                 let el = Ge.override[qi];
                 this._applyUnknownHandler(qi, el, W, (Cl, Sl) => {
                   let Tl = this._utils.schemas[Cl];
@@ -19961,8 +19971,8 @@ in order for it to be formatted.`,
         }
       },
       Wd;
-    function y0(W, Ge, { logger: An = !1, isCLI: $i = !1, passThrough: qi = !1, FlagSchema: el, descriptor: Cl } = {}) {
-      if ($i) {
+    function y0(W, Ge, { logger: An = !1, isCLI: Vi = !1, passThrough: qi = !1, FlagSchema: el, descriptor: Cl } = {}) {
+      if (Vi) {
         if (!el) throw new Error("'FlagSchema' option is required.");
         if (!Cl) throw new Error("'descriptor' option is required.");
       } else Cl = cd;
@@ -19974,7 +19984,7 @@ in order for it to be formatted.`,
               let { _: nh, ...fh } = Vl.schemas;
               return Of(Ol, Xl, { ...Vl, schemas: fh });
             },
-        Tl = Ud(Ge, { isCLI: $i, FlagSchema: el }),
+        Tl = Ud(Ge, { isCLI: Vi, FlagSchema: el }),
         Ml = new Kf(Tl, { logger: An, unknown: Sl, descriptor: Cl }),
         $l = An !== !1;
       $l && Wd && (Ml._hasDeprecationWarned = Wd);
@@ -19982,14 +19992,14 @@ in order for it to be formatted.`,
       return $l && (Wd = Ml._hasDeprecationWarned), Ql;
     }
     function Ud(W, { isCLI: Ge, FlagSchema: An }) {
-      let $i = [];
-      Ge && $i.push(h0.create({ name: '_' }));
+      let Vi = [];
+      Ge && Vi.push(h0.create({ name: '_' }));
       for (let qi of W)
-        $i.push(D0(qi, { isCLI: Ge, optionInfos: W, FlagSchema: An })),
-          qi.alias && Ge && $i.push(xd.create({ name: qi.alias, sourceName: qi.name }));
-      return $i;
+        Vi.push(D0(qi, { isCLI: Ge, optionInfos: W, FlagSchema: An })),
+          qi.alias && Ge && Vi.push(xd.create({ name: qi.alias, sourceName: qi.name }));
+      return Vi;
     }
-    function D0(W, { isCLI: Ge, optionInfos: An, FlagSchema: $i }) {
+    function D0(W, { isCLI: Ge, optionInfos: An, FlagSchema: Vi }) {
       let { name: qi } = W,
         el = { name: qi },
         Cl,
@@ -20011,7 +20021,7 @@ in order for it to be formatted.`,
           Cl = Lf;
           break;
         case 'flag':
-          (Cl = $i),
+          (Cl = Vi),
             (el.flags = An.flatMap((Tl) =>
               [Tl.alias, Tl.description && Tl.name, Tl.oppositeDescription && `no-${Tl.name}`].filter(Boolean),
             ));
@@ -20045,8 +20055,8 @@ in order for it to be formatted.`,
     var x0 = y0;
     function Nd(W, Ge) {
       if (!Ge) throw new Error('parserName is required.');
-      for (let $i = W.length - 1; $i >= 0; $i--) {
-        let qi = W[$i];
+      for (let Vi = W.length - 1; Vi >= 0; Vi--) {
+        let qi = W[Vi];
         if (qi.parsers && Object.prototype.hasOwnProperty.call(qi.parsers, Ge)) return qi;
       }
       let An = `Couldn't resolve parser "${Ge}".`;
@@ -20054,8 +20064,8 @@ in order for it to be formatted.`,
     }
     function C0(W, Ge) {
       if (!Ge) throw new Error('astFormat is required.');
-      for (let $i = W.length - 1; $i >= 0; $i--) {
-        let qi = W[$i];
+      for (let Vi = W.length - 1; Vi >= 0; Vi--) {
+        let qi = W[Vi];
         if (qi.printers && Object.prototype.hasOwnProperty.call(qi.printers, Ge)) return qi;
       }
       let An = `Couldn't find plugin for AST format "${Ge}".`;
@@ -20076,29 +20086,29 @@ in order for it to be formatted.`,
     var Gf = { astFormat: 'estree', printer: {}, originalText: void 0, locStart: null, locEnd: null };
     async function gf(W, Ge = {}) {
       var An;
-      let $i = { ...W };
-      if (!$i.parser)
-        if ($i.filepath) {
-          if ((($i.parser = yd($i, { physicalFile: $i.filepath })), !$i.parser))
-            throw new Tf(`No parser could be inferred for file "${$i.filepath}".`);
+      let Vi = { ...W };
+      if (!Vi.parser)
+        if (Vi.filepath) {
+          if (((Vi.parser = yd(Vi, { physicalFile: Vi.filepath })), !Vi.parser))
+            throw new Tf(`No parser could be inferred for file "${Vi.filepath}".`);
         } else throw new Tf("No parser and no file path given, couldn't infer a parser.");
       let qi = kf({ plugins: W.plugins, showDeprecated: !0 }).options,
         el = {
           ...Gf,
           ...Object.fromEntries(qi.filter((Ol) => Ol.default !== void 0).map((Ol) => [Ol.name, Ol.default])),
         },
-        Cl = Nd($i.plugins, $i.parser),
-        Sl = await Id(Cl, $i.parser);
-      ($i.astFormat = Sl.astFormat), ($i.locEnd = Sl.locEnd), ($i.locStart = Sl.locStart);
-      let Tl = (An = Cl.printers) != null && An[Sl.astFormat] ? Cl : C0($i.plugins, Sl.astFormat),
+        Cl = Nd(Vi.plugins, Vi.parser),
+        Sl = await Id(Cl, Vi.parser);
+      (Vi.astFormat = Sl.astFormat), (Vi.locEnd = Sl.locEnd), (Vi.locStart = Sl.locStart);
+      let Tl = (An = Cl.printers) != null && An[Sl.astFormat] ? Cl : C0(Vi.plugins, Sl.astFormat),
         Ml = await E0(Tl, Sl.astFormat);
-      $i.printer = Ml;
+      Vi.printer = Ml;
       let $l = Tl.defaultOptions
           ? Object.fromEntries(Object.entries(Tl.defaultOptions).filter(([, Ol]) => Ol !== void 0))
           : {},
         Ql = { ...el, ...$l };
-      for (let [Ol, Xl] of Object.entries(Ql)) ($i[Ol] === null || $i[Ol] === void 0) && ($i[Ol] = Xl);
-      return $i.parser === 'json' && ($i.trailingComma = 'none'), x0($i, qi, { passThrough: Object.keys(Gf), ...Ge });
+      for (let [Ol, Xl] of Object.entries(Ql)) (Vi[Ol] === null || Vi[Ol] === void 0) && (Vi[Ol] = Xl);
+      return Vi.parser === 'json' && (Vi.trailingComma = 'none'), x0(Vi, qi, { passThrough: Object.keys(Gf), ...Ge });
     }
     var Cd = gf,
       Yf = new Set(['tokens', 'comments', 'parent', 'enclosingNode', 'precedingNode', 'followingNode']),
@@ -20109,10 +20119,10 @@ in order for it to be formatted.`,
     var Md = b0;
     function Od(W, Ge) {
       let {
-        printer: { massageAstNode: An, getVisitorKeys: $i },
+        printer: { massageAstNode: An, getVisitorKeys: Vi },
       } = Ge;
       if (!An) return W;
-      let qi = Md($i),
+      let qi = Md(Vi),
         el = An.ignoredProperties ?? new Set();
       return Cl(W);
       function Cl(Sl, Tl) {
@@ -20132,25 +20142,25 @@ in order for it to be formatted.`,
       Qf = V(Fl(), 1);
     async function g(W, Ge) {
       let An = await Jf(Ge),
-        $i = An.preprocess ? An.preprocess(W, Ge) : W;
-      Ge.originalText = $i;
+        Vi = An.preprocess ? An.preprocess(W, Ge) : W;
+      Ge.originalText = Vi;
       let qi;
       try {
-        qi = await An.parse($i, Ge, Ge);
+        qi = await An.parse(Vi, Ge, Ge);
       } catch (el) {
         u(el, W);
       }
-      return { text: $i, ast: qi };
+      return { text: Vi, ast: qi };
     }
     function u(W, Ge) {
       let { loc: An } = W;
       if (An) {
-        let $i = (0, Qf.codeFrameColumns)(Ge, An, { highlightCode: !0 });
+        let Vi = (0, Qf.codeFrameColumns)(Ge, An, { highlightCode: !0 });
         throw (
           ((W.message +=
             `
-` + $i),
-          (W.codeFrame = $i),
+` + Vi),
+          (W.codeFrame = Vi),
           W)
         );
       }
@@ -20230,41 +20240,41 @@ in order for it to be formatted.`,
         }
         call(W, ...Ge) {
           let { stack: An } = this,
-            { length: $i } = An,
+            { length: Vi } = An,
             qi = Ih(!1, An, -1);
           for (let el of Ge) (qi = qi[el]), An.push(el, qi);
           try {
             return W(this);
           } finally {
-            An.length = $i;
+            An.length = Vi;
           }
         }
         callParent(W, Ge = 0) {
           let An = ar(this, _, Be).call(this, Ge + 1),
-            $i = this.stack.splice(An + 1);
+            Vi = this.stack.splice(An + 1);
           try {
             return W(this);
           } finally {
-            this.stack.push(...$i);
+            this.stack.push(...Vi);
           }
         }
         each(W, ...Ge) {
           let { stack: An } = this,
-            { length: $i } = An,
+            { length: Vi } = An,
             qi = Ih(!1, An, -1);
           for (let el of Ge) (qi = qi[el]), An.push(el, qi);
           try {
             for (let el = 0; el < qi.length; ++el) An.push(el, qi[el]), W(this, el, qi), (An.length -= 2);
           } finally {
-            An.length = $i;
+            An.length = Vi;
           }
         }
         map(W, ...Ge) {
           let An = [];
           return (
             this.each(
-              ($i, qi, el) => {
-                An[qi] = W($i, qi, el);
+              (Vi, qi, el) => {
+                An[qi] = W(Vi, qi, el);
               },
               ...Ge,
             ),
@@ -20274,16 +20284,16 @@ in order for it to be formatted.`,
         match(...W) {
           let Ge = this.stack.length - 1,
             An = null,
-            $i = this.stack[Ge--];
+            Vi = this.stack[Ge--];
           for (let qi of W) {
-            if ($i === void 0) return !1;
+            if (Vi === void 0) return !1;
             let el = null;
             if (
-              (typeof An == 'number' && ((el = An), (An = this.stack[Ge--]), ($i = this.stack[Ge--])),
-              qi && !qi($i, An, el))
+              (typeof An == 'number' && ((el = An), (An = this.stack[Ge--]), (Vi = this.stack[Ge--])),
+              qi && !qi(Vi, An, el))
             )
               return !1;
-            (An = this.stack[Ge--]), ($i = this.stack[Ge--]);
+            (An = this.stack[Ge--]), (Vi = this.stack[Ge--]);
           }
           return !0;
         }
@@ -20313,8 +20323,8 @@ in order for it to be formatted.`,
       Dl = new Proxy(() => {}, { get: () => Dl }),
       jl = Dl;
     function Zl(W) {
-      return (Ge, An, $i) => {
-        let qi = !!($i != null && $i.backwards);
+      return (Ge, An, Vi) => {
+        let qi = !!(Vi != null && Vi.backwards);
         if (An === !1) return !1;
         let { length: el } = Ge,
           Cl = An;
@@ -20333,10 +20343,10 @@ in order for it to be formatted.`,
       Ph = Zl(',; 	'),
       Th = Zl(/[^\n\r]/);
     function Oh(W, Ge, An) {
-      let $i = !!(An != null && An.backwards);
+      let Vi = !!(An != null && An.backwards);
       if (Ge === !1) return !1;
       let qi = W.charAt(Ge);
-      if ($i) {
+      if (Vi) {
         if (
           W.charAt(Ge - 1) === '\r' &&
           qi ===
@@ -20375,9 +20385,9 @@ in order for it to be formatted.`,
     }
     var rl = Oh;
     function oh(W, Ge, An = {}) {
-      let $i = rh(W, An.backwards ? Ge - 1 : Ge, An),
-        qi = rl(W, $i, An);
-      return $i !== qi;
+      let Vi = rh(W, An.backwards ? Ge - 1 : Ge, An),
+        qi = rl(W, Vi, An);
+      return Vi !== qi;
     }
     var Vh = oh;
     function Ld(W) {
@@ -20389,8 +20399,8 @@ in order for it to be formatted.`,
     }
     var eh = e0;
     function* dn(W, Ge) {
-      let { getVisitorKeys: An, filter: $i = () => !0 } = Ge,
-        qi = (el) => eh(el) && $i(el);
+      let { getVisitorKeys: An, filter: Vi = () => !0 } = Ge,
+        qi = (el) => eh(el) && Vi(el);
       for (let el of An(W)) {
         let Cl = W[el];
         if (Array.isArray(Cl)) for (let Sl of Cl) qi(Sl) && (yield Sl);
@@ -20399,8 +20409,8 @@ in order for it to be formatted.`,
     }
     function* Xi(W, Ge) {
       let An = [W];
-      for (let $i = 0; $i < An.length; $i++) {
-        let qi = An[$i];
+      for (let Vi = 0; Vi < An.length; Vi++) {
+        let qi = An[Vi];
         for (let el of dn(qi, Ge)) yield el, An.push(el);
       }
     }
@@ -20432,17 +20442,17 @@ in order for it to be formatted.`,
     function w0(W, Ge) {
       if (S0.has(W)) return S0.get(W);
       let {
-        printer: { getCommentChildNodes: An, canAttachComment: $i, getVisitorKeys: qi },
+        printer: { getCommentChildNodes: An, canAttachComment: Vi, getVisitorKeys: qi },
         locStart: el,
         locEnd: Cl,
       } = Ge;
-      if (!$i) return [];
+      if (!Vi) return [];
       let Sl = ((An == null ? void 0 : An(W, Ge)) ?? [...dn(W, { getVisitorKeys: Md(qi) })]).flatMap((Tl) =>
-        $i(Tl) ? [Tl] : w0(Tl, Ge),
+        Vi(Tl) ? [Tl] : w0(Tl, Ge),
       );
       return Sl.sort((Tl, Ml) => el(Tl) - el(Ml) || Cl(Tl) - Cl(Ml)), S0.set(W, Sl), Sl;
     }
-    function $0(W, Ge, An, $i) {
+    function $0(W, Ge, An, Vi) {
       let { locStart: qi, locEnd: el } = An,
         Cl = qi(Ge),
         Sl = el(Ge),
@@ -20467,18 +20477,18 @@ in order for it to be formatted.`,
         }
         throw new Error('Comment location overlaps with node location');
       }
-      if (($i == null ? void 0 : $i.type) === 'TemplateLiteral') {
-        let { quasis: Xl } = $i,
+      if ((Vi == null ? void 0 : Vi.type) === 'TemplateLiteral') {
+        let { quasis: Xl } = Vi,
           Vl = T0(Xl, Ge, An);
         Ml && T0(Xl, Ml, An) !== Vl && (Ml = null), $l && T0(Xl, $l, An) !== Vl && ($l = null);
       }
-      return { enclosingNode: $i, precedingNode: Ml, followingNode: $l };
+      return { enclosingNode: Vi, precedingNode: Ml, followingNode: $l };
     }
     var F0 = () => !1;
     function om(W, Ge) {
       let { comments: An } = W;
       if ((delete W.comments, !Zf(An) || !Ge.printer.canAttachComment)) return;
-      let $i = [],
+      let Vi = [],
         {
           locStart: qi,
           locEnd: el,
@@ -20534,32 +20544,32 @@ in order for it to be formatted.`,
           (nh.placement = 'endOfLine'), $l(...zh) || (fh ? ad(fh, nh) : Eh ? Ch(Eh, nh) : Uh(vh || Nh, nh));
         else if (((nh.placement = 'remaining'), !Ql(...zh)))
           if (fh && Eh) {
-            let Gh = $i.length;
-            Gh > 0 && $i[Gh - 1].followingNode !== Eh && _0($i, Bh), $i.push(Vl);
+            let Gh = Vi.length;
+            Gh > 0 && Vi[Gh - 1].followingNode !== Eh && _0(Vi, Bh), Vi.push(Vl);
           } else fh ? ad(fh, nh) : Eh ? Ch(Eh, nh) : Uh(vh || Nh, nh);
       }
-      if ((_0($i, Ge), !Cl))
+      if ((_0(Vi, Ge), !Cl))
         for (let Xl of An) delete Xl.precedingNode, delete Xl.enclosingNode, delete Xl.followingNode;
     }
     var R0 = (W) => !/[\S\n\u2028\u2029]/.test(W);
-    function am(W, Ge, An, $i) {
-      let { comment: qi, precedingNode: el } = An[$i],
+    function am(W, Ge, An, Vi) {
+      let { comment: qi, precedingNode: el } = An[Vi],
         { locStart: Cl, locEnd: Sl } = Ge,
         Tl = Cl(qi);
       if (el)
-        for (let Ml = $i - 1; Ml >= 0; Ml--) {
+        for (let Ml = Vi - 1; Ml >= 0; Ml--) {
           let { comment: $l, precedingNode: Ql } = An[Ml];
           if (Ql !== el || !R0(W.slice(Sl($l), Tl))) break;
           Tl = Cl($l);
         }
       return Vh(W, Tl, { backwards: !0 });
     }
-    function lm(W, Ge, An, $i) {
-      let { comment: qi, followingNode: el } = An[$i],
+    function lm(W, Ge, An, Vi) {
+      let { comment: qi, followingNode: el } = An[Vi],
         { locStart: Cl, locEnd: Sl } = Ge,
         Tl = Sl(qi);
       if (el)
-        for (let Ml = $i + 1; Ml < An.length; Ml++) {
+        for (let Ml = Vi + 1; Ml < An.length; Ml++) {
           let { comment: $l, followingNode: Ql } = An[Ml];
           if (Ql !== el || !R0(W.slice(Tl, Cl($l)))) break;
           Tl = Sl($l);
@@ -20567,7 +20577,7 @@ in order for it to be formatted.`,
       return Vh(W, Tl);
     }
     function _0(W, Ge) {
-      var An, $i;
+      var An, Vi;
       let qi = W.length;
       if (qi === 0) return;
       let { precedingNode: el, followingNode: Cl } = W[0],
@@ -20577,7 +20587,7 @@ in order for it to be formatted.`,
         let { comment: Ml, precedingNode: $l, followingNode: Ql } = W[Tl - 1];
         jl.strictEqual($l, el), jl.strictEqual(Ql, Cl);
         let Ol = Ge.originalText.slice(Ge.locEnd(Ml), Sl);
-        if ((($i = (An = Ge.printer).isGap) == null ? void 0 : $i.call(An, Ol, Ge)) ?? /^[\s(]*$/.test(Ol))
+        if (((Vi = (An = Ge.printer).isGap) == null ? void 0 : Vi.call(An, Ol, Ge)) ?? /^[\s(]*$/.test(Ol))
           Sl = Ge.locStart(Ml);
         else break;
       }
@@ -20587,15 +20597,15 @@ in order for it to be formatted.`,
       W.length = 0;
     }
     function T0(W, Ge, An) {
-      let $i = An.locStart(Ge) - 1;
-      for (let qi = 1; qi < W.length; ++qi) if ($i < An.locStart(W[qi])) return qi - 1;
+      let Vi = An.locStart(Ge) - 1;
+      for (let qi = 1; qi < W.length; ++qi) if (Vi < An.locStart(W[qi])) return qi - 1;
       return 0;
     }
     function um(W, Ge) {
       let An = Ge - 1;
       (An = rh(W, An, { backwards: !0 })), (An = rl(W, An, { backwards: !0 })), (An = rh(W, An, { backwards: !0 }));
-      let $i = rl(W, An, { backwards: !0 });
-      return An !== $i;
+      let Vi = rl(W, An, { backwards: !0 });
+      return An !== Vi;
     }
     var k0 = um;
     function j0(W, Ge) {
@@ -20604,22 +20614,22 @@ in order for it to be formatted.`,
     }
     function cm(W, Ge) {
       var An;
-      let $i = W.node,
+      let Vi = W.node,
         qi = [j0(W, Ge)],
         { printer: el, originalText: Cl, locStart: Sl, locEnd: Tl } = Ge;
-      if ((An = el.isBlockComment) != null && An.call(el, $i)) {
-        let $l = Vh(Cl, Tl($i)) ? (Vh(Cl, Sl($i), { backwards: !0 }) ? Wh : Rh) : ' ';
+      if ((An = el.isBlockComment) != null && An.call(el, Vi)) {
+        let $l = Vh(Cl, Tl(Vi)) ? (Vh(Cl, Sl(Vi), { backwards: !0 }) ? Wh : Rh) : ' ';
         qi.push($l);
       } else qi.push(Wh);
-      let Ml = rl(Cl, rh(Cl, Tl($i)));
+      let Ml = rl(Cl, rh(Cl, Tl(Vi)));
       return Ml !== !1 && Vh(Cl, Ml) && qi.push(Wh), qi;
     }
     function hm(W, Ge, An) {
-      var $i;
+      var Vi;
       let qi = W.node,
         el = j0(W, Ge),
         { printer: Cl, originalText: Sl, locStart: Tl } = Ge,
-        Ml = ($i = Cl.isBlockComment) == null ? void 0 : $i.call(Cl, qi);
+        Ml = (Vi = Cl.isBlockComment) == null ? void 0 : Vi.call(Cl, qi);
       if ((An != null && An.hasLineSuffix && !(An != null && An.isBlock)) || Vh(Sl, Tl(qi), { backwards: !0 })) {
         let $l = k0(Sl, Tl(qi));
         return { doc: Lh([Wh, $l ? Wh : '', el]), isBlock: Ml, hasLineSuffix: !0 };
@@ -20631,15 +20641,15 @@ in order for it to be formatted.`,
     function pm(W, Ge) {
       let An = W.node;
       if (!An) return {};
-      let $i = Ge[Symbol.for('printedComments')];
-      if ((An.comments || []).filter((Sl) => !$i.has(Sl)).length === 0) return { leading: '', trailing: '' };
+      let Vi = Ge[Symbol.for('printedComments')];
+      if ((An.comments || []).filter((Sl) => !Vi.has(Sl)).length === 0) return { leading: '', trailing: '' };
       let qi = [],
         el = [],
         Cl;
       return (
         W.each(() => {
           let Sl = W.node;
-          if ($i != null && $i.has(Sl)) return;
+          if (Vi != null && Vi.has(Sl)) return;
           let { leading: Tl, trailing: Ml } = Sl;
           Tl ? qi.push(cm(W, Ge)) : Ml && ((Cl = hm(W, Ge, Cl)), el.push(Cl.doc));
         }, 'comments'),
@@ -20647,18 +20657,18 @@ in order for it to be formatted.`,
       );
     }
     function dm(W, Ge, An) {
-      let { leading: $i, trailing: qi } = pm(W, An);
-      return !$i && !qi ? Ge : tf(Ge, (el) => [$i, el, qi]);
+      let { leading: Vi, trailing: qi } = pm(W, An);
+      return !Vi && !qi ? Ge : tf(Ge, (el) => [Vi, el, qi]);
     }
     function fm(W) {
       let { [Symbol.for('comments')]: Ge, [Symbol.for('printedComments')]: An } = W;
-      for (let $i of Ge) {
-        if (!$i.printed && !An.has($i))
-          throw new Error('Comment "' + $i.value.trim() + '" was not printed. Please report this error!');
-        delete $i.printed;
+      for (let Vi of Ge) {
+        if (!Vi.printed && !An.has(Vi))
+          throw new Error('Comment "' + Vi.value.trim() + '" was not printed. Please report this error!');
+        delete Vi.printed;
       }
     }
-    async function mm(W, Ge, An, $i, qi) {
+    async function mm(W, Ge, An, Vi, qi) {
       let {
         embeddedLanguageFormatting: el,
         printer: { embed: Cl, hasPrettierIgnore: Sl = () => !1, getVisitorKeys: Tl },
@@ -20682,7 +20692,7 @@ in order for it to be formatted.`,
         }
       W.stack = Ql;
       function Ol(Vl, nh) {
-        return gm(Vl, nh, An, $i);
+        return gm(Vl, nh, An, Vi);
       }
       function Xl() {
         let { node: Vl } = W;
@@ -20698,16 +20708,16 @@ in order for it to be formatted.`,
         }
       }
     }
-    async function gm(W, Ge, An, $i) {
+    async function gm(W, Ge, An, Vi) {
       let qi = await Cd({ ...An, ...Ge, parentParser: An.parser, originalText: W }, { passThrough: !0 }),
         { ast: el } = await N(W, qi),
-        Cl = await $i(el, qi);
+        Cl = await Vi(el, qi);
       return Zd(Cl);
     }
     function ym(W, Ge) {
       let {
           originalText: An,
-          [Symbol.for('comments')]: $i,
+          [Symbol.for('comments')]: Vi,
           locStart: qi,
           locEnd: el,
           [Symbol.for('printedComments')]: Cl,
@@ -20715,35 +20725,35 @@ in order for it to be formatted.`,
         { node: Sl } = W,
         Tl = qi(Sl),
         Ml = el(Sl);
-      for (let $l of $i) qi($l) >= Tl && el($l) <= Ml && Cl.add($l);
+      for (let $l of Vi) qi($l) >= Tl && el($l) <= Ml && Cl.add($l);
       return An.slice(Tl, Ml);
     }
     var Dm = ym;
     async function A0(W, Ge) {
       ({ ast: W } = await H0(W, Ge));
       let An = new Map(),
-        $i = new xl(W),
+        Vi = new xl(W),
         qi = new Map();
-      await mm($i, Cl, Ge, A0, qi);
-      let el = await V0($i, Ge, Cl, void 0, qi);
+      await mm(Vi, Cl, Ge, A0, qi);
+      let el = await V0(Vi, Ge, Cl, void 0, qi);
       return fm(Ge), el;
       function Cl(Tl, Ml) {
-        return Tl === void 0 || Tl === $i
+        return Tl === void 0 || Tl === Vi
           ? Sl(Ml)
           : Array.isArray(Tl)
-          ? $i.call(() => Sl(Ml), ...Tl)
-          : $i.call(() => Sl(Ml), Tl);
+          ? Vi.call(() => Sl(Ml), ...Tl)
+          : Vi.call(() => Sl(Ml), Tl);
       }
       function Sl(Tl) {
-        let Ml = $i.node;
+        let Ml = Vi.node;
         if (Ml == null) return '';
         let $l = Ml && typeof Ml == 'object' && Tl === void 0;
         if ($l && An.has(Ml)) return An.get(Ml);
-        let Ql = V0($i, Ge, Cl, Tl, qi);
+        let Ql = V0(Vi, Ge, Cl, Tl, qi);
         return $l && An.set(Ml, Ql), Ql;
       }
     }
-    function V0(W, Ge, An, $i, qi) {
+    function V0(W, Ge, An, Vi, qi) {
       var el;
       let { node: Cl } = W,
         { printer: Sl } = Ge,
@@ -20753,7 +20763,7 @@ in order for it to be formatted.`,
           ? (Tl = Dm(W, Ge))
           : qi.has(Cl)
           ? (Tl = qi.get(Cl))
-          : (Tl = Sl.print(W, Ge, An, $i)),
+          : (Tl = Sl.print(W, Ge, An, Vi)),
         Cl === Ge.cursorNode && (Tl = tf(Tl, (Ml) => [$d, Ml, $d])),
         Sl.printComment && (!Sl.willPrintOwnComments || !Sl.willPrintOwnComments(W, Ge)) && (Tl = dm(W, Tl, Ge)),
         Tl
@@ -20766,15 +20776,15 @@ in order for it to be formatted.`,
         (Ge[Symbol.for('printedComments')] = new Set()),
         om(W, Ge);
       let {
-        printer: { preprocess: $i },
+        printer: { preprocess: Vi },
       } = Ge;
-      return (W = $i ? await $i(W, Ge) : W), { ast: W, comments: An };
+      return (W = Vi ? await Vi(W, Ge) : W), { ast: W, comments: An };
     }
     var xm = ({ parser: W }) => W === 'json' || W === 'json5' || W === 'json-stringify';
     function Cm(W, Ge) {
       let An = [W.node, ...W.parentNodes],
-        $i = new Set([Ge.node, ...Ge.parentNodes]);
-      return An.find((qi) => W0.has(qi.type) && $i.has(qi));
+        Vi = new Set([Ge.node, ...Ge.parentNodes]);
+      return An.find((qi) => W0.has(qi.type) && Vi.has(qi));
     }
     function z0(W) {
       let Ge = W.length - 1;
@@ -20785,7 +20795,7 @@ in order for it to be formatted.`,
       }
       return W.slice(0, Ge + 1);
     }
-    function Em(W, Ge, { locStart: An, locEnd: $i }) {
+    function Em(W, Ge, { locStart: An, locEnd: Vi }) {
       let qi = W.node,
         el = Ge.node;
       if (qi === el) return { startNode: qi, endNode: el };
@@ -20793,24 +20803,24 @@ in order for it to be formatted.`,
       for (let Tl of z0(Ge.parentNodes))
         if (An(Tl) >= Cl) el = Tl;
         else break;
-      let Sl = $i(Ge.node);
+      let Sl = Vi(Ge.node);
       for (let Tl of z0(W.parentNodes)) {
-        if ($i(Tl) <= Sl) qi = Tl;
+        if (Vi(Tl) <= Sl) qi = Tl;
         else break;
         if (qi === el) break;
       }
       return { startNode: qi, endNode: el };
     }
-    function P0(W, Ge, An, $i, qi = [], el) {
+    function P0(W, Ge, An, Vi, qi = [], el) {
       let { locStart: Cl, locEnd: Sl } = An,
         Tl = Cl(W),
         Ml = Sl(W);
       if (!(Ge > Ml || Ge < Tl || (el === 'rangeEnd' && Ge === Tl) || (el === 'rangeStart' && Ge === Ml))) {
         for (let $l of w0(W, An)) {
-          let Ql = P0($l, Ge, An, $i, [W, ...qi], el);
+          let Ql = P0($l, Ge, An, Vi, [W, ...qi], el);
           if (Ql) return Ql;
         }
-        if (!$i || $i(W, qi[0])) return { node: W, parentNodes: qi };
+        if (!Vi || Vi(W, qi[0])) return { node: W, parentNodes: qi };
       }
     }
     function bm(W, Ge) {
@@ -20880,12 +20890,12 @@ in order for it to be formatted.`,
       return !1;
     }
     function vm(W, Ge, An) {
-      let { rangeStart: $i, rangeEnd: qi, locStart: el, locEnd: Cl } = Ge;
-      jl.ok(qi > $i);
-      let Sl = W.slice($i, qi).search(/\S/),
+      let { rangeStart: Vi, rangeEnd: qi, locStart: el, locEnd: Cl } = Ge;
+      jl.ok(qi > Vi);
+      let Sl = W.slice(Vi, qi).search(/\S/),
         Tl = Sl === -1;
-      if (!Tl) for ($i += Sl; qi > $i && !/\S/.test(W[qi - 1]); --qi);
-      let Ml = P0(An, $i, Ge, (Xl, Vl) => U0(Ge, Xl, Vl), [], 'rangeStart'),
+      if (!Tl) for (Vi += Sl; qi > Vi && !/\S/.test(W[qi - 1]); --qi);
+      let Ml = P0(An, Vi, Ge, (Xl, Vl) => U0(Ge, Xl, Vl), [], 'rangeStart'),
         $l = Tl ? Ml : P0(An, qi, Ge, (Xl) => U0(Ge, Xl), [], 'rangeEnd');
       if (!Ml || !$l) return { rangeStart: 0, rangeEnd: 0 };
       let Ql, Ol;
@@ -20896,9 +20906,9 @@ in order for it to be formatted.`,
       return { rangeStart: Math.min(el(Ql), el(Ol)), rangeEnd: Math.max(Cl(Ql), Cl(Ol)) };
     }
     function Sm(W, Ge) {
-      let { cursorOffset: An, locStart: $i, locEnd: qi } = Ge,
+      let { cursorOffset: An, locStart: Vi, locEnd: qi } = Ge,
         el = Md(Ge.printer.getVisitorKeys),
-        Cl = (Tl) => $i(Tl) <= An && qi(Tl) >= An,
+        Cl = (Tl) => Vi(Tl) <= An && qi(Tl) >= An,
         Sl = W;
       for (let Tl of Xi(W, { getVisitorKeys: el, filter: Cl })) Sl = Tl;
       return Sl;
@@ -20908,9 +20918,9 @@ in order for it to be formatted.`,
       K0 = Symbol('cursor');
     async function J0(W, Ge, An = 0) {
       if (!W || W.trim().length === 0) return { formatted: '', cursorOffset: -1, comments: [] };
-      let { ast: $i, text: qi } = await N(W, Ge);
-      Ge.cursorOffset >= 0 && (Ge.cursorNode = wm($i, Ge));
-      let el = await A0($i, Ge);
+      let { ast: Vi, text: qi } = await N(W, Ge);
+      Ge.cursorOffset >= 0 && (Ge.cursorNode = wm(Vi, Ge));
+      let el = await A0(Vi, Ge);
       An > 0 && (el = Kd([Wh, el], An, Ge.tabWidth));
       let Cl = Jh(el, Ge);
       if (An > 0) {
@@ -20946,18 +20956,18 @@ in order for it to be formatted.`,
       return { formatted: Cl.formatted, cursorOffset: -1, comments: Sl };
     }
     async function Fm(W, Ge) {
-      let { ast: An, text: $i } = await N(W, Ge),
-        { rangeStart: qi, rangeEnd: el } = vm($i, Ge, An),
-        Cl = $i.slice(qi, el),
+      let { ast: An, text: Vi } = await N(W, Ge),
+        { rangeStart: qi, rangeEnd: el } = vm(Vi, Ge, An),
+        Cl = Vi.slice(qi, el),
         Sl = Math.min(
           qi,
-          $i.lastIndexOf(
+          Vi.lastIndexOf(
             `
 `,
             qi,
           ) + 1,
         ),
-        Tl = $i.slice(Sl, qi).match(/^\s*/)[0],
+        Tl = Vi.slice(Sl, qi).match(/^\s*/)[0],
         Ml = md(Tl, Ge.tabWidth),
         $l = await J0(
           Cl,
@@ -20973,7 +20983,7 @@ in order for it to be formatted.`,
         Ql = $l.formatted.trimEnd(),
         { cursorOffset: Ol } = Ge;
       Ol > el ? (Ol += Ql.length - Cl.length) : $l.cursorOffset >= 0 && (Ol = $l.cursorOffset + qi);
-      let Xl = $i.slice(0, qi) + Ql + $i.slice(el);
+      let Xl = Vi.slice(0, qi) + Ql + Vi.slice(el);
       if (Ge.endOfLine !== 'lf') {
         let Vl = _d(Ge.endOfLine);
         Ol >= 0 &&
@@ -20999,30 +21009,30 @@ in order for it to be formatted.`,
       return typeof Ge != 'number' || Number.isNaN(Ge) || Ge < 0 || Ge > W.length ? An : Ge;
     }
     function G0(W, Ge) {
-      let { cursorOffset: An, rangeStart: $i, rangeEnd: qi } = Ge;
+      let { cursorOffset: An, rangeStart: Vi, rangeEnd: qi } = Ge;
       return (
         (An = B0(W, An, -1)),
-        ($i = B0(W, $i, 0)),
+        (Vi = B0(W, Vi, 0)),
         (qi = B0(W, qi, W.length)),
-        { ...Ge, cursorOffset: An, rangeStart: $i, rangeEnd: qi }
+        { ...Ge, cursorOffset: An, rangeStart: Vi, rangeEnd: qi }
       );
     }
     function Y0(W, Ge) {
-      let { cursorOffset: An, rangeStart: $i, rangeEnd: qi, endOfLine: el } = G0(W, Ge),
+      let { cursorOffset: An, rangeStart: Vi, rangeEnd: qi, endOfLine: el } = G0(W, Ge),
         Cl = W.charAt(0) === q0;
-      if ((Cl && ((W = W.slice(1)), An--, $i--, qi--), el === 'auto' && (el = Gd(W)), W.includes('\r'))) {
+      if ((Cl && ((W = W.slice(1)), An--, Vi--, qi--), el === 'auto' && (el = Gd(W)), W.includes('\r'))) {
         let Sl = (Tl) =>
           uh(
             W.slice(0, Math.max(Tl, 0)),
             `\r
 `,
           );
-        (An -= Sl(An)), ($i -= Sl($i)), (qi -= Sl(qi)), (W = dd(W));
+        (An -= Sl(An)), (Vi -= Sl(Vi)), (qi -= Sl(qi)), (W = dd(W));
       }
       return {
         hasBOM: Cl,
         text: W,
-        options: G0(W, { ...Ge, cursorOffset: An, rangeStart: $i, rangeEnd: qi, endOfLine: el }),
+        options: G0(W, { ...Ge, cursorOffset: An, rangeStart: Vi, rangeEnd: qi, endOfLine: el }),
       };
     }
     async function X0(W, Ge) {
@@ -21030,26 +21040,26 @@ in order for it to be formatted.`,
       return !An.hasPragma || An.hasPragma(W);
     }
     async function Q0(W, Ge) {
-      let { hasBOM: An, text: $i, options: qi } = Y0(W, await Cd(Ge));
-      if ((qi.rangeStart >= qi.rangeEnd && $i !== '') || (qi.requirePragma && !(await X0($i, qi))))
+      let { hasBOM: An, text: Vi, options: qi } = Y0(W, await Cd(Ge));
+      if ((qi.rangeStart >= qi.rangeEnd && Vi !== '') || (qi.requirePragma && !(await X0(Vi, qi))))
         return { formatted: W, cursorOffset: Ge.cursorOffset, comments: [] };
       let el;
       return (
-        qi.rangeStart > 0 || qi.rangeEnd < $i.length
-          ? (el = await Fm($i, qi))
+        qi.rangeStart > 0 || qi.rangeEnd < Vi.length
+          ? (el = await Fm(Vi, qi))
           : (!qi.requirePragma &&
               qi.insertPragma &&
               qi.printer.insertPragma &&
-              !(await X0($i, qi)) &&
-              ($i = qi.printer.insertPragma($i)),
-            (el = await J0($i, qi))),
+              !(await X0(Vi, qi)) &&
+              (Vi = qi.printer.insertPragma(Vi)),
+            (el = await J0(Vi, qi))),
         An && ((el.formatted = q0 + el.formatted), el.cursorOffset >= 0 && el.cursorOffset++),
         el
       );
     }
     async function Tm(W, Ge, An) {
-      let { text: $i, options: qi } = Y0(W, await Cd(Ge)),
-        el = await N($i, qi);
+      let { text: Vi, options: qi } = Y0(W, await Cd(Ge)),
+        el = await N(Vi, qi);
       return (
         An && (An.preprocessForPrint && (el.ast = await H0(el.ast, qi)), An.massage && (el.ast = yf(el.ast, qi))), el
       );
@@ -21061,8 +21071,8 @@ in order for it to be formatted.`,
     }
     async function Pm(W, Ge) {
       let An = Ff(W),
-        { formatted: $i } = await Q0(An, { ...Ge, parser: '__js_expression' });
-      return $i;
+        { formatted: Vi } = await Q0(An, { ...Ge, parser: '__js_expression' });
+      return Vi;
     }
     async function Bm(W, Ge) {
       Ge = await Cd(Ge);
@@ -21113,16 +21123,16 @@ in order for it to be formatted.`,
     var I0 = Mm;
     function Om(W, Ge) {
       let An = null,
-        $i = Ge;
-      for (; $i !== An; ) (An = $i), ($i = rh(W, $i)), ($i = N0(W, $i)), ($i = I0(W, $i)), ($i = rl(W, $i));
-      return $i;
+        Vi = Ge;
+      for (; Vi !== An; ) (An = Vi), (Vi = rh(W, Vi)), (Vi = N0(W, Vi)), (Vi = I0(W, Vi)), (Vi = rl(W, Vi));
+      return Vi;
     }
     var M0 = Om;
     function Lm(W, Ge) {
       let An = null,
-        $i = Ge;
-      for (; $i !== An; ) (An = $i), ($i = Ph(W, $i)), ($i = N0(W, $i)), ($i = rh(W, $i));
-      return ($i = I0(W, $i)), ($i = rl(W, $i)), $i !== !1 && Vh(W, $i);
+        Vi = Ge;
+      for (; Vi !== An; ) (An = Vi), (Vi = Ph(W, Vi)), (Vi = N0(W, Vi)), (Vi = rh(W, Vi));
+      return (Vi = I0(W, Vi)), (Vi = rl(W, Vi)), Vi !== !1 && Vh(W, Vi);
     }
     var O0 = Lm;
     function $m(W) {
@@ -21131,7 +21141,7 @@ in order for it to be formatted.`,
     }
     function Rm(W, Ge) {
       let An = W.match(new RegExp(`(${$m(Ge)})+`, 'g'));
-      return An === null ? 0 : An.reduce(($i, qi) => Math.max($i, qi.length / Ge.length), 0);
+      return An === null ? 0 : An.reduce((Vi, qi) => Math.max(Vi, qi.length / Ge.length), 0);
     }
     var _m = Rm;
     function jm(W, Ge) {
@@ -21141,9 +21151,9 @@ in order for it to be formatted.`,
     }
     var Vm = jm;
     function Hm(W, Ge, An) {
-      for (let $i = Ge; $i < An; ++$i)
+      for (let Vi = Ge; Vi < An; ++Vi)
         if (
-          W.charAt($i) ===
+          W.charAt(Vi) ===
           `
 `
         )
@@ -21161,9 +21171,9 @@ in order for it to be formatted.`,
     }
     var Km = qm;
     function Jm(W, Ge, An) {
-      let $i = Ge === '"' ? "'" : '"',
+      let Vi = Ge === '"' ? "'" : '"',
         qi = El(!1, W, /\\(.)|(["'])/gs, (el, Cl, Sl) =>
-          Cl === $i
+          Cl === Vi
             ? Cl
             : Sl === Ge
             ? '\\' + Sl
@@ -21233,9 +21243,9 @@ in order for it to be formatted.`,
       s1 = '3.0.2';
     function Df(W, Ge = 1) {
       return async (...An) => {
-        let $i = An[Ge] ?? {},
-          qi = $i.plugins ?? [];
-        return (An[Ge] = { ...$i, plugins: Array.isArray(qi) ? qi : Object.values(qi) }), W(...An);
+        let Vi = An[Ge] ?? {},
+          qi = Vi.plugins ?? [];
+        return (An[Ge] = { ...Vi, plugins: Array.isArray(qi) ? qi : Object.values(qi) }), W(...An);
       };
     }
     var tm = Df(Q0);
@@ -21591,7 +21601,7 @@ var standaloneExports = standalone.exports,
       },
       ht = ['toMessage'],
       ar = ['message'];
-    function Vi(g) {
+    function $i(g) {
       let { toMessage: u } = g,
         N = e(g, ht);
       return function _({ loc: Be, details: Cn }) {
@@ -21630,7 +21640,7 @@ var standaloneExports = standalone.exports,
           { message: Yi } = Cn,
           nl = e(Cn, ar),
           xl = typeof Yi == 'string' ? () => Yi : Yi;
-        N[_] = Vi(
+        N[_] = $i(
           Object.assign({ code: a.SyntaxError, reasonCode: _, toMessage: xl }, u ? { syntaxPlugin: u } : {}, nl),
         );
       }
@@ -31791,22 +31801,22 @@ var standaloneExports = standalone.exports,
       m = /(\r?\n|^) *\* ?/g,
       v = [];
     function I(ar) {
-      let Vi = ar.match(s);
-      return Vi ? Vi[0].trimLeft() : '';
+      let $i = ar.match(s);
+      return $i ? $i[0].trimLeft() : '';
     }
     function L(ar) {
-      let Vi = ar.match(s);
-      return Vi && Vi[0] ? ar.substring(Vi[0].length) : ar;
+      let $i = ar.match(s);
+      return $i && $i[0] ? ar.substring($i[0].length) : ar;
     }
     function V(ar) {
       return se(ar).pragmas;
     }
     function se(ar) {
-      let Vi = `
+      let $i = `
 `;
       ar = ar.replace(n, '').replace(e, '').replace(m, '$1');
       let tl = '';
-      for (; tl !== ar; ) (tl = ar), (ar = ar.replace(l, `${Vi}$1 $2${Vi}`));
+      for (; tl !== ar; ) (tl = ar), (ar = ar.replace(l, `${$i}$1 $2${$i}`));
       ar = ar.replace(a, '').trimRight();
       let Wi = Object.create(null),
         hl = ar.replace(f, '').replace(a, '').trimRight(),
@@ -31819,22 +31829,22 @@ var standaloneExports = standalone.exports,
       }
       return { comments: hl, pragmas: Wi };
     }
-    function Ee({ comments: ar = '', pragmas: Vi = {} }) {
+    function Ee({ comments: ar = '', pragmas: $i = {} }) {
       let tl = `
 `,
         Wi = '/**',
         hl = ' *',
         fl = ' */',
-        dl = Object.keys(Vi),
+        dl = Object.keys($i),
         Al = dl
-          .map((vl) => ht(vl, Vi[vl]))
+          .map((vl) => ht(vl, $i[vl]))
           .reduce((vl, kl) => vl.concat(kl), [])
           .map((vl) => `${hl} ${vl}${tl}`)
           .join('');
       if (!ar) {
         if (dl.length === 0) return '';
-        if (dl.length === 1 && !Array.isArray(Vi[dl[0]])) {
-          let vl = Vi[dl[0]];
+        if (dl.length === 1 && !Array.isArray($i[dl[0]])) {
+          let vl = $i[dl[0]];
           return `${Wi} ${ht(dl[0], vl)[0]}${fl}`;
         }
       }
@@ -31845,8 +31855,8 @@ var standaloneExports = standalone.exports,
           .join(tl) + tl;
       return Wi + tl + (ar ? Fl : '') + (ar && dl.length ? hl + tl : '') + Al + fl;
     }
-    function ht(ar, Vi) {
-      return v.concat(Vi).map((tl) => `@${ar} ${tl}`.trim());
+    function ht(ar, $i) {
+      return v.concat($i).map((tl) => `@${ar} ${tl}`.trim());
     }
   }),
   Ft$1 = {};
@@ -32745,22 +32755,22 @@ var Ws$1 = Xs$1(),
       m = /(\r?\n|^) *\* ?/g,
       v = [];
     function I(ar) {
-      let Vi = ar.match(s);
-      return Vi ? Vi[0].trimLeft() : '';
+      let $i = ar.match(s);
+      return $i ? $i[0].trimLeft() : '';
     }
     function L(ar) {
-      let Vi = ar.match(s);
-      return Vi && Vi[0] ? ar.substring(Vi[0].length) : ar;
+      let $i = ar.match(s);
+      return $i && $i[0] ? ar.substring($i[0].length) : ar;
     }
     function V(ar) {
       return se(ar).pragmas;
     }
     function se(ar) {
-      let Vi = `
+      let $i = `
 `;
       ar = ar.replace(n, '').replace(e, '').replace(m, '$1');
       let tl = '';
-      for (; tl !== ar; ) (tl = ar), (ar = ar.replace(l, `${Vi}$1 $2${Vi}`));
+      for (; tl !== ar; ) (tl = ar), (ar = ar.replace(l, `${$i}$1 $2${$i}`));
       ar = ar.replace(a, '').trimRight();
       let Wi = Object.create(null),
         hl = ar.replace(f, '').replace(a, '').trimRight(),
@@ -32773,22 +32783,22 @@ var Ws$1 = Xs$1(),
       }
       return { comments: hl, pragmas: Wi };
     }
-    function Ee({ comments: ar = '', pragmas: Vi = {} }) {
+    function Ee({ comments: ar = '', pragmas: $i = {} }) {
       let tl = `
 `,
         Wi = '/**',
         hl = ' *',
         fl = ' */',
-        dl = Object.keys(Vi),
+        dl = Object.keys($i),
         Al = dl
-          .map((vl) => ht(vl, Vi[vl]))
+          .map((vl) => ht(vl, $i[vl]))
           .reduce((vl, kl) => vl.concat(kl), [])
           .map((vl) => `${hl} ${vl}${tl}`)
           .join('');
       if (!ar) {
         if (dl.length === 0) return '';
-        if (dl.length === 1 && !Array.isArray(Vi[dl[0]])) {
-          let vl = Vi[dl[0]];
+        if (dl.length === 1 && !Array.isArray($i[dl[0]])) {
+          let vl = $i[dl[0]];
           return `${Wi} ${ht(dl[0], vl)[0]}${fl}`;
         }
       }
@@ -32799,8 +32809,8 @@ var Ws$1 = Xs$1(),
           .join(tl) + tl;
       return Wi + tl + (ar ? Fl : '') + (ar && dl.length ? hl + tl : '') + Al + fl;
     }
-    function ht(ar, Vi) {
-      return v.concat(Vi).map((tl) => `@${ar} ${tl}`.trim());
+    function ht(ar, $i) {
+      return v.concat($i).map((tl) => `@${ar} ${tl}`.trim());
     }
   }),
   Ss = {};
@@ -35443,35 +35453,35 @@ function $o(r, e, n) {
     Ee = e.singleQuote ? "{' '}" : '{" "}',
     ht = se ? ' ' : P$1([Ee, F$1], ' '),
     ar = ((o = (s = l.openingElement) == null ? void 0 : s.name) == null ? void 0 : o.name) === 'fbt',
-    Vi = Vo(r, e, n, ht, ar),
+    $i = Vo(r, e, n, ht, ar),
     tl = l.children.some((dl) => Zt(dl));
-  for (let dl = Vi.length - 2; dl >= 0; dl--) {
-    let Al = Vi[dl] === '' && Vi[dl + 1] === '',
-      Fl = Vi[dl] === C$1 && Vi[dl + 1] === '' && Vi[dl + 2] === C$1,
-      vl = (Vi[dl] === F$1 || Vi[dl] === C$1) && Vi[dl + 1] === '' && Vi[dl + 2] === ht,
-      kl = Vi[dl] === ht && Vi[dl + 1] === '' && (Vi[dl + 2] === F$1 || Vi[dl + 2] === C$1),
-      El = Vi[dl] === ht && Vi[dl + 1] === '' && Vi[dl + 2] === ht,
+  for (let dl = $i.length - 2; dl >= 0; dl--) {
+    let Al = $i[dl] === '' && $i[dl + 1] === '',
+      Fl = $i[dl] === C$1 && $i[dl + 1] === '' && $i[dl + 2] === C$1,
+      vl = ($i[dl] === F$1 || $i[dl] === C$1) && $i[dl + 1] === '' && $i[dl + 2] === ht,
+      kl = $i[dl] === ht && $i[dl + 1] === '' && ($i[dl + 2] === F$1 || $i[dl + 2] === C$1),
+      El = $i[dl] === ht && $i[dl + 1] === '' && $i[dl + 2] === ht,
       Jl =
-        (Vi[dl] === F$1 && Vi[dl + 1] === '' && Vi[dl + 2] === C$1) ||
-        (Vi[dl] === C$1 && Vi[dl + 1] === '' && Vi[dl + 2] === F$1);
-    (Fl && tl) || Al || vl || El || Jl ? Vi.splice(dl, 2) : kl && Vi.splice(dl + 1, 2);
+        ($i[dl] === F$1 && $i[dl + 1] === '' && $i[dl + 2] === C$1) ||
+        ($i[dl] === C$1 && $i[dl + 1] === '' && $i[dl + 2] === F$1);
+    (Fl && tl) || Al || vl || El || Jl ? $i.splice(dl, 2) : kl && $i.splice(dl + 1, 2);
   }
-  for (; Vi.length > 0 && Qn(w$1(!1, Vi, -1)); ) Vi.pop();
-  for (; Vi.length > 1 && Qn(Vi[0]) && Qn(Vi[1]); ) Vi.shift(), Vi.shift();
+  for (; $i.length > 0 && Qn(w$1(!1, $i, -1)); ) $i.pop();
+  for (; $i.length > 1 && Qn($i[0]) && Qn($i[1]); ) $i.shift(), $i.shift();
   let Wi = [];
-  for (let [dl, Al] of Vi.entries()) {
+  for (let [dl, Al] of $i.entries()) {
     if (Al === ht) {
-      if (dl === 1 && Vi[dl - 1] === '') {
-        if (Vi.length === 2) {
+      if (dl === 1 && $i[dl - 1] === '') {
+        if ($i.length === 2) {
           Wi.push(Ee);
           continue;
         }
         Wi.push([Ee, C$1]);
         continue;
-      } else if (dl === Vi.length - 1) {
+      } else if (dl === $i.length - 1) {
         Wi.push(Ee);
         continue;
-      } else if (Vi[dl - 1] === '' && Vi[dl - 2] === C$1) {
+      } else if ($i[dl - 1] === '' && $i[dl - 2] === C$1) {
         Wi.push(Ee);
         continue;
       }
@@ -35487,7 +35497,7 @@ function $o(r, e, n) {
   )
     return hl;
   let fl = y$1([f, E([C$1, hl]), C$1, m]);
-  return V ? fl : qe([y$1([f, ...Vi, m]), fl]);
+  return V ? fl : qe([y$1([f, ...$i, m]), fl]);
 }
 function Vo(r, e, n, s, o) {
   let a = [];
@@ -35796,9 +35806,9 @@ function Ir(r, e, n) {
   let Ee = Y(o.right),
     ht = I.findIndex((fl) => typeof fl != 'string' && !Array.isArray(fl) && fl.type === ue),
     ar = I.slice(0, ht === -1 ? 1 : ht + 1),
-    Vi = I.slice(ar.length, Ee ? -1 : void 0),
+    $i = I.slice(ar.length, Ee ? -1 : void 0),
     tl = Symbol('logicalChain-' + ++cp),
-    Wi = y$1([...ar, E(Vi)], { id: tl });
+    Wi = y$1([...ar, E($i)], { id: tl });
   if (!Ee) return Wi;
   let hl = w$1(!1, I, -1);
   return y$1([Wi, mt(hl, { groupId: tl })]);
@@ -35830,7 +35840,7 @@ function Zn(r, e, n, s, o) {
   else {
     let ar =
       I === '|>' && (a = r.root.extra) != null && a.__isUsingHackPipeline
-        ? r.call((Vi) => Zn(Vi, e, n, !0, o), 'right')
+        ? r.call(($i) => Zn($i, e, n, !0, o), 'right')
         : e('right');
     V = [v ? A : '', I, v ? ' ' : A, ar, L];
   }
@@ -35892,10 +35902,10 @@ function vt(r, e, n) {
       se =
         !e.__inJestEach &&
         m.length > 1 &&
-        m.every((ar, Vi, tl) => {
+        m.every((ar, $i, tl) => {
           let Wi = ar == null ? void 0 : ar.type;
           if (!G(ar) && !Z(ar)) return !1;
-          let hl = tl[Vi + 1];
+          let hl = tl[$i + 1];
           if (hl && Wi !== hl.type) return !1;
           let fl = G(ar) ? 'elements' : 'properties';
           return ar[fl] && ar[fl].length > 1;
@@ -36184,14 +36194,14 @@ function Tp(r, e, n) {
     return J(Hl) && Hl.property.type === 'Identifier' && (se(Hl.property.name) || Nl);
   }
   let ar = v.length >= 2 && !d(v[1][0].node) && ht(v);
-  function Vi(Il) {
+  function $i(Il) {
     let Ll = Il.map((Nl) => Nl.printed);
     return Il.length > 0 && w$1(!1, Il, -1).needsParens ? ['(', ...Ll, ')'] : Ll;
   }
   function tl(Il) {
-    return Il.length === 0 ? '' : E(y$1([C$1, B$1(C$1, Il.map(Vi))]));
+    return Il.length === 0 ? '' : E(y$1([C$1, B$1(C$1, Il.map($i))]));
   }
-  let Wi = v.map(Vi),
+  let Wi = v.map($i),
     hl = Wi,
     fl = ar ? 3 : 2,
     dl = v.flat(),
@@ -36202,7 +36212,7 @@ function Tp(r, e, n) {
   if (v.length <= fl && !Al) return hr(r) ? hl : y$1(hl);
   let Fl = w$1(!1, v[ar ? 1 : 0], -1).node,
     vl = !k(Fl) && l(Fl),
-    kl = [Vi(v[0]), ar ? v.slice(1, 2).map(Vi) : '', vl ? C$1 : '', tl(v.slice(ar ? 2 : 1))],
+    kl = [$i(v[0]), ar ? v.slice(1, 2).map($i) : '', vl ? C$1 : '', tl(v.slice(ar ? 2 : 1))],
     El = a.map(({ node: Il }) => Il).filter(k);
   function Jl() {
     let Il = w$1(!1, w$1(!1, v, -1), -1).node,
@@ -37124,8 +37134,8 @@ function Mt(r, e, n) {
     Ee = V.type === s.type && !se,
     ht,
     ar,
-    Vi = 0;
-  do (ar = ht || s), (ht = r.getParentNode(Vi)), Vi++;
+    $i = 0;
+  do (ar = ht || s), (ht = r.getParentNode($i)), $i++;
   while (ht && ht.type === s.type && f.every((vl) => ht[vl] !== ar));
   let tl = ht || V,
     Wi = ar;
@@ -37376,8 +37386,8 @@ function ls(r, e) {
             m = !1;
             let ht = { ind: V, mode: nt, doc: Ee.contents },
               ar = s - a,
-              Vi = v.length > 0;
-            if (!Ee.break && zr(ht, l, ar, Vi, n)) l.push(ht);
+              $i = v.length > 0;
+            if (!Ee.break && zr(ht, l, ar, $i, n)) l.push(ht);
             else if (Ee.expandedStates) {
               let tl = w$1(!1, Ee.expandedStates, -1);
               if (Ee.break) {
@@ -37391,7 +37401,7 @@ function ls(r, e) {
                   } else {
                     let hl = Ee.expandedStates[Wi],
                       fl = { ind: V, mode: nt, doc: hl };
-                    if (zr(fl, l, ar, Vi, n)) {
+                    if (zr(fl, l, ar, $i, n)) {
                       l.push(fl);
                       break;
                     }
@@ -37406,9 +37416,9 @@ function ls(r, e) {
         let ht = s - a,
           { parts: ar } = Ee;
         if (ar.length === 0) break;
-        let [Vi, tl] = ar,
-          Wi = { ind: V, mode: nt, doc: Vi },
-          hl = { ind: V, mode: Ce, doc: Vi },
+        let [$i, tl] = ar,
+          Wi = { ind: V, mode: nt, doc: $i },
+          hl = { ind: V, mode: Ce, doc: $i },
           fl = zr(Wi, [], ht, v.length > 0, n, !0);
         if (ar.length === 1) {
           fl ? l.push(Wi) : l.push(hl);
@@ -37423,7 +37433,7 @@ function ls(r, e) {
         ar.splice(0, 2);
         let Fl = { ind: V, mode: se, doc: St(ar) },
           vl = ar[0];
-        zr({ ind: V, mode: nt, doc: [Vi, tl, vl] }, [], ht, v.length > 0, n, !0)
+        zr({ ind: V, mode: nt, doc: [$i, tl, vl] }, [], ht, v.length > 0, n, !0)
           ? l.push(Fl, dl, Wi)
           : fl
           ? l.push(Fl, Al, Wi)
@@ -38062,18 +38072,18 @@ function Et(r, e, n) {
     Ee = V ? ';' : a.type === 'TSInterfaceBody' || a.type === 'TSTypeLiteral' ? P$1(o, ';') : ',',
     ht = a.type === 'RecordExpression' ? '#{' : a.exact ? '{|' : '{',
     ar = a.exact ? '|}' : '}',
-    Vi = [],
+    $i = [],
     tl = v.map((dl) => {
-      let Al = [...Vi, y$1(dl.printed)];
+      let Al = [...$i, y$1(dl.printed)];
       return (
-        (Vi = [Ee, A]),
+        ($i = [Ee, A]),
         (dl.node.type === 'TSPropertySignature' ||
           dl.node.type === 'TSMethodSignature' ||
           dl.node.type === 'TSConstructSignatureDeclaration' ||
           dl.node.type === 'TSCallSignatureDeclaration') &&
           d(dl.node, x$1.PrettierIgnore) &&
-          Vi.shift(),
-        me(dl.node, e) && Vi.push(C$1),
+          $i.shift(),
+        me(dl.node, e) && $i.push(C$1),
         Al
       );
     });
@@ -38083,7 +38093,7 @@ function Et(r, e, n) {
       let Al = d(a, x$1.Line);
       dl = [M(r, e), Al || z$1(e.originalText, O$1(w$1(!1, Kt(a), -1))) ? C$1 : A, '...'];
     } else dl = ['...'];
-    tl.push([...Vi, ...dl]);
+    tl.push([...$i, ...dl]);
   }
   let Wi = (s = w$1(!1, v, -1)) == null ? void 0 : s.node,
     hl = !(
@@ -38148,7 +38158,7 @@ function Ci(r, e, n, s = {}) {
     m = !s.expandLastArg && r.node.body.type === 'ArrowFunctionExpression',
     v;
   (function ar() {
-    let { node: Vi } = r,
+    let { node: $i } = r,
       tl = Cc(r, e, n, s);
     if (o.length === 0) o.push(tl);
     else {
@@ -38157,8 +38167,8 @@ function Ci(r, e, n, s = {}) {
     }
     m &&
       (f ||
-        (f = (Vi.returnType && X(Vi).length > 0) || Vi.typeParameters || X(Vi).some((Wi) => Wi.type !== 'Identifier'))),
-      !m || Vi.body.type !== 'ArrowFunctionExpression' ? ((a = n('body', s)), (v = Vi.body)) : r.call(ar, 'body');
+        (f = ($i.returnType && X($i).length > 0) || $i.typeParameters || X($i).some((Wi) => Wi.type !== 'Identifier'))),
+      !m || $i.body.type !== 'ArrowFunctionExpression' ? ((a = n('body', s)), (v = $i.body)) : r.call(ar, 'body');
   })();
   let I = !Ie(e.originalText, v) && (Fi(v) || dc(v, a, e) || (!f && Ei(v))),
     L = r.key === 'callee' && it(r.parent),
@@ -39293,10 +39303,10 @@ async function vc(r, e, n) {
       Ee = a[f],
       ht = se > 2 && V[0].trim() === '' && V[1].trim() === '',
       ar = se > 2 && V[se - 1].trim() === '' && V[se - 2].trim() === '',
-      Vi = V.every((Wi) => /^\s*(?:#[^\n\r]*)?$/.test(Wi));
+      $i = V.every((Wi) => /^\s*(?:#[^\n\r]*)?$/.test(Wi));
     if (!I && /#[^\n\r]*$/.test(V[se - 1])) return null;
     let tl = null;
-    Vi ? (tl = _c(V)) : (tl = await r(L, { parser: 'graphql' })),
+    $i ? (tl = _c(V)) : (tl = await r(L, { parser: 'graphql' })),
       tl
         ? ((tl = Zr(tl, !1)), !v && ht && l.push(''), l.push(tl), !I && ar && l.push(''))
         : !v && !I && ht && l.push(''),
@@ -39332,21 +39342,21 @@ async function Mi(r, e, n, s, o) {
   let { node: a } = s,
     l = xs;
   xs = (xs + 1) >>> 0;
-  let f = (Vi) => `PRETTIER_HTML_PLACEHOLDER_${Vi}_${l}_IN_JS`,
-    m = a.quasis.map((Vi, tl, Wi) => (tl === Wi.length - 1 ? Vi.value.cooked : Vi.value.cooked + f(tl))).join(''),
+  let f = ($i) => `PRETTIER_HTML_PLACEHOLDER_${$i}_${l}_IN_JS`,
+    m = a.quasis.map(($i, tl, Wi) => (tl === Wi.length - 1 ? $i.value.cooked : $i.value.cooked + f(tl))).join(''),
     v = Rt(s, n),
     I = new RegExp(f('(\\d+)'), 'g'),
     L = 0,
     V = await e(m, {
       parser: r,
-      __onHtmlRoot(Vi) {
-        L = Vi.children.length;
+      __onHtmlRoot($i) {
+        L = $i.children.length;
       },
     }),
-    se = ut(V, (Vi) => {
-      if (typeof Vi != 'string') return Vi;
+    se = ut(V, ($i) => {
+      if (typeof $i != 'string') return $i;
       let tl = [],
-        Wi = Vi.split(I);
+        Wi = $i.split(I);
       for (let hl = 0; hl < Wi.length; hl++) {
         let fl = Wi[hl];
         if (hl % 2 === 0) {
@@ -40902,11 +40912,11 @@ function buildTree(r) {
     } else kl == -3 ? (v = Al) : kl == -4 && (I = Al);
     return dl;
   }
-  let Vi = [],
+  let $i = [],
     tl = [];
-  for (; f.pos > 0; ) L(r.start || 0, r.bufferStart || 0, Vi, tl, -1);
-  let Wi = (e = r.length) !== null && e !== void 0 ? e : Vi.length ? tl[0] + Vi[0].length : 0;
-  return new Tree(m[r.topID], Vi.reverse(), tl.reverse(), Wi);
+  for (; f.pos > 0; ) L(r.start || 0, r.bufferStart || 0, $i, tl, -1);
+  let Wi = (e = r.length) !== null && e !== void 0 ? e : $i.length ? tl[0] + $i[0].length : 0;
+  return new Tree(m[r.topID], $i.reverse(), tl.reverse(), Wi);
 }
 const nodeSizeCache = new WeakMap();
 function nodeSize(r, e) {
@@ -40931,12 +40941,12 @@ function balanceRange(r, e, n, s, o, a, l, f, m) {
   let I = Math.ceil((v * 1.5) / 8),
     L = [],
     V = [];
-  function se(Ee, ht, ar, Vi, tl) {
-    for (let Wi = ar; Wi < Vi; ) {
+  function se(Ee, ht, ar, $i, tl) {
+    for (let Wi = ar; Wi < $i; ) {
       let hl = Wi,
         fl = ht[Wi],
         dl = nodeSize(r, Ee[Wi]);
-      for (Wi++; Wi < Vi; Wi++) {
+      for (Wi++; Wi < $i; Wi++) {
         let Al = nodeSize(r, Ee[Wi]);
         if (dl + Al >= I) break;
         dl += Al;
@@ -41195,10 +41205,10 @@ class HighlightBuilder {
       let se = e.node.enter(V.overlay[0].from + f, 1),
         Ee = this.highlighters.filter((ar) => !ar.scope || ar.scope(V.tree.type)),
         ht = e.firstChild();
-      for (let ar = 0, Vi = f; ; ar++) {
+      for (let ar = 0, $i = f; ; ar++) {
         let tl = ar < V.overlay.length ? V.overlay[ar] : null,
           Wi = tl ? tl.from + f : m,
-          hl = Math.max(n, Vi),
+          hl = Math.max(n, $i),
           fl = Math.min(s, Wi);
         if (hl < fl && ht)
           for (
@@ -41210,10 +41220,10 @@ class HighlightBuilder {
 
           );
         if (!tl || Wi > s) break;
-        (Vi = tl.to + f),
-          Vi > n &&
-            (this.highlightRange(se.cursor(), Math.max(n, tl.from + f), Math.min(s, Vi), '', Ee),
-            this.startSpan(Math.min(s, Vi), v));
+        ($i = tl.to + f),
+          $i > n &&
+            (this.highlightRange(se.cursor(), Math.max(n, tl.from + f), Math.min(s, $i), '', Ee),
+            this.startSpan(Math.min(s, $i), v));
       }
       ht && e.parent();
     } else if (e.firstChild()) {
@@ -42506,11 +42516,11 @@ function matchPlainBrackets(r, e, n, s, o, a, l) {
     n < 0 && (V += se.length);
     let Ee = e + V * n;
     for (let ht = n > 0 ? 0 : se.length - 1, ar = n > 0 ? se.length : -1; ht != ar; ht += n) {
-      let Vi = l.indexOf(se[ht]);
-      if (!(Vi < 0 || s.resolveInner(Ee + ht, 1).type != o))
-        if ((Vi % 2 == 0) == n > 0) L++;
+      let $i = l.indexOf(se[ht]);
+      if (!($i < 0 || s.resolveInner(Ee + ht, 1).type != o))
+        if (($i % 2 == 0) == n > 0) L++;
         else {
-          if (L == 1) return { start: v, end: { from: Ee + ht, to: Ee + ht + 1 }, matched: Vi >> 1 == m >> 1 };
+          if (L == 1) return { start: v, end: { from: Ee + ht, to: Ee + ht + 1 }, matched: $i >> 1 == m >> 1 };
           L--;
         }
     }
@@ -44618,7 +44628,7 @@ class FuzzyMatcher {
       Ee = -1,
       ht = -1,
       ar = /[a-z]/.test(e),
-      Vi = !0;
+      $i = !0;
     for (let tl = 0, Wi = Math.min(e.length, 200), hl = 0; tl < Wi && L < m; ) {
       let fl = codePointAt(e, tl);
       f < 0 &&
@@ -44638,11 +44648,11 @@ class FuzzyMatcher {
             ? 2
             : 0;
       (!tl || (Al == 1 && ar) || (hl == 0 && Al != 0)) &&
-        (n[L] == fl || (s[L] == fl && (V = !0)) ? (l[L++] = tl) : l.length && (Vi = !1)),
+        (n[L] == fl || (s[L] == fl && (V = !0)) ? (l[L++] = tl) : l.length && ($i = !1)),
         (hl = Al),
         (tl += codePointSize(fl));
     }
-    return L == m && l[0] == 0 && Vi
+    return L == m && l[0] == 0 && $i
       ? this.result(-100 + (V ? -200 : 0), l, e)
       : se == m && Ee == 0
       ? this.ret(-200 - e.length + (ht == e.length ? 0 : -100), [0, ht])
@@ -44651,7 +44661,7 @@ class FuzzyMatcher {
       : se == m
       ? this.ret(-200 + -700 - e.length, [Ee, ht])
       : L == m
-      ? this.result(-100 + (V ? -200 : 0) + -700 + (Vi ? 0 : -1100), l, e)
+      ? this.result(-100 + (V ? -200 : 0) + -700 + ($i ? 0 : -1100), l, e)
       : n.length == 2
       ? !1
       : this.result((o[0] ? -700 : 0) + -200 + -1100, o, e);
@@ -44720,9 +44730,9 @@ function defaultPositionInfo(r, e, n, s, o, a) {
     tl >= ht || tl > e.top ? (I = n.bottom - e.top) : ((v = 'bottom'), (I = e.bottom - n.top));
   }
   let ar = (e.bottom - e.top) / a.offsetHeight,
-    Vi = (e.right - e.left) / a.offsetWidth;
+    $i = (e.right - e.left) / a.offsetWidth;
   return {
-    style: `${v}: ${I / ar}px; max-width: ${L / Vi}px`,
+    style: `${v}: ${I / ar}px; max-width: ${L / $i}px`,
     class: 'cm-completionInfo-' + (m ? (l ? 'left-narrow' : 'right-narrow') : f ? 'left' : 'right'),
   };
 }
@@ -46394,7 +46404,7 @@ var F = Object.assign(Object.assign({}, z), B),
               Ee = S(v).run,
               ht = S(v).run,
               ar = S(v).run,
-              Vi = S(v).run;
+              $i = S(v).run;
             return {
               focus: function () {
                 return v.focus();
@@ -46416,7 +46426,7 @@ var F = Object.assign(Object.assign({}, z), B),
                 ar(placeholder(tl));
               },
               setStyle: function (tl) {
-                tl === void 0 && (tl = {}), Vi(EditorView.theme({ '&': Object.assign({}, tl) }));
+                tl === void 0 && (tl = {}), $i(EditorView.theme({ '&': Object.assign({}, tl) }));
               },
             };
           })(o.value);
@@ -47243,19 +47253,19 @@ var stringify = function (e, n, s) {
     I('', { '': e })
   );
   function I(ht, ar) {
-    let Vi = ar[ht];
+    let $i = ar[ht];
     switch (
-      (Vi != null &&
-        (typeof Vi.toJSON5 == 'function'
-          ? (Vi = Vi.toJSON5(ht))
-          : typeof Vi.toJSON == 'function' && (Vi = Vi.toJSON(ht))),
-      f && (Vi = f.call(ar, ht, Vi)),
-      Vi instanceof Number
-        ? (Vi = Number(Vi))
-        : Vi instanceof String
-        ? (Vi = String(Vi))
-        : Vi instanceof Boolean && (Vi = Vi.valueOf()),
-      Vi)
+      ($i != null &&
+        (typeof $i.toJSON5 == 'function'
+          ? ($i = $i.toJSON5(ht))
+          : typeof $i.toJSON == 'function' && ($i = $i.toJSON(ht))),
+      f && ($i = f.call(ar, ht, $i)),
+      $i instanceof Number
+        ? ($i = Number($i))
+        : $i instanceof String
+        ? ($i = String($i))
+        : $i instanceof Boolean && ($i = $i.valueOf()),
+      $i)
     ) {
       case null:
         return 'null';
@@ -47264,13 +47274,13 @@ var stringify = function (e, n, s) {
       case !1:
         return 'false';
     }
-    if (typeof Vi == 'string') return L(Vi);
-    if (typeof Vi == 'number') return String(Vi);
-    if (typeof Vi == 'object') return Array.isArray(Vi) ? Ee(Vi) : V(Vi);
+    if (typeof $i == 'string') return L($i);
+    if (typeof $i == 'number') return String($i);
+    if (typeof $i == 'object') return Array.isArray($i) ? Ee($i) : V($i);
   }
   function L(ht) {
     const ar = { "'": 0.1, '"': 0.2 },
-      Vi = {
+      $i = {
         "'": "\\'",
         '"': '\\"',
         '\\': '\\\\',
@@ -47298,8 +47308,8 @@ var stringify = function (e, n, s) {
             continue;
           }
       }
-      if (Vi[fl]) {
-        tl += Vi[fl];
+      if ($i[fl]) {
+        tl += $i[fl];
         continue;
       }
       if (fl < ' ') {
@@ -47310,16 +47320,16 @@ var stringify = function (e, n, s) {
       tl += fl;
     }
     const Wi = v || Object.keys(ar).reduce((hl, fl) => (ar[hl] < ar[fl] ? hl : fl));
-    return (tl = tl.replace(new RegExp(Wi, 'g'), Vi[Wi])), Wi + tl + Wi;
+    return (tl = tl.replace(new RegExp(Wi, 'g'), $i[Wi])), Wi + tl + Wi;
   }
   function V(ht) {
     if (o.indexOf(ht) >= 0) throw TypeError('Converting circular structure to JSON5');
     o.push(ht);
     let ar = a;
     a = a + m;
-    let Vi = l || Object.keys(ht),
+    let $i = l || Object.keys(ht),
       tl = [];
-    for (const hl of Vi) {
+    for (const hl of $i) {
       const fl = I(hl, ht);
       if (fl !== void 0) {
         let dl = se(hl) + ':';
@@ -47353,8 +47363,8 @@ var stringify = function (e, n, s) {
     if (ht.length === 0) return L(ht);
     const ar = String.fromCodePoint(ht.codePointAt(0));
     if (!util.isIdStartChar(ar)) return L(ht);
-    for (let Vi = ar.length; Vi < ht.length; Vi++)
-      if (!util.isIdContinueChar(String.fromCodePoint(ht.codePointAt(Vi)))) return L(ht);
+    for (let $i = ar.length; $i < ht.length; $i++)
+      if (!util.isIdContinueChar(String.fromCodePoint(ht.codePointAt($i)))) return L(ht);
     return ht;
   }
   function Ee(ht) {
@@ -47362,19 +47372,19 @@ var stringify = function (e, n, s) {
     o.push(ht);
     let ar = a;
     a = a + m;
-    let Vi = [];
+    let $i = [];
     for (let Wi = 0; Wi < ht.length; Wi++) {
       const hl = I(String(Wi), ht);
-      Vi.push(hl !== void 0 ? hl : 'null');
+      $i.push(hl !== void 0 ? hl : 'null');
     }
     let tl;
-    if (Vi.length === 0) tl = '[]';
-    else if (m === '') tl = '[' + Vi.join(',') + ']';
+    if ($i.length === 0) tl = '[]';
+    else if (m === '') tl = '[' + $i.join(',') + ']';
     else {
       let Wi =
           `,
 ` + a,
-        hl = Vi.join(Wi);
+        hl = $i.join(Wi);
       tl =
         `[
 ` +
@@ -54234,7 +54244,7 @@ var mock = { exports: {} };
         function ar(hl) {
           n.call(this, 'control-character'), (this.code = hl.toUpperCase());
         }
-        var Vi = (function () {
+        var $i = (function () {
             function hl(Al, Fl) {
               function vl() {
                 this.constructor = Al;
@@ -55297,7 +55307,7 @@ var mock = { exports: {} };
           })(),
           tl = 1,
           Wi = {};
-        r.exports = Vi;
+        r.exports = $i;
       },
       function (r, e, n) {
         var s = n(3),
@@ -55322,7 +55332,7 @@ var mock = { exports: {} };
             '\\D': l + f + v,
           };
         function se(Ee, ht) {
-          for (var ar = '', Vi = Ee; Vi <= ht; Vi++) ar += String.fromCharCode(Vi);
+          for (var ar = '', $i = Ee; $i <= ht; $i++) ar += String.fromCharCode($i);
           return ar;
         }
         (a.gen = function (Ee, ht, ar) {
@@ -55372,7 +55382,7 @@ var mock = { exports: {} };
             },
             'match': function (Ee, ht, ar) {
               ht = '';
-              for (var Vi = 0; Vi < Ee.body.length; Vi++) ht += this.gen(Ee.body[Vi], ht, ar);
+              for (var $i = 0; $i < Ee.body.length; $i++) ht += this.gen(Ee.body[$i], ht, ar);
               return ht;
             },
             'capture-group': function (Ee, ht, ar) {
@@ -55389,24 +55399,24 @@ var mock = { exports: {} };
             },
             'quantified': function (Ee, ht, ar) {
               ht = '';
-              for (var Vi = this.quantifier(Ee.quantifier), tl = 0; tl < Vi; tl++) ht += this.gen(Ee.body, ht, ar);
+              for (var $i = this.quantifier(Ee.quantifier), tl = 0; tl < $i; tl++) ht += this.gen(Ee.body, ht, ar);
               return ht;
             },
             'quantifier': function (Ee, ht, ar) {
-              var Vi = Math.max(Ee.min, 0),
-                tl = isFinite(Ee.max) ? Ee.max : Vi + o.integer(3, 7);
-              return o.integer(Vi, tl);
+              var $i = Math.max(Ee.min, 0),
+                tl = isFinite(Ee.max) ? Ee.max : $i + o.integer(3, 7);
+              return o.integer($i, tl);
             },
             'charset': function (Ee, ht, ar) {
               if (Ee.invert) return this['invert-charset'](Ee, ht, ar);
-              var Vi = o.pick(Ee.body);
-              return this.gen(Vi, ht, ar);
+              var $i = o.pick(Ee.body);
+              return this.gen($i, ht, ar);
             },
             'invert-charset': function (Ee, ht, ar) {
-              for (var Vi = I, tl = 0, Wi; tl < Ee.body.length; tl++)
+              for (var $i = I, tl = 0, Wi; tl < Ee.body.length; tl++)
                 switch (((Wi = Ee.body[tl]), Wi.type)) {
                   case 'literal':
-                    Vi = Vi.replace(Wi.body, '');
+                    $i = $i.replace(Wi.body, '');
                     break;
                   case 'range':
                     for (
@@ -55416,17 +55426,17 @@ var mock = { exports: {} };
                       dl <= fl;
                       dl++
                     )
-                      Vi = Vi.replace(String.fromCharCode(dl), '');
+                      $i = $i.replace(String.fromCharCode(dl), '');
                   default:
                     var Al = V[Wi.text];
-                    if (Al) for (var Fl = 0; Fl <= Al.length; Fl++) Vi = Vi.replace(Al[Fl], '');
+                    if (Al) for (var Fl = 0; Fl <= Al.length; Fl++) $i = $i.replace(Al[Fl], '');
                 }
-              return o.pick(Vi.split(''));
+              return o.pick($i.split(''));
             },
             'range': function (Ee, ht, ar) {
-              var Vi = this.gen(Ee.start, ht, ar).charCodeAt(),
+              var $i = this.gen(Ee.start, ht, ar).charCodeAt(),
                 tl = this.gen(Ee.end, ht, ar).charCodeAt();
-              return String.fromCharCode(o.integer(Vi, tl));
+              return String.fromCharCode(o.integer($i, tl));
             },
             'literal': function (Ee, ht, ar) {
               return Ee.escaped ? Ee.body : Ee.text;
@@ -55449,11 +55459,11 @@ var mock = { exports: {} };
                   ht = `\0       \x07 \b 	 
  \v \f \r              \x1B    `.split(' '),
                   ar = {},
-                  Vi = 0;
-                Vi < Ee.length;
-                Vi++
+                  $i = 0;
+                $i < Ee.length;
+                $i++
               )
-                ar[Ee[Vi]] = ht[Vi];
+                ar[Ee[$i]] = ht[$i];
               return ar;
             })(),
             'control-character': function (Ee, ht, ar) {
@@ -55556,21 +55566,21 @@ var mock = { exports: {} };
               var ar;
               switch (ht) {
                 case 'number':
-                  var Vi = (I + '').split('.');
-                  (Vi[0] = +Vi[0]),
+                  var $i = (I + '').split('.');
+                  ($i[0] = +$i[0]),
                     Ee.min !== void 0 &&
                       Ee.max !== void 0 &&
-                      (m.greaterThanOrEqualTo('value', v.path, Vi[0], Math.min(Ee.min, Ee.max), V),
-                      m.lessThanOrEqualTo('value', v.path, Vi[0], Math.max(Ee.min, Ee.max), V)),
+                      (m.greaterThanOrEqualTo('value', v.path, $i[0], Math.min(Ee.min, Ee.max), V),
+                      m.lessThanOrEqualTo('value', v.path, $i[0], Math.max(Ee.min, Ee.max), V)),
                     Ee.min !== void 0 &&
                       Ee.max === void 0 &&
-                      m.equal('value', v.path, Vi[0], Ee.min, V, '[value] ' + L),
+                      m.equal('value', v.path, $i[0], Ee.min, V, '[value] ' + L),
                     Ee.decimal &&
                       (Ee.dmin !== void 0 &&
                         Ee.dmax !== void 0 &&
-                        (m.greaterThanOrEqualTo('value', v.path, Vi[1].length, Ee.dmin, V),
-                        m.lessThanOrEqualTo('value', v.path, Vi[1].length, Ee.dmax, V)),
-                      Ee.dmin !== void 0 && Ee.dmax === void 0 && m.equal('value', v.path, Vi[1].length, Ee.dmin, V));
+                        (m.greaterThanOrEqualTo('value', v.path, $i[1].length, Ee.dmin, V),
+                        m.lessThanOrEqualTo('value', v.path, $i[1].length, Ee.dmax, V)),
+                      Ee.dmin !== void 0 && Ee.dmax === void 0 && m.equal('value', v.path, $i[1].length, Ee.dmin, V));
                   break;
                 case 'boolean':
                   break;
@@ -55619,12 +55629,12 @@ var mock = { exports: {} };
                     V,
                     this.diff(
                       (function () {
-                        var Vi;
+                        var $i;
                         return (
                           o.each(v.properties, function (tl) {
-                            tl.name === ht[ar] && (Vi = tl);
+                            tl.name === ht[ar] && ($i = tl);
                           }),
-                          Vi || v.properties[ar]
+                          $i || v.properties[ar]
                         );
                       })(),
                       I[ht[ar]],
@@ -55735,9 +55745,9 @@ var mock = { exports: {} };
         try {
           new window.Event('custom');
         } catch {
-          window.Event = function (Ee, ht, ar, Vi) {
+          window.Event = function (Ee, ht, ar, $i) {
             var tl = document.createEvent('CustomEvent');
-            return tl.initCustomEvent(Ee, ht, ar, Vi), tl;
+            return tl.initCustomEvent(Ee, ht, ar, $i), tl;
           };
         }
         var o = { UNSENT: 0, OPENED: 1, HEADERS_RECEIVED: 2, LOADING: 3, DONE: 4 },
@@ -55799,14 +55809,14 @@ var mock = { exports: {} };
           (v.prototype.mock = !0),
           (v.prototype.match = !1),
           s.extend(v.prototype, {
-            open: function (se, Ee, ht, ar, Vi) {
+            open: function (se, Ee, ht, ar, $i) {
               var tl = this;
               s.extend(this.custom, {
                 method: se,
                 url: Ee,
                 async: typeof ht == 'boolean' ? ht : !0,
                 username: ar,
-                password: Vi,
+                password: $i,
                 options: { url: Ee, type: se },
               }),
                 (this.custom.timeout = (function (Fl) {
@@ -55831,7 +55841,7 @@ var mock = { exports: {} };
                 var fl = I();
                 this.custom.xhr = fl;
                 for (var dl = 0; dl < a.length; dl++) fl.addEventListener(a[dl], hl);
-                ar ? fl.open(se, Ee, ht, ar, Vi) : fl.open(se, Ee, ht);
+                ar ? fl.open(se, Ee, ht, ar, $i) : fl.open(se, Ee, ht);
                 for (var Al = 0; Al < l.length; Al++)
                   try {
                     fl[l[Al]] = tl[l[Al]];
@@ -55920,21 +55930,21 @@ var mock = { exports: {} };
               ar[Ee] || (ar[Ee] = []), ar[Ee].push(ht);
             },
             removeEventListener: function (Ee, ht) {
-              for (var ar = this.custom.events[Ee] || [], Vi = 0; Vi < ar.length; Vi++)
-                ar[Vi] === ht && ar.splice(Vi--, 1);
+              for (var ar = this.custom.events[Ee] || [], $i = 0; $i < ar.length; $i++)
+                ar[$i] === ht && ar.splice($i--, 1);
             },
             dispatchEvent: function (Ee) {
               for (var ht = this.custom.events[Ee.type] || [], ar = 0; ar < ht.length; ar++) ht[ar].call(this, Ee);
-              var Vi = 'on' + Ee.type;
-              this[Vi] && this[Vi](Ee);
+              var $i = 'on' + Ee.type;
+              this[$i] && this[$i](Ee);
             },
           });
         function I() {
           var se = (function () {
             var ar = /^(?:about|app|app-storage|.+-extension|file|res|widget):$/,
-              Vi = /^([\w.+-]+:)(?:\/\/([^\/?#:]*)(?::(\d+)|)|)/,
+              $i = /^([\w.+-]+:)(?:\/\/([^\/?#:]*)(?::(\d+)|)|)/,
               tl = location.href,
-              Wi = Vi.exec(tl.toLowerCase()) || [];
+              Wi = $i.exec(tl.toLowerCase()) || [];
             return ar.test(Wi[1]);
           })();
           return window.ActiveXObject ? (!se && Ee()) || ht() : Ee();
@@ -55954,9 +55964,9 @@ var mock = { exports: {} };
             var ht = v.Mock._mocked[Ee];
             if ((!ht.rurl || ar(ht.rurl, se.url)) && (!ht.rtype || ar(ht.rtype, se.type.toLowerCase()))) return ht;
           }
-          function ar(Vi, tl) {
-            if (s.type(Vi) === 'string') return Vi === tl;
-            if (s.type(Vi) === 'regexp') return Vi.test(tl);
+          function ar($i, tl) {
+            if (s.type($i) === 'string') return $i === tl;
+            if (s.type($i) === 'regexp') return $i.test(tl);
           }
         }
         function V(se, Ee) {
@@ -56013,6 +56023,7 @@ const autoComplete = json5Language.data.of({ autocomplete: getCompletions }),
         f = navigator.platform.toLowerCase().includes('mac'),
         m = keymap.of([
           { win: 'Shift-Alt-f', mac: 'Shift-Cmd-f', run: () => (L(), !0) },
+          { key: 'Ctrl-s', run: () => (L(), !0) },
           { win: 'Shift-Alt-z', mac: 'Shift-Cmd-z', run: () => (V(), !0) },
         ]),
         v = computed(() => (l.value ? [...defaultExtensions, m, EditorView.lineWrapping] : [...defaultExtensions, m]));
@@ -56554,16 +56565,16 @@ function createHTTPBatchLink(r) {
             { promise: Ee, cancel: ht } = se.load(L);
           let ar;
           return (
-            Ee.then((Vi) => {
-              ar = Vi;
-              const tl = transformResult(Vi.json, a);
+            Ee.then(($i) => {
+              ar = $i;
+              const tl = transformResult($i.json, a);
               if (!tl.ok) {
-                V.error(TRPCClientError.from(tl.error, { meta: Vi.meta }));
+                V.error(TRPCClientError.from(tl.error, { meta: $i.meta }));
                 return;
               }
-              V.next({ context: Vi.meta, result: tl.result }), V.complete();
-            }).catch((Vi) => {
-              V.error(TRPCClientError.from(Vi, { meta: ar == null ? void 0 : ar.meta }));
+              V.next({ context: $i.meta, result: tl.result }), V.complete();
+            }).catch(($i) => {
+              V.error(TRPCClientError.from($i, { meta: ar == null ? void 0 : ar.meta }));
             }),
             () => {
               ht();
@@ -56796,7 +56807,7 @@ const useCollectionsStore = withRefs(
       }
       async function l(f) {
         try {
-          await trpc.deleteRule.mutate(f), await s();
+          await trpc.deleteRule.mutate(f), await s(), f === e.value && (e.value = 0);
         } catch (m) {
           handleError(m);
         }
@@ -56818,13 +56829,16 @@ const useCollectionsStore = withRefs(
         });
       watch(r, o);
       async function o() {
-        if (r)
-          try {
-            const ht = await trpc.getRuleFull.query(r.value);
-            e.value = ht;
-          } catch (ht) {
-            handleError(ht);
-          }
+        if (!r.value) {
+          e.value = void 0;
+          return;
+        }
+        try {
+          const ht = await trpc.getRuleFull.query(r.value);
+          e.value = ht;
+        } catch (ht) {
+          handleError(ht);
+        }
       }
       async function a(ht) {
         try {
@@ -56836,7 +56850,7 @@ const useCollectionsStore = withRefs(
       async function l(ht) {
         try {
           const ar = await trpc.createMock.mutate({ name: ht, ruleId: r.value });
-          return console.log('cr', ar), await o(), ar;
+          return await o(), ar;
         } catch (ar) {
           handleError(ar);
         }
@@ -57547,7 +57561,7 @@ const copy$1 = getDefaultExportFromCjs(copyToClipboard),
                       {
                         key: 0,
                         class: 'flex items-center pl-3 pr-8 inset-0 absolute cursor-pointer text-sm',
-                        onClick: ht[0] || (ht[0] = (Vi) => (l.value = !0)),
+                        onClick: ht[0] || (ht[0] = ($i) => (l.value = !0)),
                       },
                       [
                         createBaseVNode(
@@ -57564,13 +57578,13 @@ const copy$1 = getDefaultExportFromCjs(copyToClipboard),
                     'ref_key': 'inputRef',
                     'ref': m,
                     'modelValue': a.value,
-                    'onUpdate:modelValue': ht[1] || (ht[1] = (Vi) => (a.value = Vi)),
+                    'onUpdate:modelValue': ht[1] || (ht[1] = ($i) => (a.value = $i)),
                     'class': 'pr-8',
                     'placeholder': l.value ? 'Search' : '',
                     'bordered': '',
                     'size': 'sm',
-                    'onFocus': ht[2] || (ht[2] = (Vi) => (l.value = !0)),
-                    'onClick': ht[3] || (ht[3] = (Vi) => (l.value = !0)),
+                    'onFocus': ht[2] || (ht[2] = ($i) => (l.value = !0)),
+                    'onClick': ht[3] || (ht[3] = ($i) => (l.value = !0)),
                     'onKeydown': withKeys(se, ['esc']),
                   },
                   null,
@@ -57602,19 +57616,19 @@ const copy$1 = getDefaultExportFromCjs(copyToClipboard),
                           { key: 0 },
                           renderList(
                             v.value,
-                            (Vi) => (
+                            ($i) => (
                               openBlock(),
                               createBlock(
                                 _sfc_main$e,
                                 {
-                                  'key': Vi.id,
-                                  'mock': Vi,
-                                  'selected': Vi.id === Ee.modelValue,
+                                  'key': $i.id,
+                                  'mock': $i,
+                                  'selected': $i.id === Ee.modelValue,
                                   'dropdown-open': l.value,
                                   'read-only': Ee.readOnly,
-                                  'onClick': (tl) => I(Vi.id),
-                                  'onDelete': (tl) => L(Vi.id),
-                                  'onEditConfirm': (tl) => V(Vi.id, tl),
+                                  'onClick': (tl) => I($i.id),
+                                  'onDelete': (tl) => L($i.id),
+                                  'onEditConfirm': (tl) => V($i.id, tl),
                                 },
                                 null,
                                 8,
@@ -57692,8 +57706,8 @@ const copy$1 = getDefaultExportFromCjs(copyToClipboard),
               'flex items-center text-xs leading-6 cursor-pointer py-1 px-2 rounded',
               { 'hover:bg-base-200/80': !ht.selected, 'bg-primary-content/30': ht.selected },
             ]),
-            onMouseenter: ar[3] || (ar[3] = (Vi) => (f.value = !0)),
-            onMouseleave: ar[4] || (ar[4] = (Vi) => (f.value = !1)),
+            onMouseenter: ar[3] || (ar[3] = ($i) => (f.value = !0)),
+            onMouseleave: ar[4] || (ar[4] = ($i) => (f.value = !1)),
           },
           [
             createVNode(
@@ -57715,7 +57729,7 @@ const copy$1 = getDefaultExportFromCjs(copyToClipboard),
                         'ref_key': 'inputRef',
                         'ref': l,
                         'modelValue': a.value,
-                        'onUpdate:modelValue': ar[1] || (ar[1] = (Vi) => (a.value = Vi)),
+                        'onUpdate:modelValue': ar[1] || (ar[1] = ($i) => (a.value = $i)),
                         'class': 'flex-1 text-xs px-1 rounded',
                         'size': 'xs',
                         'bordered': '',
@@ -57759,7 +57773,7 @@ const copy$1 = getDefaultExportFromCjs(copyToClipboard),
                               unref(_sfc_main$l),
                               {
                                 transparent: '',
-                                onClick: ar[0] || (ar[0] = withModifiers((Vi) => (o.value = !0), ['stop'])),
+                                onClick: ar[0] || (ar[0] = withModifiers(($i) => (o.value = !0), ['stop'])),
                               },
                               { default: withCtx(() => [createVNode(unref(Edit))]), _: 1 },
                             ),
@@ -57902,7 +57916,7 @@ const copy$1 = getDefaultExportFromCjs(copyToClipboard),
   }),
   SideBar_vue_vue_type_style_index_0_scoped_9bdc50d8_lang = '',
   SideBar = _export_sfc(_sfc_main$b, [['__scopeId', 'data-v-9bdc50d8']]),
-  _withScopeId$4 = (r) => (pushScopeId('data-v-34b3e882'), (r = r()), popScopeId(), r),
+  _withScopeId$4 = (r) => (pushScopeId('data-v-55066e46'), (r = r()), popScopeId(), r),
   _hoisted_1$a = { class: 'flex-1 grid grid-cols-[auto,1fr] gap-x-4 gap-y-2' },
   _hoisted_2$7 = _withScopeId$4(() => createBaseVNode('div', { class: 'info-label' }, 'When', -1)),
   _hoisted_3$5 = { class: 'grid grid-cols-[1fr,auto,1fr,auto] gap-y-2' },
@@ -57961,9 +57975,22 @@ const copy$1 = getDefaultExportFromCjs(copyToClipboard),
                       _hoisted_9,
                       createBaseVNode('div', _hoisted_10, [
                         createVNode(
-                          unref(Button),
-                          { class: 'mr-2 flex-center flex-1 text-xs' },
-                          { default: withCtx(() => [createTextVNode('Fallback')]), _: 1 },
+                          unref(Tooltip),
+                          {
+                            class: 'flex-1 mr-2',
+                            content: 'only works when URL Path is not empty',
+                            position: 'bottom',
+                          },
+                          {
+                            default: withCtx(() => [
+                              createVNode(
+                                unref(Button),
+                                { class: 'flex-center w-full text-xs' },
+                                { default: withCtx(() => [createTextVNode('Fallback')]), _: 1 },
+                              ),
+                            ]),
+                            _: 1,
+                          },
                         ),
                         _hoisted_11,
                       ]),
@@ -58098,8 +58125,8 @@ const copy$1 = getDefaultExportFromCjs(copyToClipboard),
       );
     },
   }),
-  MatcherItem_vue_vue_type_style_index_0_scoped_34b3e882_lang = '',
-  MatcherItem = _export_sfc(_sfc_main$a, [['__scopeId', 'data-v-34b3e882']]),
+  MatcherItem_vue_vue_type_style_index_0_scoped_55066e46_lang = '',
+  MatcherItem = _export_sfc(_sfc_main$a, [['__scopeId', 'data-v-55066e46']]),
   _hoisted_1$9 = { class: 'h-screen w-screen flex' },
   _hoisted_2$6 = { class: 'h-screen flex-1 relative min-w-0 py-2 pr-2 bg-base-200' },
   _sfc_main$9 = defineComponent({
@@ -58179,7 +58206,7 @@ const copy$1 = getDefaultExportFromCjs(copyToClipboard),
   }),
   BasicConfig_vue_vue_type_style_index_0_scoped_dffe5ed4_lang = '',
   BasicConfigPanel = _export_sfc(_sfc_main$8, [['__scopeId', 'data-v-dffe5ed4']]),
-  _withScopeId$2 = (r) => (pushScopeId('data-v-cc45d921'), (r = r()), popScopeId(), r),
+  _withScopeId$2 = (r) => (pushScopeId('data-v-8005d4df'), (r = r()), popScopeId(), r),
   _hoisted_1$7 = { class: 'px-4 py-2 pr-3 flex items-center justify-between' },
   _hoisted_2$4 = _withScopeId$2(() => createBaseVNode('span', null, 'Matcher Config', -1)),
   _hoisted_3$3 = { class: 'p-4 text-sm overflow-auto h-full' },
@@ -58188,15 +58215,20 @@ const copy$1 = getDefaultExportFromCjs(copyToClipboard),
     __name: 'MatcherConfig',
     setup(r) {
       const {
-        matcherList: e,
-        createMatcher: n,
-        updateMatcher: s,
-        deleteMatcher: o,
-        createMatcherConfig: a,
-        updateMatcherConfig: l,
-        deleteMatcherConfig: f,
-      } = useRuleConfigStore();
-      return (m, v) => (
+          selectedRule: e,
+          matcherList: n,
+          createMatcher: s,
+          updateMatcher: o,
+          deleteMatcher: a,
+          createMatcherConfig: l,
+          updateMatcherConfig: f,
+          deleteMatcherConfig: m,
+        } = useRuleConfigStore(),
+        v = computed(() => {
+          var I;
+          return (I = e.value) != null && I.path.trim().length ? n.value : n.value.filter((L) => !L.default);
+        });
+      return (I, L) => (
         openBlock(),
         createBlock(unref(_sfc_main$v), null, {
           header: withCtx(() => [
@@ -58209,7 +58241,7 @@ const copy$1 = getDefaultExportFromCjs(copyToClipboard),
                   default: withCtx(() => [
                     createVNode(
                       unref(_sfc_main$l),
-                      { onClick: unref(n) },
+                      { onClick: unref(s) },
                       { default: withCtx(() => [createVNode(unref(FileAddition))]), _: 1 },
                       8,
                       ['onClick'],
@@ -58227,23 +58259,23 @@ const copy$1 = getDefaultExportFromCjs(copyToClipboard),
                 Fragment,
                 null,
                 renderList(
-                  unref(e),
-                  (I, L) => (
+                  v.value,
+                  (V, se) => (
                     openBlock(),
                     createElementBlock(
                       Fragment,
-                      { key: I.id },
+                      { key: V.id },
                       [
-                        L !== 0 ? (openBlock(), createElementBlock('div', _hoisted_4$3)) : createCommentVNode('', !0),
+                        se !== 0 ? (openBlock(), createElementBlock('div', _hoisted_4$3)) : createCommentVNode('', !0),
                         createVNode(
                           unref(MatcherItem),
                           {
-                            matcher: I,
-                            onUpdate: (V) => unref(s)({ id: I.id, mockId: V }),
-                            onDelete: (V) => unref(o)(I.id),
-                            onCreateConfig: (V) => unref(a)(I.id),
-                            onUpdateConfig: unref(l),
-                            onDeleteConfig: unref(f),
+                            matcher: V,
+                            onUpdate: (Ee) => unref(o)({ id: V.id, mockId: Ee }),
+                            onDelete: (Ee) => unref(a)(V.id),
+                            onCreateConfig: (Ee) => unref(l)(V.id),
+                            onUpdateConfig: unref(f),
+                            onDeleteConfig: unref(m),
                           },
                           null,
                           8,
@@ -58263,8 +58295,8 @@ const copy$1 = getDefaultExportFromCjs(copyToClipboard),
       );
     },
   }),
-  MatcherConfig_vue_vue_type_style_index_0_scoped_cc45d921_lang = '',
-  MatcherConfigPanel = _export_sfc(_sfc_main$7, [['__scopeId', 'data-v-cc45d921']]),
+  MatcherConfig_vue_vue_type_style_index_0_scoped_8005d4df_lang = '',
+  MatcherConfigPanel = _export_sfc(_sfc_main$7, [['__scopeId', 'data-v-8005d4df']]),
   _hoisted_1$6 = { class: 'px-4 py-2 pr-3 flex items-center justify-between' },
   _hoisted_2$3 = createBaseVNode('span', null, 'Mock Config', -1),
   _hoisted_3$2 = { class: 'p-4 flex flex-col h-full' },
@@ -58272,45 +58304,48 @@ const copy$1 = getDefaultExportFromCjs(copyToClipboard),
   _sfc_main$6 = defineComponent({
     __name: 'MockConfig',
     setup(r) {
+      var ar;
       const { selectedRule: e, deleteMock: n, updateMock: s } = useRuleConfigStore(),
-        o = computed(() => e.value.mocks),
+        o = computed(() => {
+          var $i;
+          return (($i = e.value) == null ? void 0 : $i.mocks) ?? [];
+        }),
         a = ref(!1),
-        l = computed(() => o.value.find((ar) => ar.default).id),
-        f = ref(l.value),
-        m = computed(() => o.value.find((ar) => ar.id === f.value)),
-        v = ref(m.value.body);
-      useEventBus(GlobalEvents.ChangeSelectMock).on((ar) => {
-        o.value.find((Vi) => Vi.id === ar.id) && (f.value = ar.id);
+        l = computed(() => {
+          var $i;
+          return ($i = o.value.find((tl) => tl.default)) == null ? void 0 : $i.id;
+        }),
+        f = ref(l.value ?? 0),
+        m = computed(() => o.value.find(($i) => $i.id === f.value)),
+        v = ref(((ar = m.value) == null ? void 0 : ar.body) ?? '');
+      useEventBus(GlobalEvents.ChangeSelectMock).on(($i) => {
+        o.value.find((tl) => tl.id === $i.id) && (f.value = $i.id);
       }),
         watch(f, () => {
-          v.value = m.value.body;
+          var $i;
+          v.value = (($i = m.value) == null ? void 0 : $i.body) ?? '';
         }),
         watch(l, () => {
-          f.value = l.value;
+          f.value = l.value ?? 0;
         });
-      const L = useDebounceFn((ar) => {
-        s(ar);
+      const L = useDebounceFn(($i) => {
+        s($i);
       }, updateSaveDelay);
       function V() {
-        const ar = f.value,
-          Vi = v.value;
-        L({ id: ar, body: Vi });
+        const $i = f.value,
+          tl = v.value;
+        $i && L({ id: $i, body: tl });
       }
-      async function se(ar) {
-        ar === f.value && (f.value = l.value), await n(ar);
+      async function se($i) {
+        $i === f.value && (f.value = l.value ?? 0), await n($i);
       }
-      async function Ee(ar, Vi) {
-        (o.value.find((tl) => tl.id === ar).name = Vi), await s({ id: ar, name: Vi });
+      async function Ee($i, tl) {
+        (o.value.find((Wi) => Wi.id === $i).name = tl), await s({ id: $i, name: tl });
       }
-      function ht(ar) {
-        console.log(
-          'created',
-          ar,
-          o.value.find((Vi) => Vi.id === ar),
-        ),
-          !(!ar || !o.value.find((Vi) => Vi.id === ar)) && (f.value = ar);
+      function ht($i) {
+        !$i || !o.value.find((tl) => tl.id === $i) || (f.value = $i);
       }
-      return (ar, Vi) => (
+      return ($i, tl) => (
         openBlock(),
         createBlock(unref(_sfc_main$v), null, {
           header: withCtx(() => [
@@ -58323,7 +58358,7 @@ const copy$1 = getDefaultExportFromCjs(copyToClipboard),
                   default: withCtx(() => [
                     createVNode(
                       unref(_sfc_main$l),
-                      { onClick: Vi[0] || (Vi[0] = (tl) => (a.value = !0)) },
+                      { onClick: tl[0] || (tl[0] = (Wi) => (a.value = !0)) },
                       { default: withCtx(() => [createVNode(unref(FileAddition))]), _: 1 },
                     ),
                   ]),
@@ -58339,7 +58374,7 @@ const copy$1 = getDefaultExportFromCjs(copyToClipboard),
                   unref(_sfc_main$d),
                   {
                     'modelValue': f.value,
-                    'onUpdate:modelValue': Vi[1] || (Vi[1] = (tl) => (f.value = tl)),
+                    'onUpdate:modelValue': tl[1] || (tl[1] = (Wi) => (f.value = Wi)),
                     'onDelete': se,
                     'onUpdate': Ee,
                   },
@@ -58352,7 +58387,7 @@ const copy$1 = getDefaultExportFromCjs(copyToClipboard),
                 unref(_sfc_main$j),
                 {
                   'modelValue': v.value,
-                  'onUpdate:modelValue': Vi[2] || (Vi[2] = (tl) => (v.value = tl)),
+                  'onUpdate:modelValue': tl[2] || (tl[2] = (Wi) => (v.value = Wi)),
                   'class': 'editor flex-1 min-h-0',
                   'onChange': V,
                 },
@@ -58365,7 +58400,7 @@ const copy$1 = getDefaultExportFromCjs(copyToClipboard),
               unref(_sfc_main$f),
               {
                 'modelValue': a.value,
-                'onUpdate:modelValue': Vi[3] || (Vi[3] = (tl) => (a.value = tl)),
+                'onUpdate:modelValue': tl[3] || (tl[3] = (Wi) => (a.value = Wi)),
                 'onCreated': ht,
               },
               null,
@@ -58410,7 +58445,7 @@ const copy$1 = getDefaultExportFromCjs(copyToClipboard),
       }
       async function V(se, Ee) {
         const ht = Ee.trim(),
-          ar = n.value.find((Vi) => Vi.id === se);
+          ar = n.value.find(($i) => $i.id === se);
         ht && ar && ht !== ar.name && ((ar.name = ht), await o({ id: se, name: ht }));
       }
       return (se, Ee) => (

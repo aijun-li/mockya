@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { IconButton, MockDropdownList } from '@/components';
 import { GlobalEvents, updateSaveDelay } from '@/const';
-import { Button, Input } from '@/daisy';
+import { Button, Input, Tooltip } from '@/daisy';
 import { useConfirm } from '@/hooks';
 import { Matcher, MatcherUpdateConfig } from '@/types';
 import { Delete, Plus, ReduceOne } from '@icon-park/vue-next';
@@ -102,7 +102,9 @@ function onMockChange(id: number) {
       <template v-else>
         <div class="info-label">When</div>
         <div class="info-label flex">
-          <Button class="mr-2 flex-center flex-1 text-xs">Fallback</Button>
+          <Tooltip class="flex-1 mr-2" content="only works when URL Path is not empty" position="bottom">
+            <Button class="flex-center w-full text-xs">Fallback</Button>
+          </Tooltip>
           <div class="empty-placeholder" />
         </div>
       </template>

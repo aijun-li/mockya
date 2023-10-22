@@ -3,8 +3,10 @@ import { ContentCard, IconButton, MatcherItem } from '@/components';
 import { Tooltip } from '@/daisy';
 import { useRuleConfigStore } from '@/store';
 import { FileAddition } from '@icon-park/vue-next';
+import { computed } from 'vue';
 
 const {
+  selectedRule,
   matcherList,
   createMatcher,
   updateMatcher,
@@ -13,6 +15,14 @@ const {
   updateMatcherConfig,
   deleteMatcherConfig,
 } = useRuleConfigStore();
+
+const filteredMatcherList = computed(() => {
+  if (selectedRule.value?.path.trim().length) {
+    return matcherList.value;
+  } else {
+    return matcherList.value.filter((matcher) => !matcher.default);
+  }
+});
 </script>
 
 <template>
@@ -29,7 +39,7 @@ const {
     </template>
     <template #default>
       <div class="p-4 text-sm overflow-auto h-full">
-        <template v-for="(matcher, index) in matcherList" :key="matcher.id">
+        <template v-for="(matcher, index) in filteredMatcherList" :key="matcher.id">
           <div v-if="index !== 0" class="divider my-2" />
           <MatcherItem
             :matcher="matcher"

@@ -53,6 +53,9 @@ export const useRuleListStore = withRefs(
       try {
         await trpc.deleteRule.mutate(id);
         await fetchRuleList();
+        if (id === selectedRuleId.value) {
+          selectedRuleId.value = 0;
+        }
       } catch (error) {
         handleError(error);
       }
