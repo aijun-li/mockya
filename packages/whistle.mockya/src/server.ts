@@ -1,7 +1,7 @@
 import JSON5 from 'json5';
 import Mock from 'mockjs';
 import db from './db';
-import { JSONValue, OriginalReq } from './types';
+import { JSONValue, MatchCandidate, OriginalReq } from './types';
 
 function handleError(error: unknown) {
   console.error(error);
@@ -60,11 +60,24 @@ async function getBodyEntries(req: Whistle.PluginServerRequest) {
   }
 }
 
+function matchCandidateCompareFn(a: MatchCandidate, b: MatchCandidate) {
+  const [_a, aConfigCount, aPathLength, aIsDefault, aCreatedAt] = a;
+  const [_b, bConfigCount, bPathLength, bIsDefault, bCreatedAt] = b;
+
+  if (aConfigCount !== bConfigCount) {
+    return bConfigCount - aConfigCount;
+  } else if (aPathLength !== bPathLength) {
+    return bPathLength - aPathLength;
+  } else if (aIsDefault !== bIsDefault) {
+    return aIsDefault - bIsDefault;
+  } else {
+    return aCreatedAt - bCreatedAt;
+  }
+}
+
 export default (server: Whistle.PluginServer, options: Whistle.PluginOptions) => {
   // handle http request
   server.on('request', async (req: Whistle.PluginServerRequest, res: Whistle.PluginServerResponse) => {
-    let returnData: JSONValue | undefined = undefined;
-
     const oReq = req.originalReq;
 
     const collection = await getTargetCollection(oReq);
@@ -77,47 +90,42 @@ export default (server: Whistle.PluginServer, options: Whistle.PluginOptions) =>
     const bodyEntries = await getBodyEntries(req);
     const fullEntries = [...queryEntries, ...bodyEntries];
 
-    const targetRule = rules.filter((rule) => rule.enabled).find((rule) => path.includes(rule.path.trim()));
+    const availableRules = rules.filter((rule) => rule.enabled && path.includes(rule.path.trim()));
 
-    if (targetRule) {
-      const { matchers } = targetRule;
+    const candidates = availableRules
+      .reduce((arr, rule) => {
+        const pathLength = rule.path.trim().length;
 
-      let defaultMock: JSONValue | undefined = undefined;
-      let matchMock: JSONValue | undefined = undefined;
-
-      const matchCandidates: [body: JSONValue, matchCount: number, createTime: number][] = [];
-
-      for (const matcher of matchers) {
-        if (matcher.default) {
-          defaultMock = validateJSON5(matcher.mock.body);
-        } else {
-          const availableConfigs = matcher.configs.filter((config) => config.key.trim() && config.value.trim());
-
-          const matchAllConfigs = availableConfigs.every((config) =>
-            fullEntries.some(
-              ([key, value]) =>
-                key.trim().toLowerCase() === config.key.trim().toLowerCase() &&
-                value.trim().toLowerCase() === config.value.trim().toLowerCase(),
-            ),
-          );
-
-          if (matchAllConfigs) {
+        rule.matchers.forEach((matcher) => {
+          if (matcher.default) {
             const mockBody = validateJSON5(matcher.mock.body);
+            // fallback mock only works when configured path is not empty
+            if (mockBody !== undefined && pathLength) {
+              arr.push([mockBody, 0, pathLength, 1, new Date(matcher.createdAt).valueOf()]);
+            }
+          } else {
+            const availableConfigs = matcher.configs.filter((config) => config.key.trim() && config.value.trim());
 
-            if (mockBody !== undefined) {
-              matchCandidates.push([mockBody, availableConfigs.length, new Date(matcher.createdAt).valueOf()]);
+            const matchAllConfigs = availableConfigs.every((config) =>
+              fullEntries.some(
+                ([key, value]) => key.trim() === config.key.trim() && value.trim() === config.value.trim(),
+              ),
+            );
+
+            if (matchAllConfigs) {
+              const mockBody = validateJSON5(matcher.mock.body);
+              if (mockBody !== undefined) {
+                arr.push([mockBody, availableConfigs.length, pathLength, 0, new Date(matcher.createdAt).valueOf()]);
+              }
             }
           }
-        }
-      }
+        });
 
-      // sort by  1. match configs count  2. create time
-      matchCandidates.sort((a, b) => (a[1] > b[1] ? -1 : a[1] === b[1] ? a[2] - b[2] : 1));
+        return arr;
+      }, [] as MatchCandidate[])
+      .sort(matchCandidateCompareFn);
 
-      matchMock = matchCandidates[0]?.[0];
-
-      returnData = matchMock || defaultMock;
-    }
+    const returnData = candidates[0]?.[0];
 
     if (returnData !== undefined) {
       res.setHeader('mockya', '1');

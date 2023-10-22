@@ -17,7 +17,8 @@ export const useRuleConfigStore = withRefs(
     watch(selectedRuleId, fetchRuleConfig);
 
     async function fetchRuleConfig() {
-      if (!selectedRuleId) {
+      if (!selectedRuleId.value) {
+        selectedRule.value = undefined;
         return;
       }
 
@@ -46,7 +47,6 @@ export const useRuleConfigStore = withRefs(
           name,
           ruleId: selectedRuleId.value,
         });
-        console.log('cr', data);
         await fetchRuleConfig();
         return data;
       } catch (error) {

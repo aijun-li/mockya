@@ -55,6 +55,13 @@ const keyMap = keymap.of([
     },
   },
   {
+    key: 'Ctrl-s',
+    run: () => {
+      format();
+      return true;
+    },
+  },
+  {
     win: 'Shift-Alt-z',
     mac: 'Shift-Cmd-z',
     run: () => {
