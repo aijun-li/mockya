@@ -55,7 +55,8 @@ const keyMap = keymap.of([
     },
   },
   {
-    key: 'Ctrl-s',
+    win: 'Ctrl-s',
+    mac: 'Cmd-s',
     run: () => {
       format();
       return true;

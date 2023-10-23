@@ -2,33 +2,36 @@ import JSON5 from 'json5';
 import Mock from 'mockjs';
 import db from './db';
 import { JSONValue, MatchCandidate, OriginalReq } from './types';
+import baseLogger from './logger';
+import winston from 'winston';
 
-function handleError(error: unknown) {
+function handleError(error: unknown, logger: winston.Logger) {
   console.error(error);
+  logger.error(JSON.stringify(error, null, 2));
 }
 
-async function getTargetCollection(oReq: OriginalReq) {
+async function getTargetCollection(oReq: OriginalReq, logger: winston.Logger) {
   try {
     const collectionId = oReq.ruleValue;
     const collection = await db.collection.getFullWithoutMocks(collectionId);
     return collection;
   } catch (error) {
-    handleError(error);
+    handleError(error, logger);
     return null;
   }
 }
 
-function validateJSON5(code: string): JSONValue | undefined {
+function validateJSON5(code: string, logger: winston.Logger): JSONValue | undefined {
   try {
     const data = JSON5.parse(code);
     return data;
   } catch (error) {
-    handleError(error);
+    handleError(error, logger);
     return undefined;
   }
 }
 
-async function getBodyEntries(req: Whistle.PluginServerRequest) {
+async function getBodyEntries(req: Whistle.PluginServerRequest, logger: winston.Logger) {
   const rawBody: string = await new Promise((resolve) => {
     req.getReqSession((result) => {
       if (typeof result === 'string') {
@@ -53,7 +56,7 @@ async function getBodyEntries(req: Whistle.PluginServerRequest) {
       [] as [string, string][],
     );
   } else {
-    const data = validateJSON5(rawBody);
+    const data = validateJSON5(rawBody, logger);
     return data && typeof data === 'object'
       ? Object.entries(data).map(([key, value]) => [key, typeof value === 'string' ? value : JSON.stringify(value)])
       : [];
@@ -61,8 +64,8 @@ async function getBodyEntries(req: Whistle.PluginServerRequest) {
 }
 
 function matchCandidateCompareFn(a: MatchCandidate, b: MatchCandidate) {
-  const [_a, aConfigCount, aPathLength, aIsDefault, aCreatedAt] = a;
-  const [_b, bConfigCount, bPathLength, bIsDefault, bCreatedAt] = b;
+  const [aConfigCount, aPathLength, aIsDefault, aCreatedAt] = a;
+  const [bConfigCount, bPathLength, bIsDefault, bCreatedAt] = b;
 
   if (aConfigCount !== bConfigCount) {
     return bConfigCount - aConfigCount;
@@ -80,15 +83,30 @@ export default (server: Whistle.PluginServer, options: Whistle.PluginOptions) =>
   server.on('request', async (req: Whistle.PluginServerRequest, res: Whistle.PluginServerResponse) => {
     const oReq = req.originalReq;
 
-    const collection = await getTargetCollection(oReq);
+    const logger = baseLogger.child({
+      reqId: oReq.id,
+    });
+
+    logger.info(`url: ${oReq.url}`);
+
+    const collection = await getTargetCollection(oReq, logger);
     const rules = collection?.rules ?? [];
+
+    if (collection) {
+      logger.info(`collection: ${collection.name} (#${collection.id})`);
+    } else {
+      logger.info(`collection: none`);
+    }
 
     const url = new URL(req.originalReq.url);
     const path = url.pathname.trim();
 
     const queryEntries = Array.from(url.searchParams.entries());
-    const bodyEntries = await getBodyEntries(req);
+    const bodyEntries = await getBodyEntries(req, logger);
     const fullEntries = [...queryEntries, ...bodyEntries];
+
+    logger.info(`query: ${JSON.stringify(queryEntries)}`);
+    logger.info(`body: ${JSON.stringify(bodyEntries)}`);
 
     const availableRules = rules.filter((rule) => rule.enabled && path.includes(rule.path.trim()));
 
@@ -98,10 +116,10 @@ export default (server: Whistle.PluginServer, options: Whistle.PluginOptions) =>
 
         rule.matchers.forEach((matcher) => {
           if (matcher.default) {
-            const mockBody = validateJSON5(matcher.mock.body);
+            const mockBody = validateJSON5(matcher.mock.body, logger);
             // fallback mock only works when configured path is not empty
             if (mockBody !== undefined && pathLength) {
-              arr.push([mockBody, 0, pathLength, 1, new Date(matcher.createdAt).valueOf()]);
+              arr.push([0, pathLength, 1, new Date(matcher.createdAt).valueOf(), mockBody, rule.id, matcher.id]);
             }
           } else {
             const availableConfigs = matcher.configs.filter((config) => config.key.trim() && config.value.trim());
@@ -113,9 +131,17 @@ export default (server: Whistle.PluginServer, options: Whistle.PluginOptions) =>
             );
 
             if (matchAllConfigs) {
-              const mockBody = validateJSON5(matcher.mock.body);
+              const mockBody = validateJSON5(matcher.mock.body, logger);
               if (mockBody !== undefined) {
-                arr.push([mockBody, availableConfigs.length, pathLength, 0, new Date(matcher.createdAt).valueOf()]);
+                arr.push([
+                  availableConfigs.length,
+                  pathLength,
+                  0,
+                  new Date(matcher.createdAt).valueOf(),
+                  mockBody,
+                  rule.id,
+                  matcher.id,
+                ]);
               }
             }
           }
@@ -125,14 +151,18 @@ export default (server: Whistle.PluginServer, options: Whistle.PluginOptions) =>
       }, [] as MatchCandidate[])
       .sort(matchCandidateCompareFn);
 
-    const returnData = candidates[0]?.[0];
+    const returnCandidate = candidates[0];
+    const returnData = returnCandidate?.[4];
 
     if (returnData !== undefined) {
       res.setHeader('mockya', '1');
       res.setHeader('Content-Type', 'application/json; charset=UTF-8');
       res.end(JSON.stringify(Mock.mock(returnData)));
+      logger.info(`match: ${collection?.id}/${returnCandidate[5]}/${returnCandidate[6]}`);
+      logger.info('mock: true');
     } else {
       req.passThrough();
+      logger.info('mock: false');
     }
   });
 
