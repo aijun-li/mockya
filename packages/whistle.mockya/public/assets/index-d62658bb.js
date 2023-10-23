@@ -68,7 +68,7 @@ function requireDayjs_min() {
             Ee = 'date',
             ht = 'Invalid Date',
             ar = /^(\d{4})[-/]?(\d{1,2})?[-/]?(\d{0,2})[Tt\s]*(\d{1,2})?:?(\d{1,2})?:?(\d{1,2})?[.:]?(\d+)?$/,
-            $i = /\[([^\]]+)]|Y{1,4}|M{1,4}|D{1,2}|d{1,4}|H{1,2}|h{1,2}|a|A|m{1,2}|s{1,2}|Z{1,2}|SSS/g,
+            An = /\[([^\]]+)]|Y{1,4}|M{1,4}|D{1,2}|d{1,4}|H{1,2}|h{1,2}|a|A|m{1,2}|s{1,2}|Z{1,2}|SSS/g,
             tl = {
               name: 'en',
               weekdays: 'Sunday_Monday_Tuesday_Wednesday_Thursday_Friday_Saturday'.split('_'),
@@ -326,7 +326,7 @@ function requireDayjs_min() {
                         var bl = Ul < 12 ? 'AM' : 'PM';
                         return gl ? bl.toLowerCase() : bl;
                       };
-                  return ql.replace($i, function (Ul, Dh) {
+                  return ql.replace(An, function (Ul, Dh) {
                     return (
                       Dh ||
                       (function (gl) {
@@ -594,7 +594,7 @@ var relativeTime$1 = { exports: {} };
             var Ee,
               ht,
               ar,
-              $i = L.$locale().relativeTime || l,
+              An = L.$locale().relativeTime || l,
               tl = n.thresholds || [
                 { l: 's', r: 44, d: 'second' },
                 { l: 'm', r: 89 },
@@ -618,13 +618,13 @@ var relativeTime$1 = { exports: {} };
             var dl = (n.rounding || Math.round)(Math.abs(Ee));
             if (((ar = Ee > 0), dl <= fl.r || !fl.r)) {
               dl <= 1 && hl > 0 && (fl = tl[hl - 1]);
-              var Al = $i[fl.l];
+              var Al = An[fl.l];
               se && (dl = se('' + dl)), (ht = typeof Al == 'string' ? Al.replace('%d', dl) : Al(dl, I, fl.l, ar));
               break;
             }
           }
           if (I) return ht;
-          var Fl = ar ? $i.future : $i.past;
+          var Fl = ar ? An.future : An.past;
           return typeof Fl == 'function' ? Fl(ht) : Fl.replace('%s', ht);
         }),
         (a.to = function (v, I) {
@@ -1679,27 +1679,27 @@ function renderComponentRoot(r) {
     ctx: Ee,
     inheritAttrs: ht,
   } = r;
-  let ar, $i;
+  let ar, An;
   const tl = setCurrentRenderingInstance(r);
   try {
     if (n.shapeFlag & 4) {
       const hl = o || s;
-      (ar = normalizeVNode(I.call(hl, hl, L, a, se, V, Ee))), ($i = m);
+      (ar = normalizeVNode(I.call(hl, hl, L, a, se, V, Ee))), (An = m);
     } else {
       const hl = e;
       (ar = normalizeVNode(hl.length > 1 ? hl(a, { attrs: m, slots: f, emit: v }) : hl(a, null))),
-        ($i = e.props ? m : getFunctionalFallthrough(m));
+        (An = e.props ? m : getFunctionalFallthrough(m));
     }
   } catch (hl) {
     (blockStack.length = 0), handleError$1(hl, r, 1), (ar = createVNode(Comment));
   }
   let Wi = ar;
-  if ($i && ht !== !1) {
-    const hl = Object.keys($i),
+  if (An && ht !== !1) {
+    const hl = Object.keys(An),
       { shapeFlag: fl } = Wi;
     hl.length &&
       fl & 7 &&
-      (l && hl.some(isModelListener) && ($i = filterModelListeners($i, l)), (Wi = cloneVNode(Wi, $i)));
+      (l && hl.some(isModelListener) && (An = filterModelListeners(An, l)), (Wi = cloneVNode(Wi, An)));
   }
   return (
     n.dirs && ((Wi = cloneVNode(Wi)), (Wi.dirs = Wi.dirs ? Wi.dirs.concat(n.dirs) : n.dirs)),
@@ -1820,13 +1820,13 @@ function doWatch(r, e, { immediate: n, deep: s, flush: o, onTrack: a, onTrigger:
       } else tl.run();
   };
   ar.allowRecurse = !!e;
-  let $i;
+  let An;
   o === 'sync'
-    ? ($i = ar)
+    ? (An = ar)
     : o === 'post'
-    ? ($i = () => queuePostRenderEffect(ar, m && m.suspense))
-    : ((ar.pre = !0), m && (ar.id = m.uid), ($i = () => queueJob(ar)));
-  const tl = new ReactiveEffect(v, $i);
+    ? (An = () => queuePostRenderEffect(ar, m && m.suspense))
+    : ((ar.pre = !0), m && (ar.id = m.uid), (An = () => queueJob(ar)));
+  const tl = new ReactiveEffect(v, An);
   e ? (n ? ar() : (ht = tl.run())) : o === 'post' ? queuePostRenderEffect(tl.run.bind(tl), m && m.suspense) : tl.run();
   const Wi = () => {
     tl.stop(), m && m.scope && remove$1(m.scope.effects, tl);
@@ -1961,11 +1961,11 @@ const TransitionHookValidator = [Function, Array],
             );
           m === 'in-out' &&
             v.type !== Comment &&
-            (ht.delayLeave = (ar, $i, tl) => {
+            (ht.delayLeave = (ar, An, tl) => {
               const Wi = getLeavingNodesForType(s, V);
               (Wi[String(V.key)] = V),
                 (ar._leaveCb = () => {
-                  $i(), (ar._leaveCb = void 0), delete I.delayedLeave;
+                  An(), (ar._leaveCb = void 0), delete I.delayedLeave;
                 }),
                 (I.delayedLeave = tl);
             });
@@ -1995,7 +1995,7 @@ function resolveTransitionHooks(r, e, n, s) {
       onLeaveCancelled: Ee,
       onBeforeAppear: ht,
       onAppear: ar,
-      onAfterAppear: $i,
+      onAfterAppear: An,
       onAppearCancelled: tl,
     } = e,
     Wi = String(r.key),
@@ -2024,7 +2024,7 @@ function resolveTransitionHooks(r, e, n, s) {
           kl = v,
           El = I;
         if (!n.isMounted)
-          if (o) (vl = ar || m), (kl = $i || v), (El = tl || I);
+          if (o) (vl = ar || m), (kl = An || v), (El = tl || I);
           else return;
         let Jl = !1;
         const Kc = (Fl._enterCb = (Il) => {
@@ -2312,7 +2312,7 @@ function applyOptions(r) {
     updated: Ee,
     activated: ht,
     deactivated: ar,
-    beforeDestroy: $i,
+    beforeDestroy: An,
     beforeUnmount: tl,
     destroyed: Wi,
     unmounted: hl,
@@ -2878,7 +2878,7 @@ function baseCreateRenderer(r, e) {
           ar(gl, bl, Pl, Rl);
           break;
         case Comment:
-          $i(gl, bl, Pl, Rl);
+          An(gl, bl, Pl, Rl);
           break;
         case Static:
           gl == null && tl(bl, Pl, Rl, th);
@@ -2902,7 +2902,7 @@ function baseCreateRenderer(r, e) {
         bl.children !== gl.children && v(Wl, bl.children);
       }
     },
-    $i = (gl, bl, Pl, Rl) => {
+    An = (gl, bl, Pl, Rl) => {
       gl == null ? s((bl.el = m(bl.children || '')), Pl, Rl) : (bl.el = gl.el);
     },
     tl = (gl, bl, Pl, Rl) => {
@@ -3045,7 +3045,7 @@ function baseCreateRenderer(r, e) {
       if ((isKeepAlive(gl) && (Hc.ctx.renderer = zc), setupComponent(Hc), Hc.asyncDep)) {
         if ((Wl && Wl.registerDep(Hc, Nl), !gl.el)) {
           const Qc = (Hc.subTree = createVNode(Comment));
-          $i(null, Qc, bl, Pl);
+          An(null, Qc, bl, Pl);
         }
         return;
       }
@@ -4054,12 +4054,12 @@ function resolveTransitionProps(r) {
     ht = Ee && Ee[0],
     ar = Ee && Ee[1],
     {
-      onBeforeEnter: $i,
+      onBeforeEnter: An,
       onEnter: tl,
       onEnterCancelled: Wi,
       onLeave: hl,
       onLeaveCancelled: fl,
-      onBeforeAppear: dl = $i,
+      onBeforeAppear: dl = An,
       onAppear: Al = tl,
       onAppearCancelled: Fl = Wi,
     } = e,
@@ -4085,7 +4085,7 @@ function resolveTransitionProps(r) {
     };
   return extend$1(e, {
     onBeforeEnter(Jl) {
-      callHook($i, [Jl]), addTransitionClass(Jl, a), addTransitionClass(Jl, l);
+      callHook(An, [Jl]), addTransitionClass(Jl, a), addTransitionClass(Jl, l);
     },
     onBeforeAppear(Jl) {
       callHook(dl, [Jl]), addTransitionClass(Jl, m), addTransitionClass(Jl, v);
@@ -4416,7 +4416,7 @@ function createSetupStore(r, e, n = {}, s, o, a) {
       (I = !0),
       triggerSubscriptions(L, vl, s.state.value[r]);
   }
-  const $i = a
+  const An = a
     ? function () {
         const { state: vl } = n,
           kl = vl ? vl() : {};
@@ -4459,7 +4459,7 @@ function createSetupStore(r, e, n = {}, s, o, a) {
       $id: r,
       $onAction: addSubscription.bind(null, V),
       $patch: ar,
-      $reset: $i,
+      $reset: An,
       $subscribe(Fl, vl = {}) {
         const kl = addSubscription(L, Fl, vl.detached, () => El()),
           El = l.run(() =>
@@ -4702,8 +4702,8 @@ function useHistoryListeners(r, e, n, s) {
       }
       ar = ht ? V.position - ht.position : 0;
     } else s(se);
-    o.forEach(($i) => {
-      $i(n.value, Ee, {
+    o.forEach((An) => {
+      An(n.value, Ee, {
         delta: ar,
         type: NavigationType.pop,
         direction: ar ? (ar > 0 ? NavigationDirection.forward : NavigationDirection.back) : NavigationDirection.unknown,
@@ -4837,9 +4837,9 @@ function tokensToParser(r, e) {
       let se = 40 + (n.sensitive ? 0.25 : 0);
       if (V.type === 0) L || (o += '/'), (o += V.value.replace(REGEX_CHARS_RE, '\\$&')), (se += 40);
       else if (V.type === 1) {
-        const { value: Ee, repeatable: ht, optional: ar, regexp: $i } = V;
+        const { value: Ee, repeatable: ht, optional: ar, regexp: An } = V;
         a.push({ name: Ee, repeatable: ht, optional: ar });
-        const tl = $i || BASE_PARAM_PATTERN;
+        const tl = An || BASE_PARAM_PATTERN;
         if (tl !== BASE_PARAM_PATTERN) {
           se += 10;
           try {
@@ -4887,10 +4887,10 @@ function tokensToParser(r, e) {
         if (se.type === 0) I += se.value;
         else if (se.type === 1) {
           const { value: Ee, repeatable: ht, optional: ar } = se,
-            $i = Ee in v ? v[Ee] : '';
-          if (isArray($i) && !ht)
+            An = Ee in v ? v[Ee] : '';
+          if (isArray(An) && !ht)
             throw new Error(`Provided param "${Ee}" is an array but it is not repeatable (* or + modifiers)`);
-          const tl = isArray($i) ? $i.join('/') : $i;
+          const tl = isArray(An) ? An.join('/') : An;
           if (!tl)
             if (ar) V.length < 2 && (I.endsWith('/') ? (I = I.slice(0, -1)) : (L = !0));
             else throw new Error(`Missing required param "${Ee}"`);
@@ -5031,7 +5031,7 @@ function createRouterMatcher(r, e) {
           assign({}, Ee, { components: V ? V.record.components : Ee.components, path: hl, aliasOf: V ? V.record : Ee }),
         );
     }
-    let $i, tl;
+    let An, tl;
     for (const Wi of ar) {
       const { path: hl } = Wi;
       if (L && hl[0] !== '/') {
@@ -5040,18 +5040,18 @@ function createRouterMatcher(r, e) {
         Wi.path = L.record.path + (hl && dl + hl);
       }
       if (
-        (($i = createRouteRecordMatcher(Wi, L, ht)),
+        ((An = createRouteRecordMatcher(Wi, L, ht)),
         V
-          ? V.alias.push($i)
-          : ((tl = tl || $i), tl !== $i && tl.alias.push($i), se && I.name && !isAliasRecord($i) && l(I.name)),
+          ? V.alias.push(An)
+          : ((tl = tl || An), tl !== An && tl.alias.push(An), se && I.name && !isAliasRecord(An) && l(I.name)),
         Ee.children)
       ) {
         const fl = Ee.children;
-        for (let dl = 0; dl < fl.length; dl++) a(fl[dl], $i, V && V.children[dl]);
+        for (let dl = 0; dl < fl.length; dl++) a(fl[dl], An, V && V.children[dl]);
       }
-      (V = V || $i),
-        (($i.record.components && Object.keys($i.record.components).length) || $i.record.name || $i.record.redirect) &&
-          m($i);
+      (V = V || An),
+        ((An.record.components && Object.keys(An.record.components).length) || An.record.name || An.record.redirect) &&
+          m(An);
     }
     return tl
       ? () => {
@@ -5111,8 +5111,8 @@ function createRouterMatcher(r, e) {
       (ht = V.record.name), (se = assign({}, L.params, I.params)), (Ee = V.stringify(se));
     }
     const ar = [];
-    let $i = V;
-    for (; $i; ) ar.unshift($i.record), ($i = $i.parent);
+    let An = V;
+    for (; An; ) ar.unshift(An.record), (An = An.parent);
     return { name: ht, path: Ee, params: se, matched: ar, meta: mergeMetaFields(ar) };
   }
   return r.forEach((I) => a(I)), { addRoute: a, resolve: v, removeRoute: l, getRoutes: f, getRecordMatcher: o };
@@ -5458,8 +5458,8 @@ const getLinkClass = (r, e, n) => r ?? e ?? n,
             ar = h$1(
               V,
               assign({}, Ee, e, {
-                onVnodeUnmounted: ($i) => {
-                  $i.component.isUnmounted && (L.instances[I] = null);
+                onVnodeUnmounted: (An) => {
+                  An.component.isUnmounted && (L.instances[I] = null);
                 },
                 ref: m,
               }),
@@ -5503,7 +5503,7 @@ function createRouter(r) {
   function ar(wl) {
     return !!e.getRecordMatcher(wl);
   }
-  function $i(wl, zl) {
+  function An(wl, zl) {
     if (((zl = assign({}, zl || m.value)), typeof wl == 'string')) {
       const Pl = parseURL(n, wl, zl.path),
         Rl = e.resolve({ path: Pl.path }, zl),
@@ -5553,7 +5553,7 @@ function createRouter(r) {
     }
   }
   function Al(wl, zl) {
-    const zc = (v = $i(wl)),
+    const zc = (v = An(wl)),
       Ul = m.value,
       Dh = wl.state,
       gl = wl.force,
@@ -5661,7 +5661,7 @@ function createRouter(r) {
     Kc ||
       (Kc = o.listen((wl, zl, zc) => {
         if (!bh.listening) return;
-        const Ul = $i(wl),
+        const Ul = An(wl),
           Dh = dl(Ul);
         if (Dh) {
           Al(assign(Dh, { replace: !0 }), Ul).catch(noop$2);
@@ -5734,7 +5734,7 @@ function createRouter(r) {
       removeRoute: Ee,
       hasRoute: ar,
       getRoutes: ht,
-      resolve: $i,
+      resolve: An,
       options: r,
       push: hl,
       replace: fl,
@@ -7719,14 +7719,14 @@ function useStorage(r, e, n, s = {}) {
   if (!n) return Ee;
   const ht = toValue(e),
     ar = guessSerializerType(ht),
-    $i = (o = s.serializer) != null ? o : StorageSerializers[ar],
+    An = (o = s.serializer) != null ? o : StorageSerializers[ar],
     { pause: tl, resume: Wi } = watchPausable(Ee, () => hl(Ee.value), { flush: a, deep: l, eventFilter: V });
   return L && f && (useEventListener(L, 'storage', Al), useEventListener(L, customStorageEventName, dl)), Al(), Ee;
   function hl(Fl) {
     try {
       if (Fl == null) n.removeItem(r);
       else {
-        const vl = $i.write(Fl),
+        const vl = An.write(Fl),
           kl = n.getItem(r);
         kl !== vl &&
           (n.setItem(r, vl),
@@ -7743,11 +7743,11 @@ function useStorage(r, e, n, s = {}) {
   }
   function fl(Fl) {
     const vl = Fl ? Fl.newValue : n.getItem(r);
-    if (vl == null) return m && ht !== null && n.setItem(r, $i.write(ht)), ht;
+    if (vl == null) return m && ht !== null && n.setItem(r, An.write(ht)), ht;
     if (!Fl && v) {
-      const kl = $i.read(vl);
+      const kl = An.read(vl);
       return typeof v == 'function' ? v(kl, ht) : ar === 'object' && !Array.isArray(kl) ? { ...ht, ...kl } : kl;
-    } else return typeof vl != 'string' ? vl : $i.read(vl);
+    } else return typeof vl != 'string' ? vl : An.read(vl);
   }
   function dl(Fl) {
     Al(Fl.detail);
@@ -7761,7 +7761,7 @@ function useStorage(r, e, n, s = {}) {
       if (!(Fl && Fl.key !== r)) {
         tl();
         try {
-          (Fl == null ? void 0 : Fl.newValue) !== $i.write(Ee.value) && (Ee.value = fl(Fl));
+          (Fl == null ? void 0 : Fl.newValue) !== An.write(Ee.value) && (Ee.value = fl(Fl));
         } catch (vl) {
           se(vl);
         } finally {
@@ -7930,10 +7930,10 @@ const _sfc_main$k = defineComponent({
         useEventListener(document, 'mousemove', (ar) => {
           var Al, Fl;
           if (!f.value) return;
-          const { width: $i = 0, height: tl = 0 } =
+          const { width: An = 0, height: tl = 0 } =
               ((Al = n.value) == null ? void 0 : Al.getBoundingClientRect()) ?? {},
             { width: Wi = 0, height: hl = 0 } = ((Fl = o.value) == null ? void 0 : Fl.getBoundingClientRect()) ?? {},
-            fl = e.vertical ? tl - e.barSize : $i - e.barSize,
+            fl = e.vertical ? tl - e.barSize : An - e.barSize,
             dl = e.vertical
               ? e.reverse
                 ? hl - ar.movementY
@@ -7976,8 +7976,8 @@ const _sfc_main$k = defineComponent({
         }),
         useResizeObserver(n, (ar) => {
           var dl;
-          const $i = ar[0],
-            { width: tl, height: Wi } = $i.contentRect,
+          const An = ar[0],
+            { width: tl, height: Wi } = An.contentRect,
             { width: hl = 0, height: fl = 0 } = ((dl = o.value) == null ? void 0 : dl.getBoundingClientRect()) ?? {};
           e.vertical
             ? (v.value = `${Math.min(fl, Wi - e.barSize)}px`)
@@ -7987,7 +7987,7 @@ const _sfc_main$k = defineComponent({
         onUnmounted(() => {
           V();
         }),
-        (ar, $i) => (
+        (ar, An) => (
           openBlock(),
           createElementBlock(
             'div',
@@ -8025,8 +8025,8 @@ const _sfc_main$k = defineComponent({
                   ref: s,
                   class: 'flex-none flex-center',
                   style: normalizeStyle(Ee.value),
-                  onMouseenter: $i[0] || ($i[0] = (tl) => (l.value = !0)),
-                  onMouseleave: $i[1] || ($i[1] = (tl) => (l.value = !1)),
+                  onMouseenter: An[0] || (An[0] = (tl) => (l.value = !0)),
+                  onMouseleave: An[1] || (An[1] = (tl) => (l.value = !1)),
                 },
                 [
                   createBaseVNode(
@@ -9263,14 +9263,14 @@ class Configuration {
       if (se.every((ar) => ar.type == 0))
         if (((f[Ee.id] = (m.length << 1) | 1), sameArray$1(ht, se))) m.push(s.facet(Ee));
         else {
-          let ar = Ee.combine(se.map(($i) => $i.value));
+          let ar = Ee.combine(se.map((An) => An.value));
           m.push(s && Ee.compare(ar, s.facet(Ee)) ? s.facet(Ee) : ar);
         }
       else {
         for (let ar of se)
           ar.type == 0
             ? ((f[ar.id] = (m.length << 1) | 1), m.push(ar.value))
-            : ((f[ar.id] = v.length << 1), v.push(($i) => ar.dynamicSlot($i)));
+            : ((f[ar.id] = v.length << 1), v.push((An) => ar.dynamicSlot(An)));
         (f[Ee.id] = v.length << 1), v.push((ar) => dynamicFacetSlot(ar, Ee, se));
       }
     }
@@ -10621,16 +10621,16 @@ function scrollRectIntoView(r, e, n, s, o, a, l, f) {
           });
       }
       let ar = 0,
-        $i = 0;
+        An = 0;
       if (o == 'nearest')
         e.top < V.top
-          ? (($i = -(V.top - e.top + l)), n > 0 && e.bottom > V.bottom + $i && ($i = e.bottom - V.bottom + $i + l))
+          ? ((An = -(V.top - e.top + l)), n > 0 && e.bottom > V.bottom + An && (An = e.bottom - V.bottom + An + l))
           : e.bottom > V.bottom &&
-            (($i = e.bottom - V.bottom + l), n < 0 && e.top - $i < V.top && ($i = -(V.top + $i - e.top + l)));
+            ((An = e.bottom - V.bottom + l), n < 0 && e.top - An < V.top && (An = -(V.top + An - e.top + l)));
       else {
         let tl = e.bottom - e.top,
           Wi = V.bottom - V.top;
-        $i =
+        An =
           (o == 'center' && tl <= Wi
             ? e.top + tl / 2 - Wi / 2
             : o == 'start' || (o == 'center' && n < 0)
@@ -10649,15 +10649,15 @@ function scrollRectIntoView(r, e, n, s, o, a, l, f) {
                 : (s == 'start') == f
                 ? e.left - a
                 : e.right - (V.right - V.left) + a) - V.left),
-        ar || $i)
+        ar || An)
       )
-        if (se) v.scrollBy(ar, $i);
+        if (se) v.scrollBy(ar, An);
         else {
           let tl = 0,
             Wi = 0;
-          if ($i) {
+          if (An) {
             let hl = I.scrollTop;
-            (I.scrollTop += $i / ht), (Wi = (I.scrollTop - hl) * ht);
+            (I.scrollTop += An / ht), (Wi = (I.scrollTop - hl) * ht);
           }
           if (ar) {
             let hl = I.scrollLeft;
@@ -10665,7 +10665,7 @@ function scrollRectIntoView(r, e, n, s, o, a, l, f) {
           }
           (e = { left: e.left - tl, top: e.top - Wi, right: e.right - tl, bottom: e.bottom - Wi }),
             tl && Math.abs(tl - ar) < 1 && (s = 'nearest'),
-            Wi && Math.abs(Wi - $i) < 1 && (o = 'nearest');
+            Wi && Math.abs(Wi - An) < 1 && (o = 'nearest');
         }
       if (se) break;
       I = I.assignedSlot || I.parentNode;
@@ -12195,8 +12195,8 @@ function processBracketPairs(r, e, n, s, o) {
           for (let ht = f - 3; ht >= 0; ht -= 3)
             if (BracketStack[ht + 1] == -se) {
               let ar = BracketStack[ht + 2],
-                $i = ar & 2 ? o : ar & 4 ? (ar & 1 ? a : o) : 0;
-              $i && (types[L] = types[BracketStack[ht]] = $i), (f = ht);
+                An = ar & 2 ? o : ar & 4 ? (ar & 1 ? a : o) : 0;
+              An && (types[L] = types[BracketStack[ht]] = An), (f = ht);
               break;
             }
         } else {
@@ -12207,11 +12207,11 @@ function processBracketPairs(r, e, n, s, o) {
         let ht = Ee == o;
         m = ht ? 0 : 1;
         for (let ar = f - 3; ar >= 0; ar -= 3) {
-          let $i = BracketStack[ar + 2];
-          if ($i & 2) break;
+          let An = BracketStack[ar + 2];
+          if (An & 2) break;
           if (ht) BracketStack[ar + 2] |= 2;
           else {
-            if ($i & 4) break;
+            if (An & 4) break;
             BracketStack[ar + 2] |= 4;
           }
         }
@@ -12260,9 +12260,9 @@ function emitSpans(r, e, n, s, o, a, l) {
           if (L) break e;
           let ht = a[v];
           if (!I)
-            for (let ar = ht.to, $i = v + 1; ; ) {
+            for (let ar = ht.to, An = v + 1; ; ) {
               if (ar == n) break e;
-              if ($i < a.length && a[$i].from == ar) ar = a[$i++].to;
+              if (An < a.length && a[An].from == ar) ar = a[An++].to;
               else {
                 if (types[ar] == f) break e;
                 break;
@@ -12297,9 +12297,9 @@ function emitSpans(r, e, n, s, o, a, l) {
           if (L) break e;
           let ht = a[--v];
           if (!I)
-            for (let ar = ht.from, $i = v; ; ) {
+            for (let ar = ht.from, An = v; ; ) {
               if (ar == e) break e;
-              if ($i && a[$i - 1].to == ar) ar = a[--$i].from;
+              if (An && a[An - 1].to == ar) ar = a[--An].from;
               else {
                 if (types[ar - 1] == f) break e;
                 break;
@@ -12479,9 +12479,9 @@ class DocView extends ContentView {
           openStart: Ee,
           openEnd: ht,
         } = ContentBuilder.build(this.view.state.doc, I, L, this.decorations, this.dynamicDecorationMap));
-      let { i: ar, off: $i } = a.findPos(v, 1),
+      let { i: ar, off: An } = a.findPos(v, 1),
         { i: tl, off: Wi } = a.findPos(m, -1);
-      replaceRange(this, tl, Wi, ar, $i, V, se, Ee, ht);
+      replaceRange(this, tl, Wi, ar, An, V, se, Ee, ht);
     }
     s && this.fixCompositionDOM(s);
   }
@@ -12673,8 +12673,8 @@ class DocView extends ContentView {
             ht = Ee ? clientRectsFor(Ee) : [];
           if (ht.length) {
             let ar = ht[ht.length - 1],
-              $i = m ? ar.right - se.left : se.right - ar.left;
-            $i > f && ((f = $i), (this.minWidth = a), (this.minWidthFrom = v), (this.minWidthTo = V));
+              An = m ? ar.right - se.left : se.right - ar.left;
+            An > f && ((f = An), (this.minWidth = a), (this.minWidthFrom = v), (this.minWidthTo = V));
           }
         }
       }
@@ -12922,23 +12922,23 @@ function domPosAtCoords(r, e, n) {
   for (let Ee = r.firstChild; Ee; Ee = Ee.nextSibling) {
     let ht = clientRectsFor(Ee);
     for (let ar = 0; ar < ht.length; ar++) {
-      let $i = ht[ar];
-      o && yOverlap(o, $i) && ($i = upTop(upBot($i, o.bottom), o.top));
-      let tl = getdx(e, $i),
-        Wi = getdy(n, $i);
+      let An = ht[ar];
+      o && yOverlap(o, An) && (An = upTop(upBot(An, o.bottom), o.top));
+      let tl = getdx(e, An),
+        Wi = getdy(n, An);
       if (tl == 0 && Wi == 0) return Ee.nodeType == 3 ? domPosInText(Ee, e, n) : domPosAtCoords(Ee, e, n);
       if (!s || l > Wi || (l == Wi && a > tl)) {
-        (s = Ee), (o = $i), (a = tl), (l = Wi);
-        let hl = Wi ? (n < $i.top ? -1 : 1) : tl ? (e < $i.left ? -1 : 1) : 0;
+        (s = Ee), (o = An), (a = tl), (l = Wi);
+        let hl = Wi ? (n < An.top ? -1 : 1) : tl ? (e < An.left ? -1 : 1) : 0;
         f = !hl || (hl > 0 ? ar < ht.length - 1 : ar > 0);
       }
       tl == 0
-        ? n > $i.bottom && (!I || I.bottom < $i.bottom)
-          ? ((m = Ee), (I = $i))
-          : n < $i.top && (!L || L.top > $i.top) && ((v = Ee), (L = $i))
-        : I && yOverlap(I, $i)
-        ? (I = upBot(I, $i.bottom))
-        : L && yOverlap(L, $i) && (L = upTop(L, $i.top));
+        ? n > An.bottom && (!I || I.bottom < An.bottom)
+          ? ((m = Ee), (I = An))
+          : n < An.top && (!L || L.top > An.top) && ((v = Ee), (L = An))
+        : I && yOverlap(I, An)
+        ? (I = upBot(I, An.bottom))
+        : L && yOverlap(L, An) && (L = upTop(L, An.top));
     }
   }
   if ((I && I.bottom >= n ? ((s = m), (o = I)) : L && L.top <= n && ((s = v), (o = L)), !s))
@@ -13007,33 +13007,33 @@ function posAtCoords(r, e, n, s = -1) {
       ((I = Math.max(l.left + 1, Math.min(l.right - 1, I))),
       (ar = ht.elementFromPoint(I, L)),
       ar && !r.contentDOM.contains(ar) && (ar = null));
-  let $i,
+  let An,
     tl = -1;
   if (ar && ((o = r.docView.nearest(ar)) === null || o === void 0 ? void 0 : o.isEditable) != !1) {
     if (Ee.caretPositionFromPoint) {
       let hl = Ee.caretPositionFromPoint(I, L);
-      hl && ({ offsetNode: $i, offset: tl } = hl);
+      hl && ({ offsetNode: An, offset: tl } = hl);
     } else if (Ee.caretRangeFromPoint) {
       let hl = Ee.caretRangeFromPoint(I, L);
       hl &&
-        (({ startContainer: $i, startOffset: tl } = hl),
-        (!r.contentDOM.contains($i) ||
-          (browser.safari && isSuspiciousSafariCaretResult($i, tl, I)) ||
-          (browser.chrome && isSuspiciousChromeCaretResult($i, tl, I))) &&
-          ($i = void 0));
+        (({ startContainer: An, startOffset: tl } = hl),
+        (!r.contentDOM.contains(An) ||
+          (browser.safari && isSuspiciousSafariCaretResult(An, tl, I)) ||
+          (browser.chrome && isSuspiciousChromeCaretResult(An, tl, I))) &&
+          (An = void 0));
     }
   }
-  if (!$i || !r.docView.dom.contains($i)) {
+  if (!An || !r.docView.dom.contains(An)) {
     let hl = LineView.find(r.docView, se);
     if (!hl) return V > m.top + m.height / 2 ? m.to : m.from;
-    ({ node: $i, offset: tl } = domPosAtCoords(hl.dom, I, L));
+    ({ node: An, offset: tl } = domPosAtCoords(hl.dom, I, L));
   }
-  let Wi = r.docView.nearest($i);
+  let Wi = r.docView.nearest(An);
   if (!Wi) return null;
   if (Wi.isWidget && ((a = Wi.dom) === null || a === void 0 ? void 0 : a.nodeType) == 1) {
     let hl = Wi.dom.getBoundingClientRect();
     return e.y < hl.top || (e.y <= hl.bottom && e.x <= (hl.left + hl.right) / 2) ? Wi.posAtStart : Wi.posAtEnd;
-  } else return Wi.localPosFromDOM($i, tl) + Wi.posAtStart;
+  } else return Wi.localPosFromDOM(An, tl) + Wi.posAtStart;
 }
 function posAtCoordsImprecise(r, e, n, s, o) {
   let a = Math.round((s - e.left) * r.defaultCharacterWidth);
@@ -13140,8 +13140,8 @@ function moveVertically(r, e, n, s) {
       ht = posAtCoords(r, { x: L, y: Ee }, !1, a);
     if (Ee < m.top || Ee > m.bottom || (a < 0 ? ht < o : ht > o)) {
       let ar = r.docView.coordsForChar(ht),
-        $i = !ar || Ee < ar.top ? -1 : 1;
-      return EditorSelection.cursor(ht, $i, void 0, l);
+        An = !ar || Ee < ar.top ? -1 : 1;
+      return EditorSelection.cursor(ht, An, void 0, l);
     }
   }
 }
@@ -14520,8 +14520,8 @@ class ViewState {
       ht = Ee.top - this.pixelViewport.top,
       ar = Ee.bottom - this.pixelViewport.bottom;
     this.pixelViewport = Ee;
-    let $i = this.pixelViewport.bottom > this.pixelViewport.top && this.pixelViewport.right > this.pixelViewport.left;
-    if (($i != this.inView && ((this.inView = $i), $i && (m = !0)), !this.inView && !this.scrollTarget)) return 0;
+    let An = this.pixelViewport.bottom > this.pixelViewport.top && this.pixelViewport.right > this.pixelViewport.left;
+    if ((An != this.inView && ((this.inView = An), An && (m = !0)), !this.inView && !this.scrollTarget)) return 0;
     let tl = f.width;
     if (
       ((this.contentDOMWidth != tl || this.editorHeight != e.scrollDOM.clientHeight) &&
@@ -14648,7 +14648,7 @@ class ViewState {
             ar.to <= L.to &&
             Math.abs(ar.from - v) < a &&
             Math.abs(ar.to - I) < a &&
-            !Ee.some(($i) => ar.from < $i && ar.to > $i),
+            !Ee.some((An) => ar.from < An && ar.to > An),
         );
         if (!ht) {
           if (I < L.to && n && s && n.visibleRanges.some((ar) => ar.from <= I && ar.to >= I)) {
@@ -14671,22 +14671,22 @@ class ViewState {
           ht,
           ar;
         if (L != null) {
-          let $i = findFraction(I, L),
+          let An = findFraction(I, L),
             tl = ((this.visibleBottom - this.visibleTop) / 2 + Ee) / v.height;
-          (ht = $i - tl), (ar = $i + tl);
+          (ht = An - tl), (ar = An + tl);
         } else (ht = (this.visibleTop - v.top - Ee) / v.height), (ar = (this.visibleBottom - v.top + Ee) / v.height);
         (V = findPosition(I, ht)), (se = findPosition(I, ar));
       } else {
         let Ee = I.total * this.heightOracle.charWidth,
           ht = o * this.heightOracle.charWidth,
           ar,
-          $i;
+          An;
         if (L != null) {
           let tl = findFraction(I, L),
             Wi = ((this.pixelViewport.right - this.pixelViewport.left) / 2 + ht) / Ee;
-          (ar = tl - Wi), ($i = tl + Wi);
-        } else (ar = (this.pixelViewport.left - ht) / Ee), ($i = (this.pixelViewport.right + ht) / Ee);
-        (V = findPosition(I, ar)), (se = findPosition(I, $i));
+          (ar = tl - Wi), (An = tl + Wi);
+        } else (ar = (this.pixelViewport.left - ht) / Ee), (An = (this.pixelViewport.right + ht) / Ee);
+        (V = findPosition(I, ar)), (se = findPosition(I, An));
       }
       V > v.from && m(v.from, V, v, I), se < v.to && m(se, v.to, v, I);
     }
@@ -15246,11 +15246,11 @@ function applyDefaultInsert(r, e, n) {
           ar = ht - v.length;
         if (Ee.to - Ee.from != se || r.state.sliceDoc(ar, ht) != v || (Ee.to >= I.from && Ee.from <= I.to))
           return { range: Ee };
-        let $i = o.changes({ from: ar, to: ht, insert: e.insert }),
+        let An = o.changes({ from: ar, to: ht, insert: e.insert }),
           tl = Ee.to - a.to;
         return {
-          changes: $i,
-          range: m ? EditorSelection.range(Math.max(0, m.anchor + tl), Math.max(0, m.head + tl)) : Ee.map($i),
+          changes: An,
+          range: m ? EditorSelection.range(Math.max(0, m.anchor + tl), Math.max(0, m.head + tl)) : Ee.map(An),
         };
       });
     } else s = { changes: f, selection: m && o.selection.replaceRange(m) };
@@ -16211,9 +16211,9 @@ function buildKeymap(r, e = currentPlatform) {
     a = (l, f, m, v, I) => {
       var L, V;
       let se = n[l] || (n[l] = Object.create(null)),
-        Ee = f.split(/ (?!$)/).map(($i) => normalizeKeyName($i, e));
-      for (let $i = 1; $i < Ee.length; $i++) {
-        let tl = Ee.slice(0, $i).join(' ');
+        Ee = f.split(/ (?!$)/).map((An) => normalizeKeyName(An, e));
+      for (let An = 1; An < Ee.length; An++) {
+        let tl = Ee.slice(0, An).join(' ');
         o(tl, !0),
           se[tl] ||
             (se[tl] = {
@@ -16277,7 +16277,7 @@ function runHandlers(r, e, n, s) {
   let L = new Set(),
     V = (ar) => {
       if (ar) {
-        for (let $i of ar.run) if (!L.has($i) && (L.add($i), $i(n, e))) return ar.stopPropagation && (I = !0), !0;
+        for (let An of ar.run) if (!L.has(An) && (L.add(An), An(n, e))) return ar.stopPropagation && (I = !0), !0;
         ar.preventDefault && (ar.stopPropagation && (I = !0), (v = !0));
       }
       return !1;
@@ -16385,19 +16385,19 @@ function rectanglesForRange(r, e, n) {
     return (
       (ht || se).to < (ar || Ee).from - (ht && ar ? 1 : 0) ||
       (se.widgetLineBreaks > 1 && fl.bottom + r.defaultLineHeight / 2 < dl.top)
-        ? Al.push($i(L, fl.bottom, V, dl.top))
+        ? Al.push(An(L, fl.bottom, V, dl.top))
         : fl.bottom < dl.top &&
           r.elementAtHeight((fl.bottom + dl.top) / 2).type == BlockType.Text &&
           (fl.bottom = dl.top = (fl.bottom + dl.top) / 2),
       tl(fl).concat(Al).concat(tl(dl))
     );
   }
-  function $i(fl, dl, Al, Fl) {
+  function An(fl, dl, Al, Fl) {
     return new RectangleMarker(e, fl - m.left, dl - m.top - 0.01, Al - fl, Fl - dl + 0.01);
   }
   function tl({ top: fl, bottom: dl, horizontal: Al }) {
     let Fl = [];
-    for (let vl = 0; vl < Al.length; vl += 2) Fl.push($i(Al[vl], fl, Al[vl + 1], dl));
+    for (let vl = 0; vl < Al.length; vl += 2) Fl.push(An(Al[vl], fl, Al[vl + 1], dl));
     return Fl;
   }
   function Wi(fl, dl, Al) {
@@ -16723,7 +16723,7 @@ class MatchDecorator {
         }
         let V = [],
           se,
-          Ee = (ht, ar, $i) => V.push($i.range(ht, ar));
+          Ee = (ht, ar, An) => V.push(An.range(ht, ar));
         if (m == v)
           for (this.regexp.lastIndex = I - m.from; (se = this.regexp.exec(m.text)) && se.index < L - m.from; )
             this.addMatch(se, e, se.index + m.from, Ee);
@@ -17249,7 +17249,7 @@ const tooltipConfig = Facet.define({
             Ee = se ? 7 : 0,
             ht = V.right - V.left,
             ar = (e = knownHeight.get(v)) !== null && e !== void 0 ? e : V.bottom - V.top,
-            $i = v.offset || noOffset,
+            An = v.offset || noOffset,
             tl = this.view.textDirection == Direction.LTR,
             Wi =
               V.width > s.right - s.left
@@ -17257,11 +17257,11 @@ const tooltipConfig = Facet.define({
                   ? s.left
                   : s.right - V.width
                 : tl
-                ? Math.min(L.left - (se ? 14 : 0) + $i.x, s.right - ht)
-                : Math.max(s.left, L.left - ht + (se ? 14 : 0) - $i.x),
+                ? Math.min(L.left - (se ? 14 : 0) + An.x, s.right - ht)
+                : Math.max(s.left, L.left - ht + (se ? 14 : 0) - An.x),
             hl = !!m.above;
           !m.strictSide &&
-            (hl ? L.top - (V.bottom - V.top) - $i.y < s.top : L.bottom + (V.bottom - V.top) + $i.y > s.bottom) &&
+            (hl ? L.top - (V.bottom - V.top) - An.y < s.top : L.bottom + (V.bottom - V.top) + An.y > s.bottom) &&
             hl == s.bottom - L.bottom > L.top - s.top &&
             (hl = !hl);
           let fl = (hl ? L.top - s.top : s.bottom - L.bottom) - Ee;
@@ -17272,7 +17272,7 @@ const tooltipConfig = Facet.define({
             }
             knownHeight.set(v, ar), (I.style.height = (ar = fl) / a + 'px');
           } else I.style.height && (I.style.height = '');
-          let dl = hl ? L.top - ar - Ee - $i.y : L.bottom + Ee + $i.y,
+          let dl = hl ? L.top - ar - Ee - An.y : L.bottom + Ee + An.y,
             Al = Wi + ht;
           if (v.overlap !== !0)
             for (let Fl of l)
@@ -17287,7 +17287,7 @@ const tooltipConfig = Facet.define({
               : ((I.style.top = dl / a + 'px'), (I.style.left = Wi / o + 'px')),
             se)
           ) {
-            let Fl = L.left + (tl ? $i.x : -$i.x) - (Wi + 14 - 7);
+            let Fl = L.left + (tl ? An.x : -An.x) - (Wi + 14 - 7);
             se.style.left = Fl / o + 'px';
           }
           v.overlap !== !0 && l.push({ left: Wi, top: dl, right: Al, bottom: dl + ar }),
@@ -18004,30 +18004,30 @@ var standalone = { exports: {} };
       m = (W, Ge) => () => (W && (Ge = W((W = 0))), Ge),
       v = (W, Ge) => () => (Ge || W((Ge = { exports: {} }).exports, Ge), Ge.exports),
       I = (W, Ge) => {
-        for (var An in Ge) s(W, An, { get: Ge[An], enumerable: !0 });
+        for (var $i in Ge) s(W, $i, { get: Ge[$i], enumerable: !0 });
       },
-      L = (W, Ge, An, Vi) => {
+      L = (W, Ge, $i, Vi) => {
         if ((Ge && typeof Ge == 'object') || typeof Ge == 'function')
           for (let qi of a(Ge))
             !f.call(W, qi) &&
-              qi !== An &&
+              qi !== $i &&
               s(W, qi, { get: () => Ge[qi], enumerable: !(Vi = o(Ge, qi)) || Vi.enumerable });
         return W;
       },
-      V = (W, Ge, An) => (
-        (An = W != null ? n(l(W)) : {}),
-        L(Ge || !W || !W.__esModule ? s(An, 'default', { value: W, enumerable: !0 }) : An, W)
+      V = (W, Ge, $i) => (
+        ($i = W != null ? n(l(W)) : {}),
+        L(Ge || !W || !W.__esModule ? s($i, 'default', { value: W, enumerable: !0 }) : $i, W)
       ),
       se = (W) => L(s({}, '__esModule', { value: !0 }), W),
-      Ee = (W, Ge, An) => {
-        if (!Ge.has(W)) throw TypeError('Cannot ' + An);
+      Ee = (W, Ge, $i) => {
+        if (!Ge.has(W)) throw TypeError('Cannot ' + $i);
       },
-      ht = (W, Ge, An) => {
+      ht = (W, Ge, $i) => {
         if (Ge.has(W)) throw TypeError('Cannot add the same private member more than once');
-        Ge instanceof WeakSet ? Ge.add(W) : Ge.set(W, An);
+        Ge instanceof WeakSet ? Ge.add(W) : Ge.set(W, $i);
       },
-      ar = (W, Ge, An) => (Ee(W, Ge, 'access private method'), An),
-      $i = v((W) => {
+      ar = (W, Ge, $i) => (Ee(W, Ge, 'access private method'), $i),
+      An = v((W) => {
         Object.defineProperty(W, '__esModule', { value: !0 }), (W.default = Ge);
         function Ge() {}
         Ge.prototype = {
@@ -18076,7 +18076,7 @@ var standalone = { exports: {} };
                   (qh = Tl.extractCommon(wh, el, qi, Eh)),
                   wh.newPos + 1 >= $l && qh + 1 >= Ql)
                 )
-                  return Ml(An(Tl, wh.components, el, qi, Tl.useLongestToken));
+                  return Ml($i(Tl, wh.components, el, qi, Tl.useLongestToken));
                 Vl[Eh] = wh;
               }
               Ol++;
@@ -18128,7 +18128,7 @@ var standalone = { exports: {} };
             return qi.join('');
           },
         };
-        function An(qi, el, Cl, Sl, Tl) {
+        function $i(qi, el, Cl, Sl, Tl) {
           for (var Ml = 0, $l = el.length, Ql = 0, Ol = 0; Ml < $l; Ml++) {
             var Xl = el[Ml];
             if (Xl.removed) {
@@ -18164,8 +18164,8 @@ var standalone = { exports: {} };
       }),
       tl = v((W) => {
         Object.defineProperty(W, '__esModule', { value: !0 }), (W.diffArrays = qi), (W.arrayDiff = void 0);
-        var Ge = An($i());
-        function An(el) {
+        var Ge = $i(An());
+        function $i(el) {
           return el && el.__esModule ? el : { default: el };
         }
         var Vi = new Ge.default();
@@ -18182,8 +18182,8 @@ var standalone = { exports: {} };
         }
       }),
       Wi = v((W, Ge) => {
-        var An = new Proxy(String, { get: () => An });
-        Ge.exports = An;
+        var $i = new Proxy(String, { get: () => $i });
+        Ge.exports = $i;
       }),
       hl = {};
     I(hl, { default: () => dl, shouldHighlight: () => fl });
@@ -18195,8 +18195,8 @@ var standalone = { exports: {} };
       Fl = v((W) => {
         Object.defineProperty(W, '__esModule', { value: !0 }), (W.codeFrameColumns = $l), (W.default = Ql);
         var Ge = (Al(), se(hl)),
-          An = Wi(),
-          Vi = An,
+          $i = Wi(),
+          Vi = $i,
           qi;
         function el(Ol) {
           return Ol ? (qi != null || (qi = new Vi.constructor({ enabled: !0, level: 1 })), qi) : Vi;
@@ -18303,9 +18303,9 @@ ${Ed}`),
       util: () => Z0,
       version: () => s1,
     });
-    var kl = (W, Ge, An, Vi) => {
+    var kl = (W, Ge, $i, Vi) => {
         if (!(W && Ge == null))
-          return Ge.replaceAll ? Ge.replaceAll(An, Vi) : An.global ? Ge.replace(An, Vi) : Ge.split(An).join(Vi);
+          return Ge.replaceAll ? Ge.replaceAll($i, Vi) : $i.global ? Ge.replace($i, Vi) : Ge.split($i).join(Vi);
       },
       El = kl,
       Jl = V(tl(), 1),
@@ -18340,8 +18340,8 @@ ${Ed}`),
         return `Unexpected doc '${Ge}', 
 Expected it to be 'string' or 'object'.`;
       if (Ul(W)) throw new Error('doc is valid.');
-      let An = Object.prototype.toString.call(W);
-      if (An !== '[object Object]') return `Unexpected doc '${An}'.`;
+      let $i = Object.prototype.toString.call(W);
+      if ($i !== '[object Object]') return `Unexpected doc '${$i}'.`;
       let Vi = Dh([...zl].map((qi) => `'${qi}'`));
       return `Unexpected doc.type '${W.type}'.
 Expected it to be ${Vi}.`;
@@ -18355,15 +18355,15 @@ Expected it to be ${Vi}.`;
       },
       Pl = bl,
       Rl = {};
-    function Wl(W, Ge, An, Vi) {
+    function Wl(W, Ge, $i, Vi) {
       let qi = [W];
       for (; qi.length > 0; ) {
         let el = qi.pop();
         if (el === Rl) {
-          An(qi.pop());
+          $i(qi.pop());
           continue;
         }
-        An && qi.push(el, Rl);
+        $i && qi.push(el, Rl);
         let Cl = Ul(el);
         if (!Cl) throw new Pl(el);
         if ((Ge == null ? void 0 : Ge(el)) !== !1)
@@ -18431,8 +18431,8 @@ Expected it to be ${Vi}.`;
     function kh(W) {
       return { type: Yl, parts: W };
     }
-    function Sh(W, Ge = '', An = {}) {
-      return { type: ih, breakContents: W, flatContents: Ge, groupId: An.groupId };
+    function Sh(W, Ge = '', $i = {}) {
+      return { type: ih, breakContents: W, flatContents: Ge, groupId: $i.groupId };
     }
     function Fh(W, Ge) {
       return { type: ph, contents: W, groupId: Ge.groupId, negate: Ge.negate };
@@ -18451,24 +18451,24 @@ Expected it to be ${Vi}.`;
       Ad = [$h, td],
       $d = { type: Ll };
     function qd(W, Ge) {
-      let An = [];
-      for (let Vi = 0; Vi < Ge.length; Vi++) Vi !== 0 && An.push(W), An.push(Ge[Vi]);
-      return An;
+      let $i = [];
+      for (let Vi = 0; Vi < Ge.length; Vi++) Vi !== 0 && $i.push(W), $i.push(Ge[Vi]);
+      return $i;
     }
-    function Kd(W, Ge, An) {
+    function Kd(W, Ge, $i) {
       let Vi = W;
       if (Ge > 0) {
-        for (let qi = 0; qi < Math.floor(Ge / An); ++qi) Vi = Qc(Vi);
-        (Vi = Gl(Ge % An, Vi)), (Vi = Gl(Number.NEGATIVE_INFINITY, Vi));
+        for (let qi = 0; qi < Math.floor(Ge / $i); ++qi) Vi = Qc(Vi);
+        (Vi = Gl(Ge % $i, Vi)), (Vi = Gl(Number.NEGATIVE_INFINITY, Vi));
       }
       return Vi;
     }
     function Jd(W, Ge) {
       return W ? { type: Ah, label: W, contents: Ge } : Ge;
     }
-    var Rd = (W, Ge, An) => {
+    var Rd = (W, Ge, $i) => {
         if (!(W && Ge == null))
-          return Array.isArray(Ge) || typeof Ge == 'string' ? Ge[An < 0 ? Ge.length + An : An] : Ge.at(An);
+          return Array.isArray(Ge) || typeof Ge == 'string' ? Ge[$i < 0 ? Ge.length + $i : $i] : Ge.at($i);
       },
       Ih = Rd;
     function Gd(W) {
@@ -18494,23 +18494,23 @@ Expected it to be ${Vi}.`;
       }
     }
     function uh(W, Ge) {
-      let An;
+      let $i;
       switch (Ge) {
         case `
 `:
-          An = /\n/g;
+          $i = /\n/g;
           break;
         case '\r':
-          An = /\r/g;
+          $i = /\r/g;
           break;
         case `\r
 `:
-          An = /\r\n/g;
+          $i = /\r\n/g;
           break;
         default:
           throw new Error(`Unexpected "eol" ${JSON.stringify(Ge)}.`);
       }
-      let Vi = W.match(An);
+      let Vi = W.match($i);
       return Vi ? Vi.length : 0;
     }
     function dd(W) {
@@ -18527,14 +18527,14 @@ Expected it to be ${Vi}.`;
       Yd = {
         eastAsianWidth(W) {
           var Ge = W.charCodeAt(0),
-            An = W.length == 2 ? W.charCodeAt(1) : 0,
+            $i = W.length == 2 ? W.charCodeAt(1) : 0,
             Vi = Ge;
           return (
             55296 <= Ge &&
               Ge <= 56319 &&
-              56320 <= An &&
-              An <= 57343 &&
-              ((Ge &= 1023), (An &= 1023), (Vi = (Ge << 10) | An), (Vi += 65536)),
+              56320 <= $i &&
+              $i <= 57343 &&
+              ((Ge &= 1023), ($i &= 1023), (Vi = (Ge << 10) | $i), (Vi += 65536)),
             Vi == 12288 || (65281 <= Vi && Vi <= 65376) || (65504 <= Vi && Vi <= 65510)
               ? 'F'
               : (4352 <= Vi && Vi <= 4447) ||
@@ -18586,10 +18586,10 @@ Expected it to be ${Vi}.`;
       if (!Xd.test(W)) return W.length;
       W = W.replace(t0(), '  ');
       let Ge = 0;
-      for (let An of W) {
-        let Vi = An.codePointAt(0);
+      for (let $i of W) {
+        let Vi = $i.codePointAt(0);
         if (Vi <= 31 || (Vi >= 127 && Vi <= 159) || (Vi >= 768 && Vi <= 879)) continue;
-        let qi = Yd.eastAsianWidth(An);
+        let qi = Yd.eastAsianWidth($i);
         Ge += qi === 'F' || qi === 'W' ? 2 : 1;
       }
       return Ge;
@@ -18602,12 +18602,12 @@ Expected it to be ${Vi}.`;
       };
     function vd(W, Ge) {
       if (typeof W == 'string') return Ge(W);
-      let An = new Map();
+      let $i = new Map();
       return Vi(W);
       function Vi(el) {
-        if (An.has(el)) return An.get(el);
+        if ($i.has(el)) return $i.get(el);
         let Cl = qi(el);
-        return An.set(el, Cl), Cl;
+        return $i.set(el, Cl), Cl;
       }
       function qi(el) {
         switch (Ul(el)) {
@@ -18641,8 +18641,8 @@ Expected it to be ${Vi}.`;
         }
       }
     }
-    function Qd(W, Ge, An) {
-      let Vi = An,
+    function Qd(W, Ge, $i) {
+      let Vi = $i,
         qi = !1;
       function el(Cl) {
         if (qi) return !1;
@@ -18666,15 +18666,15 @@ Expected it to be ${Vi}.`;
     }
     function Af(W) {
       let Ge = new Set(),
-        An = [];
+        $i = [];
       function Vi(el) {
-        if ((el.type === wl && bf(An), el.type === ql)) {
-          if ((An.push(el), Ge.has(el))) return !1;
+        if ((el.type === wl && bf($i), el.type === ql)) {
+          if (($i.push(el), Ge.has(el))) return !1;
           Ge.add(el);
         }
       }
       function qi(el) {
-        el.type === ql && An.pop().break && bf(An);
+        el.type === ql && $i.pop().break && bf($i);
       }
       Kl(W, Vi, qi, !0);
     }
@@ -18751,9 +18751,9 @@ Expected it to be ${Vi}.`;
           break;
         case Il: {
           let Ge = [];
-          for (let An of W) {
-            if (!An) continue;
-            let [Vi, ...qi] = Array.isArray(An) ? An : [An];
+          for (let $i of W) {
+            if (!$i) continue;
+            let [Vi, ...qi] = Array.isArray($i) ? $i : [$i];
             typeof Vi == 'string' && typeof Ih(!1, Ge, -1) == 'string' ? (Ge[Ge.length - 1] += Vi) : Ge.push(Vi),
               Ge.push(...qi);
           }
@@ -18776,14 +18776,14 @@ Expected it to be ${Vi}.`;
       return vd(W, (Ge) => vf(Ge));
     }
     function n0(W, Ge = Ad) {
-      return vd(W, (An) =>
-        typeof An == 'string'
+      return vd(W, ($i) =>
+        typeof $i == 'string'
           ? qd(
               Ge,
-              An.split(`
+              $i.split(`
 `),
             )
-          : An,
+          : $i,
       );
     }
     function ef(W) {
@@ -18804,18 +18804,18 @@ Expected it to be ${Vi}.`;
     function wf(W, Ge) {
       return nf(W, { type: 'indent' }, Ge);
     }
-    function i0(W, Ge, An) {
+    function i0(W, Ge, $i) {
       return Ge === Number.NEGATIVE_INFINITY
         ? W.root || rf()
         : Ge < 0
-        ? nf(W, { type: 'dedent' }, An)
+        ? nf(W, { type: 'dedent' }, $i)
         : Ge
         ? Ge.type === 'root'
           ? { ...W, root: W }
-          : nf(W, { type: typeof Ge == 'string' ? 'stringAlign' : 'numberAlign', n: Ge }, An)
+          : nf(W, { type: typeof Ge == 'string' ? 'stringAlign' : 'numberAlign', n: Ge }, $i)
         : W;
     }
-    function nf(W, Ge, An) {
+    function nf(W, Ge, $i) {
       let Vi = Ge.type === 'dedent' ? W.queue.slice(0, -1) : [...W.queue, Ge],
         qi = '',
         el = 0,
@@ -18824,7 +18824,7 @@ Expected it to be ${Vi}.`;
       for (let Vl of Vi)
         switch (Vl.type) {
           case 'indent':
-            $l(), An.useTabs ? Tl(1) : Ml(An.tabWidth);
+            $l(), $i.useTabs ? Tl(1) : Ml($i.tabWidth);
             break;
           case 'stringAlign':
             $l(), (qi += Vl.n), (el += Vl.n.length);
@@ -18837,13 +18837,13 @@ Expected it to be ${Vi}.`;
         }
       return Ol(), { ...W, value: qi, length: el, queue: Vi };
       function Tl(Vl) {
-        (qi += '	'.repeat(Vl)), (el += An.tabWidth * Vl);
+        (qi += '	'.repeat(Vl)), (el += $i.tabWidth * Vl);
       }
       function Ml(Vl) {
         (qi += ' '.repeat(Vl)), (el += Vl);
       }
       function $l() {
-        An.useTabs ? Ql() : Ol();
+        $i.useTabs ? Ql() : Ol();
       }
       function Ql() {
         Cl > 0 && Tl(Cl), Xl();
@@ -18857,12 +18857,12 @@ Expected it to be ${Vi}.`;
     }
     function sd(W) {
       let Ge = 0,
-        An = 0,
+        $i = 0,
         Vi = W.length;
       e: for (; Vi--; ) {
         let qi = W[Vi];
         if (qi === ud) {
-          An++;
+          $i++;
           continue;
         }
         for (let el = qi.length - 1; el >= 0; el--) {
@@ -18874,15 +18874,15 @@ Expected it to be ${Vi}.`;
           }
         }
       }
-      if (Ge > 0 || An > 0) for (W.length = Vi + 1; An-- > 0; ) W.push(ud);
+      if (Ge > 0 || $i > 0) for (W.length = Vi + 1; $i-- > 0; ) W.push(ud);
       return Ge;
     }
-    function Fd(W, Ge, An, Vi, qi, el) {
-      if (An === Number.POSITIVE_INFINITY) return !0;
+    function Fd(W, Ge, $i, Vi, qi, el) {
+      if ($i === Number.POSITIVE_INFINITY) return !0;
       let Cl = Ge.length,
         Sl = [W],
         Tl = [];
-      for (; An >= 0; ) {
+      for (; $i >= 0; ) {
         if (Sl.length === 0) {
           if (Cl === 0) return !0;
           Sl.push(Ge[--Cl]);
@@ -18891,7 +18891,7 @@ Expected it to be ${Vi}.`;
         let { mode: Ml, doc: $l } = Sl.pop();
         switch (Ul($l)) {
           case Kc:
-            Tl.push($l), (An -= jd($l));
+            Tl.push($l), ($i -= jd($l));
             break;
           case Il:
           case Yl: {
@@ -18906,7 +18906,7 @@ Expected it to be ${Vi}.`;
             Sl.push({ mode: Ml, doc: $l.contents });
             break;
           case Bl:
-            An += sd(Tl);
+            $i += sd(Tl);
             break;
           case ql: {
             if (el && $l.break) return !1;
@@ -18922,7 +18922,7 @@ Expected it to be ${Vi}.`;
           }
           case bh:
             if (Ml === _h || $l.hard) return !0;
-            $l.soft || (Tl.push(' '), An--);
+            $l.soft || (Tl.push(' '), $i--);
             break;
           case gh:
             Vi = !0;
@@ -18935,7 +18935,7 @@ Expected it to be ${Vi}.`;
       return !1;
     }
     function Jh(W, Ge) {
-      let An = {},
+      let $i = {},
         Vi = Ge.printWidth,
         qi = _d(Ge.endOfLine),
         el = 0,
@@ -18991,7 +18991,7 @@ Expected it to be ${Vi}.`;
                 let nh = { ind: Ol, mode: Xh, doc: Vl.contents },
                   fh = Vi - el,
                   vh = Ml.length > 0;
-                if (!Vl.break && Fd(nh, Cl, fh, vh, An)) Cl.push(nh);
+                if (!Vl.break && Fd(nh, Cl, fh, vh, $i)) Cl.push(nh);
                 else if (Vl.expandedStates) {
                   let Eh = Ih(!1, Vl.expandedStates, -1);
                   if (Vl.break) {
@@ -19005,7 +19005,7 @@ Expected it to be ${Vi}.`;
                       } else {
                         let Bh = Vl.expandedStates[wh],
                           Nh = { ind: Ol, mode: Xh, doc: Bh };
-                        if (Fd(Nh, Cl, fh, vh, An)) {
+                        if (Fd(Nh, Cl, fh, vh, $i)) {
                           Cl.push(Nh);
                           break;
                         }
@@ -19014,7 +19014,7 @@ Expected it to be ${Vi}.`;
                 break;
               }
             }
-            Vl.id && (An[Vl.id] = Ih(!1, Cl, -1).mode);
+            Vl.id && ($i[Vl.id] = Ih(!1, Cl, -1).mode);
             break;
           case Yl: {
             let nh = Vi - el,
@@ -19023,7 +19023,7 @@ Expected it to be ${Vi}.`;
             let [vh, Eh] = fh,
               wh = { ind: Ol, mode: Xh, doc: vh },
               Bh = { ind: Ol, mode: _h, doc: vh },
-              Nh = Fd(wh, [], nh, Ml.length > 0, An, !0);
+              Nh = Fd(wh, [], nh, Ml.length > 0, $i, !0);
             if (fh.length === 1) {
               Nh ? Cl.push(wh) : Cl.push(Bh);
               break;
@@ -19037,7 +19037,7 @@ Expected it to be ${Vi}.`;
             fh.splice(0, 2);
             let Gh = { ind: Ol, mode: Xl, doc: kh(fh) },
               Ed = fh[0];
-            Fd({ ind: Ol, mode: Xh, doc: [vh, Eh, Ed] }, [], nh, Ml.length > 0, An, !0)
+            Fd({ ind: Ol, mode: Xh, doc: [vh, Eh, Ed] }, [], nh, Ml.length > 0, $i, !0)
               ? Cl.push(Gh, qh, wh)
               : Nh
               ? Cl.push(Gh, zh, wh)
@@ -19046,7 +19046,7 @@ Expected it to be ${Vi}.`;
           }
           case ih:
           case ph: {
-            let nh = Vl.groupId ? An[Vl.groupId] : Xl;
+            let nh = Vl.groupId ? $i[Vl.groupId] : Xl;
             if (nh === _h) {
               let fh = Vl.type === ih ? Vl.breakContents : Vl.negate ? Vl.contents : Qc(Vl.contents);
               fh && Cl.push({ ind: Ol, mode: Xl, doc: fh });
@@ -19108,14 +19108,14 @@ Expected it to be ${Vi}.`;
       var Ge;
       if (!W) return '';
       if (Array.isArray(W)) {
-        let An = [];
+        let $i = [];
         for (let Vi of W)
-          if (Array.isArray(Vi)) An.push(...Qh(Vi));
+          if (Array.isArray(Vi)) $i.push(...Qh(Vi));
           else {
             let qi = Qh(Vi);
-            qi !== '' && An.push(qi);
+            qi !== '' && $i.push(qi);
           }
-        return An;
+        return $i;
       }
       return W.type === ih
         ? { ...W, breakContents: Qh(W.breakContents), flatContents: Qh(W.flatContents) }
@@ -19129,7 +19129,7 @@ Expected it to be ${Vi}.`;
     }
     function Ff(W) {
       let Ge = Object.create(null),
-        An = new Set();
+        $i = new Set();
       return Vi(Qh(W));
       function Vi(el, Cl, Sl) {
         var Tl, Ml;
@@ -19200,13 +19200,13 @@ Expected it to be ${Vi}.`;
         let Cl = el.description || 'symbol';
         for (let Sl = 0; ; Sl++) {
           let Tl = Cl + (Sl > 0 ? ` #${Sl}` : '');
-          if (!An.has(Tl)) return An.add(Tl), (Ge[el] = `Symbol.for(${JSON.stringify(Tl)})`);
+          if (!$i.has(Tl)) return $i.add(Tl), (Ge[el] = `Symbol.for(${JSON.stringify(Tl)})`);
         }
       }
     }
-    function s0(W, Ge, An = 0) {
+    function s0(W, Ge, $i = 0) {
       let Vi = 0;
-      for (let qi = An; qi < W.length; ++qi) W[qi] === '	' ? (Vi = Vi + Ge - (Vi % Ge)) : Vi++;
+      for (let qi = $i; qi < W.length; ++qi) W[qi] === '	' ? (Vi = Vi + Ge - (Vi % Ge)) : Vi++;
       return Vi;
     }
     var md = s0,
@@ -19365,13 +19365,13 @@ in order for it to be formatted.`,
         },
       };
     function kf({ plugins: W = [], showDeprecated: Ge = !1 } = {}) {
-      let An = W.flatMap((qi) => qi.languages ?? []),
+      let $i = W.flatMap((qi) => qi.languages ?? []),
         Vi = [];
       for (let qi of of(Object.assign({}, ...W.map(({ options: el }) => el), o0)))
         (!Ge && qi.deprecated) ||
           (Array.isArray(qi.choices) &&
             (Ge || (qi.choices = qi.choices.filter((el) => !el.deprecated)),
-            qi.name === 'parser' && (qi.choices = [...qi.choices, ...a0(qi.choices, An, W)])),
+            qi.name === 'parser' && (qi.choices = [...qi.choices, ...a0(qi.choices, $i, W)])),
           (qi.pluginDefaults = Object.fromEntries(
             W.filter((el) => {
               var Cl;
@@ -19379,16 +19379,16 @@ in order for it to be formatted.`,
             }).map((el) => [el.name, el.defaultOptions[qi.name]]),
           )),
           Vi.push(qi));
-      return { languages: An, options: Vi };
+      return { languages: $i, options: Vi };
     }
-    function* a0(W, Ge, An) {
+    function* a0(W, Ge, $i) {
       let Vi = new Set(W.map((qi) => qi.value));
       for (let qi of Ge)
         if (qi.parsers) {
           for (let el of qi.parsers)
             if (!Vi.has(el)) {
               Vi.add(el);
-              let Cl = An.find((Tl) => Tl.parsers && Object.prototype.hasOwnProperty.call(Tl.parsers, el)),
+              let Cl = $i.find((Tl) => Tl.parsers && Object.prototype.hasOwnProperty.call(Tl.parsers, el)),
                 Sl = qi.name;
               Cl != null && Cl.name && (Sl += ` (plugin: ${Cl.name})`), yield { value: el, description: Sl };
             }
@@ -19396,8 +19396,8 @@ in order for it to be formatted.`,
     }
     function of(W) {
       let Ge = [];
-      for (let [An, Vi] of Object.entries(W)) {
-        let qi = { name: An, ...Vi };
+      for (let [$i, Vi] of Object.entries(W)) {
+        let qi = { name: $i, ...Vi };
         Array.isArray(qi.default) && (qi.default = Ih(!1, qi.default, -1).value), Ge.push(qi);
       }
       return Ge;
@@ -19405,26 +19405,26 @@ in order for it to be formatted.`,
     var gd = (W) => W.split(/[/\\]/).pop();
     function af(W, Ge) {
       if (!Ge) return;
-      let An = gd(Ge).toLowerCase();
+      let $i = gd(Ge).toLowerCase();
       return W.find((Vi) => {
         var qi, el;
         return (
-          ((qi = Vi.extensions) == null ? void 0 : qi.some((Cl) => An.endsWith(Cl))) ||
-          ((el = Vi.filenames) == null ? void 0 : el.some((Cl) => Cl.toLowerCase() === An))
+          ((qi = Vi.extensions) == null ? void 0 : qi.some((Cl) => $i.endsWith(Cl))) ||
+          ((el = Vi.filenames) == null ? void 0 : el.some((Cl) => Cl.toLowerCase() === $i))
         );
       });
     }
     function Td(W, Ge) {
       if (Ge)
         return (
-          W.find(({ name: An }) => An.toLowerCase() === Ge) ??
-          W.find(({ aliases: An }) => (An == null ? void 0 : An.includes(Ge))) ??
-          W.find(({ extensions: An }) => (An == null ? void 0 : An.includes(`.${Ge}`)))
+          W.find(({ name: $i }) => $i.toLowerCase() === Ge) ??
+          W.find(({ aliases: $i }) => ($i == null ? void 0 : $i.includes(Ge))) ??
+          W.find(({ extensions: $i }) => ($i == null ? void 0 : $i.includes(`.${Ge}`)))
         );
     }
     function Pf(W, Ge) {
-      let An = W.plugins.flatMap((qi) => qi.languages ?? []),
-        Vi = Td(An, Ge.language) ?? af(An, Ge.physicalFile) ?? af(An, Ge.file) ?? (Ge.physicalFile, void 0);
+      let $i = W.plugins.flatMap((qi) => qi.languages ?? []),
+        Vi = Td($i, Ge.language) ?? af($i, Ge.physicalFile) ?? af($i, Ge.file) ?? (Ge.physicalFile, void 0);
       return Vi == null ? void 0 : Vi.parsers[0];
     }
     var yd = Pf,
@@ -19432,17 +19432,17 @@ in order for it to be formatted.`,
         key: (W) => (/^[$_a-zA-Z][$_a-zA-Z0-9]*$/.test(W) ? W : JSON.stringify(W)),
         value(W) {
           if (W === null || typeof W != 'object') return JSON.stringify(W);
-          if (Array.isArray(W)) return `[${W.map((An) => cd.value(An)).join(', ')}]`;
+          if (Array.isArray(W)) return `[${W.map(($i) => cd.value($i)).join(', ')}]`;
           let Ge = Object.keys(W);
-          return Ge.length === 0 ? '{}' : `{ ${Ge.map((An) => `${cd.key(An)}: ${cd.value(W[An])}`).join(', ')} }`;
+          return Ge.length === 0 ? '{}' : `{ ${Ge.map(($i) => `${cd.key($i)}: ${cd.value(W[$i])}`).join(', ')} }`;
         },
         pair: ({ key: W, value: Ge }) => cd.value({ [W]: Ge }),
       },
       kd = V(Wi(), 1),
-      l0 = (W, Ge, { descriptor: An }) => {
-        let Vi = [`${kd.default.yellow(typeof W == 'string' ? An.key(W) : An.pair(W))} is deprecated`];
+      l0 = (W, Ge, { descriptor: $i }) => {
+        let Vi = [`${kd.default.yellow(typeof W == 'string' ? $i.key(W) : $i.pair(W))} is deprecated`];
         return (
-          Ge && Vi.push(`we now treat it as ${kd.default.blue(typeof Ge == 'string' ? An.key(Ge) : An.pair(Ge))}`),
+          Ge && Vi.push(`we now treat it as ${kd.default.blue(typeof Ge == 'string' ? $i.key(Ge) : $i.pair(Ge))}`),
           Vi.join('; ') + '.'
         );
       },
@@ -19450,43 +19450,43 @@ in order for it to be formatted.`,
       Pd = Symbol.for('vnopts.VALUE_NOT_EXIST'),
       Dd = Symbol.for('vnopts.VALUE_UNCHANGED'),
       Bf = ' '.repeat(2),
-      ed = (W, Ge, An) => {
-        let { text: Vi, list: qi } = An.normalizeExpectedResult(An.schemas[W].expected(An)),
+      ed = (W, Ge, $i) => {
+        let { text: Vi, list: qi } = $i.normalizeExpectedResult($i.schemas[W].expected($i)),
           el = [];
         return (
-          Vi && el.push(Nf(W, Ge, Vi, An.descriptor)),
+          Vi && el.push(Nf(W, Ge, Vi, $i.descriptor)),
           qi &&
             el.push(
-              [Nf(W, Ge, qi.title, An.descriptor)].concat(qi.values.map((Cl) => If(Cl, An.loggerPrintWidth))).join(`
+              [Nf(W, Ge, qi.title, $i.descriptor)].concat(qi.values.map((Cl) => If(Cl, $i.loggerPrintWidth))).join(`
 `),
             ),
-          Mf(el, An.loggerPrintWidth)
+          Mf(el, $i.loggerPrintWidth)
         );
       };
-    function Nf(W, Ge, An, Vi) {
+    function Nf(W, Ge, $i, Vi) {
       return [
         `Invalid ${Zh.default.red(Vi.key(W))} value.`,
-        `Expected ${Zh.default.blue(An)},`,
+        `Expected ${Zh.default.blue($i)},`,
         `but received ${Ge === Pd ? Zh.default.gray('nothing') : Zh.default.red(Vi.value(Ge))}.`,
       ].join(' ');
     }
-    function If({ text: W, list: Ge }, An) {
+    function If({ text: W, list: Ge }, $i) {
       let Vi = [];
       return (
         W && Vi.push(`- ${Zh.default.blue(W)}`),
         Ge &&
           Vi.push(
             [`- ${Zh.default.blue(Ge.title)}:`].concat(
-              Ge.values.map((qi) => If(qi, An - Bf.length).replace(/^|\n/g, `$&${Bf}`)),
+              Ge.values.map((qi) => If(qi, $i - Bf.length).replace(/^|\n/g, `$&${Bf}`)),
             ).join(`
 `),
           ),
-        Mf(Vi, An)
+        Mf(Vi, $i)
       );
     }
     function Mf(W, Ge) {
       if (W.length === 1) return W[0];
-      let [An, Vi] = W,
+      let [$i, Vi] = W,
         [qi, el] = W.map(
           (Cl) =>
             Cl.split(
@@ -19495,15 +19495,15 @@ in order for it to be formatted.`,
               1,
             )[0].length,
         );
-      return qi > Ge && qi > el ? Vi : An;
+      return qi > Ge && qi > el ? Vi : $i;
     }
     var hh = V(Wi(), 1),
       lf = [],
       uf = [];
     function u0(W, Ge) {
       if (W === Ge) return 0;
-      let An = W;
-      W.length > Ge.length && ((W = Ge), (Ge = An));
+      let $i = W;
+      W.length > Ge.length && ((W = Ge), (Ge = $i));
       let Vi = W.length,
         qi = Ge.length;
       for (; Vi > 0 && W.charCodeAt(~-Vi) === Ge.charCodeAt(~-qi); ) Vi--, qi--;
@@ -19524,12 +19524,12 @@ in order for it to be formatted.`,
             (Sl = lf[$l] = Tl > Sl ? (Ml > Sl ? Sl + 1 : Ml) : Ml > Tl ? Tl + 1 : Ml);
       return Sl;
     }
-    var Of = (W, Ge, { descriptor: An, logger: Vi, schemas: qi }) => {
-        let el = [`Ignored unknown option ${hh.default.yellow(An.pair({ key: W, value: Ge }))}.`],
+    var Of = (W, Ge, { descriptor: $i, logger: Vi, schemas: qi }) => {
+        let el = [`Ignored unknown option ${hh.default.yellow($i.pair({ key: W, value: Ge }))}.`],
           Cl = Object.keys(qi)
             .sort()
             .find((Sl) => u0(W, Sl) < 3);
-        Cl && el.push(`Did you mean ${hh.default.blue(An.key(Cl))}?`), Vi.warn(el.join(' '));
+        Cl && el.push(`Did you mean ${hh.default.blue($i.key(Cl))}?`), Vi.warn(el.join(' '));
       },
       cf = [
         'default',
@@ -19543,9 +19543,9 @@ in order for it to be formatted.`,
         'postprocess',
       ];
     function c0(W, Ge) {
-      let An = new W(Ge),
-        Vi = Object.create(An);
-      for (let qi of cf) qi in Ge && (Vi[qi] = od(Ge[qi], An, jh.prototype[qi].length));
+      let $i = new W(Ge),
+        Vi = Object.create($i);
+      for (let qi of cf) qi in Ge && (Vi[qi] = od(Ge[qi], $i, jh.prototype[qi].length));
       return Vi;
     }
     var jh = class {
@@ -19567,7 +19567,7 @@ in order for it to be formatted.`,
       }
       forward(W, Ge) {}
       redirect(W, Ge) {}
-      overlap(W, Ge, An) {
+      overlap(W, Ge, $i) {
         return W;
       }
       preprocess(W, Ge) {
@@ -19577,8 +19577,8 @@ in order for it to be formatted.`,
         return Dd;
       }
     };
-    function od(W, Ge, An) {
-      return typeof W == 'function' ? (...Vi) => W(...Vi.slice(0, An - 1), Ge, ...Vi.slice(An - 1)) : () => W;
+    function od(W, Ge, $i) {
+      return typeof W == 'function' ? (...Vi) => W(...Vi.slice(0, $i - 1), Ge, ...Vi.slice($i - 1)) : () => W;
     }
     var xd = class extends jh {
         constructor(W) {
@@ -19603,49 +19603,49 @@ in order for it to be formatted.`,
         }
       },
       p0 = class extends jh {
-        constructor({ valueSchema: W, name: Ge = W.name, ...An }) {
-          super({ ...An, name: Ge }), (this._valueSchema = W);
+        constructor({ valueSchema: W, name: Ge = W.name, ...$i }) {
+          super({ ...$i, name: Ge }), (this._valueSchema = W);
         }
         expected(W) {
-          let { text: Ge, list: An } = W.normalizeExpectedResult(this._valueSchema.expected(W));
+          let { text: Ge, list: $i } = W.normalizeExpectedResult(this._valueSchema.expected(W));
           return {
             text: Ge && `an array of ${Ge}`,
-            list: An && { title: 'an array of the following values', values: [{ list: An }] },
+            list: $i && { title: 'an array of the following values', values: [{ list: $i }] },
           };
         }
         validate(W, Ge) {
           if (!Array.isArray(W)) return !1;
-          let An = [];
+          let $i = [];
           for (let Vi of W) {
             let qi = Ge.normalizeValidateResult(this._valueSchema.validate(Vi, Ge), Vi);
-            qi !== !0 && An.push(qi.value);
+            qi !== !0 && $i.push(qi.value);
           }
-          return An.length === 0 ? !0 : { value: An };
+          return $i.length === 0 ? !0 : { value: $i };
         }
         deprecated(W, Ge) {
-          let An = [];
+          let $i = [];
           for (let Vi of W) {
             let qi = Ge.normalizeDeprecatedResult(this._valueSchema.deprecated(Vi, Ge), Vi);
-            qi !== !1 && An.push(...qi.map(({ value: el }) => ({ value: [el] })));
+            qi !== !1 && $i.push(...qi.map(({ value: el }) => ({ value: [el] })));
           }
-          return An;
+          return $i;
         }
         forward(W, Ge) {
-          let An = [];
+          let $i = [];
           for (let Vi of W) {
             let qi = Ge.normalizeForwardResult(this._valueSchema.forward(Vi, Ge), Vi);
-            An.push(...qi.map(Bd));
+            $i.push(...qi.map(Bd));
           }
-          return An;
+          return $i;
         }
         redirect(W, Ge) {
-          let An = [],
+          let $i = [],
             Vi = [];
           for (let qi of W) {
             let el = Ge.normalizeRedirectResult(this._valueSchema.redirect(qi, Ge), qi);
-            'remain' in el && An.push(el.remain), Vi.push(...el.redirect.map(Bd));
+            'remain' in el && $i.push(el.remain), Vi.push(...el.redirect.map(Bd));
           }
-          return An.length === 0 ? { redirect: Vi } : { redirect: Vi, remain: An };
+          return $i.length === 0 ? { redirect: Vi } : { redirect: Vi, remain: $i };
         }
         overlap(W, Ge) {
           return W.concat(Ge);
@@ -19663,54 +19663,54 @@ in order for it to be formatted.`,
       }
     };
     function $f(W, Ge) {
-      let An = Object.create(null);
+      let $i = Object.create(null);
       for (let Vi of W) {
         let qi = Vi[Ge];
-        if (An[qi]) throw new Error(`Duplicate ${Ge} ${JSON.stringify(qi)}`);
-        An[qi] = Vi;
+        if ($i[qi]) throw new Error(`Duplicate ${Ge} ${JSON.stringify(qi)}`);
+        $i[qi] = Vi;
       }
-      return An;
+      return $i;
     }
     function d0(W, Ge) {
-      let An = new Map();
+      let $i = new Map();
       for (let Vi of W) {
         let qi = Vi[Ge];
-        if (An.has(qi)) throw new Error(`Duplicate ${Ge} ${JSON.stringify(qi)}`);
-        An.set(qi, Vi);
+        if ($i.has(qi)) throw new Error(`Duplicate ${Ge} ${JSON.stringify(qi)}`);
+        $i.set(qi, Vi);
       }
-      return An;
+      return $i;
     }
     function Rf() {
       let W = Object.create(null);
       return (Ge) => {
-        let An = JSON.stringify(Ge);
-        return W[An] ? !0 : ((W[An] = !0), !1);
+        let $i = JSON.stringify(Ge);
+        return W[$i] ? !0 : ((W[$i] = !0), !1);
       };
     }
     function f0(W, Ge) {
-      let An = [],
+      let $i = [],
         Vi = [];
-      for (let qi of W) Ge(qi) ? An.push(qi) : Vi.push(qi);
-      return [An, Vi];
+      for (let qi of W) Ge(qi) ? $i.push(qi) : Vi.push(qi);
+      return [$i, Vi];
     }
     function _f(W) {
       return W === Math.floor(W);
     }
     function sh(W, Ge) {
       if (W === Ge) return 0;
-      let An = typeof W,
+      let $i = typeof W,
         Vi = typeof Ge,
         qi = ['undefined', 'object', 'boolean', 'number', 'string'];
-      return An !== Vi
-        ? qi.indexOf(An) - qi.indexOf(Vi)
-        : An !== 'string'
+      return $i !== Vi
+        ? qi.indexOf($i) - qi.indexOf(Vi)
+        : $i !== 'string'
         ? Number(W) - Number(Ge)
         : W.localeCompare(Ge);
     }
     function m0(W) {
       return (...Ge) => {
-        let An = W(...Ge);
-        return typeof An == 'string' ? new Error(An) : An;
+        let $i = W(...Ge);
+        return typeof $i == 'string' ? new Error($i) : $i;
       };
     }
     function hf(W) {
@@ -19718,17 +19718,17 @@ in order for it to be formatted.`,
     }
     function pf(W) {
       if (typeof W == 'string') return { text: W };
-      let { text: Ge, list: An } = W;
+      let { text: Ge, list: $i } = W;
       return (
-        ff((Ge || An) !== void 0, 'Unexpected `expected` result, there should be at least one field.'),
-        An ? { text: Ge, list: { title: An.title, values: An.values.map(pf) } } : { text: Ge }
+        ff((Ge || $i) !== void 0, 'Unexpected `expected` result, there should be at least one field.'),
+        $i ? { text: Ge, list: { title: $i.title, values: $i.values.map(pf) } } : { text: Ge }
       );
     }
     function jf(W, Ge) {
       return W === !0 ? !0 : W === !1 ? { value: Ge } : W;
     }
-    function Vf(W, Ge, An = !1) {
-      return W === !1 ? !1 : W === !0 ? (An ? !0 : [{ value: Ge }]) : 'value' in W ? [W] : W.length === 0 ? !1 : W;
+    function Vf(W, Ge, $i = !1) {
+      return W === !1 ? !1 : W === !0 ? ($i ? !0 : [{ value: Ge }]) : 'value' in W ? [W] : W.length === 0 ? !1 : W;
     }
     function df(W, Ge) {
       return typeof W == 'string' || 'key' in W
@@ -19738,15 +19738,15 @@ in order for it to be formatted.`,
         : { from: Ge, to: W.to };
     }
     function zd(W, Ge) {
-      return W === void 0 ? [] : Array.isArray(W) ? W.map((An) => df(An, Ge)) : [df(W, Ge)];
+      return W === void 0 ? [] : Array.isArray(W) ? W.map(($i) => df($i, Ge)) : [df(W, Ge)];
     }
     function Hf(W, Ge) {
-      let An = zd(typeof W == 'object' && 'redirect' in W ? W.redirect : W, Ge);
-      return An.length === 0
-        ? { remain: Ge, redirect: An }
+      let $i = zd(typeof W == 'object' && 'redirect' in W ? W.redirect : W, Ge);
+      return $i.length === 0
+        ? { remain: Ge, redirect: $i }
         : typeof W == 'object' && 'remain' in W
-        ? { remain: W.remain, redirect: An }
-        : { redirect: An };
+        ? { remain: W.remain, redirect: $i }
+        : { redirect: $i };
     }
     function ff(W, Ge) {
       if (!W) throw new Error(Ge);
@@ -19766,10 +19766,10 @@ in order for it to be formatted.`,
               .map((qi) => qi.value)
               .sort(sh)
               .map(W.value),
-            An = Ge.slice(0, -2),
+            $i = Ge.slice(0, -2),
             Vi = Ge.slice(-2);
           return {
-            text: An.concat(Vi.join(' or ')).join(', '),
+            text: $i.concat(Vi.join(' or ')).join(', '),
             list: { title: 'one of the following values', values: Ge },
           };
         }
@@ -19820,7 +19820,7 @@ in order for it to be formatted.`,
       Kf = class {
         constructor(W, Ge) {
           let {
-            logger: An = console,
+            logger: $i = console,
             loggerPrintWidth: Vi = 80,
             descriptor: qi = hd,
             unknown: el = mf,
@@ -19833,7 +19833,7 @@ in order for it to be formatted.`,
           } = Ge || {};
           (this._utils = {
             descriptor: qi,
-            logger: An || { warn: () => {} },
+            logger: $i || { warn: () => {} },
             loggerPrintWidth: Vi,
             schemas: $f(W, 'name'),
             normalizeDefaultResult: hf,
@@ -19857,12 +19857,12 @@ in order for it to be formatted.`,
         }
         normalize(W) {
           let Ge = {},
-            An = [this._preprocess(W, this._utils)],
+            $i = [this._preprocess(W, this._utils)],
             Vi = () => {
-              for (; An.length !== 0; ) {
-                let qi = An.shift(),
+              for (; $i.length !== 0; ) {
+                let qi = $i.shift(),
                   el = this._applyNormalization(qi, Ge);
-                An.push(...el);
+                $i.push(...el);
               }
             };
           Vi();
@@ -19870,7 +19870,7 @@ in order for it to be formatted.`,
             let el = this._utils.schemas[qi];
             if (!(qi in Ge)) {
               let Cl = hf(el.default(this._utils));
-              'value' in Cl && An.push({ [qi]: Cl.value });
+              'value' in Cl && $i.push({ [qi]: Cl.value });
             }
           }
           Vi();
@@ -19884,14 +19884,14 @@ in order for it to be formatted.`,
           return this._applyPostprocess(Ge), this._applyRequiredCheck(Ge), Ge;
         }
         _applyNormalization(W, Ge) {
-          let An = [],
+          let $i = [],
             { knownKeys: Vi, unknownKeys: qi } = this._partitionOptionKeys(W);
           for (let el of Vi) {
             let Cl = this._utils.schemas[el],
               Sl = Cl.preprocess(W[el], this._utils);
             this._applyValidation(Sl, el, Cl);
             let Tl = ({ from: Ql, to: Ol }) => {
-                An.push(typeof Ol == 'string' ? { [Ol]: Ql } : { [Ol.key]: Ol.value });
+                $i.push(typeof Ol == 'string' ? { [Ol]: Ql } : { [Ol.key]: Ol.value });
               },
               Ml = ({ value: Ql, redirectTo: Ol }) => {
                 let Xl = Vf(Cl.deprecated(Ql, this._utils), Sl, !0);
@@ -19919,10 +19919,10 @@ in order for it to be formatted.`,
           for (let el of qi) {
             let Cl = W[el];
             this._applyUnknownHandler(el, Cl, Ge, (Sl, Tl) => {
-              An.push({ [Sl]: Tl });
+              $i.push({ [Sl]: Tl });
             });
           }
-          return An;
+          return $i;
         }
         _applyRequiredCheck(W) {
           for (let Ge of Object.keys(this._utils.schemas))
@@ -19930,32 +19930,32 @@ in order for it to be formatted.`,
               throw this._invalidHandler(Ge, Pd, this._utils);
         }
         _partitionOptionKeys(W) {
-          let [Ge, An] = f0(
+          let [Ge, $i] = f0(
             Object.keys(W).filter((Vi) => !this._identifyMissing(Vi, W)),
             (Vi) => Vi in this._utils.schemas,
           );
-          return { knownKeys: Ge, unknownKeys: An };
+          return { knownKeys: Ge, unknownKeys: $i };
         }
-        _applyValidation(W, Ge, An) {
-          let Vi = jf(An.validate(W, this._utils), W);
+        _applyValidation(W, Ge, $i) {
+          let Vi = jf($i.validate(W, this._utils), W);
           if (Vi !== !0) throw this._invalidHandler(Ge, Vi.value, this._utils);
         }
-        _applyUnknownHandler(W, Ge, An, Vi) {
+        _applyUnknownHandler(W, Ge, $i, Vi) {
           let qi = this._unknownHandler(W, Ge, this._utils);
           if (qi)
             for (let el of Object.keys(qi)) {
               if (this._identifyMissing(el, qi)) continue;
               let Cl = qi[el];
-              el in this._utils.schemas ? Vi(el, Cl) : (An[el] = Cl);
+              el in this._utils.schemas ? Vi(el, Cl) : ($i[el] = Cl);
             }
         }
         _applyPostprocess(W) {
           let Ge = this._postprocess(W, this._utils);
           if (Ge !== Dd) {
-            if (Ge.delete) for (let An of Ge.delete) delete W[An];
+            if (Ge.delete) for (let $i of Ge.delete) delete W[$i];
             if (Ge.override) {
-              let { knownKeys: An, unknownKeys: Vi } = this._partitionOptionKeys(Ge.override);
-              for (let qi of An) {
+              let { knownKeys: $i, unknownKeys: Vi } = this._partitionOptionKeys(Ge.override);
+              for (let qi of $i) {
                 let el = Ge.override[qi];
                 this._applyValidation(el, qi, this._utils.schemas[qi]), (W[qi] = el);
               }
@@ -19971,7 +19971,7 @@ in order for it to be formatted.`,
         }
       },
       Wd;
-    function y0(W, Ge, { logger: An = !1, isCLI: Vi = !1, passThrough: qi = !1, FlagSchema: el, descriptor: Cl } = {}) {
+    function y0(W, Ge, { logger: $i = !1, isCLI: Vi = !1, passThrough: qi = !1, FlagSchema: el, descriptor: Cl } = {}) {
       if (Vi) {
         if (!el) throw new Error("'FlagSchema' option is required.");
         if (!Cl) throw new Error("'descriptor' option is required.");
@@ -19985,21 +19985,21 @@ in order for it to be formatted.`,
               return Of(Ol, Xl, { ...Vl, schemas: fh });
             },
         Tl = Ud(Ge, { isCLI: Vi, FlagSchema: el }),
-        Ml = new Kf(Tl, { logger: An, unknown: Sl, descriptor: Cl }),
-        $l = An !== !1;
+        Ml = new Kf(Tl, { logger: $i, unknown: Sl, descriptor: Cl }),
+        $l = $i !== !1;
       $l && Wd && (Ml._hasDeprecationWarned = Wd);
       let Ql = Ml.normalize(W);
       return $l && (Wd = Ml._hasDeprecationWarned), Ql;
     }
-    function Ud(W, { isCLI: Ge, FlagSchema: An }) {
+    function Ud(W, { isCLI: Ge, FlagSchema: $i }) {
       let Vi = [];
       Ge && Vi.push(h0.create({ name: '_' }));
       for (let qi of W)
-        Vi.push(D0(qi, { isCLI: Ge, optionInfos: W, FlagSchema: An })),
+        Vi.push(D0(qi, { isCLI: Ge, optionInfos: W, FlagSchema: $i })),
           qi.alias && Ge && Vi.push(xd.create({ name: qi.alias, sourceName: qi.name }));
       return Vi;
     }
-    function D0(W, { isCLI: Ge, optionInfos: An, FlagSchema: Vi }) {
+    function D0(W, { isCLI: Ge, optionInfos: $i, FlagSchema: Vi }) {
       let { name: qi } = W,
         el = { name: qi },
         Cl,
@@ -20022,7 +20022,7 @@ in order for it to be formatted.`,
           break;
         case 'flag':
           (Cl = Vi),
-            (el.flags = An.flatMap((Tl) =>
+            (el.flags = $i.flatMap((Tl) =>
               [Tl.alias, Tl.description && Tl.name, Tl.oppositeDescription && `no-${Tl.name}`].filter(Boolean),
             ));
           break;
@@ -20059,8 +20059,8 @@ in order for it to be formatted.`,
         let qi = W[Vi];
         if (qi.parsers && Object.prototype.hasOwnProperty.call(qi.parsers, Ge)) return qi;
       }
-      let An = `Couldn't resolve parser "${Ge}".`;
-      throw ((An += ' Plugins must be explicitly added to the standalone bundle.'), new sf(An));
+      let $i = `Couldn't resolve parser "${Ge}".`;
+      throw (($i += ' Plugins must be explicitly added to the standalone bundle.'), new sf($i));
     }
     function C0(W, Ge) {
       if (!Ge) throw new Error('astFormat is required.');
@@ -20068,24 +20068,24 @@ in order for it to be formatted.`,
         let qi = W[Vi];
         if (qi.printers && Object.prototype.hasOwnProperty.call(qi.printers, Ge)) return qi;
       }
-      let An = `Couldn't find plugin for AST format "${Ge}".`;
-      throw ((An += ' Plugins must be explicitly added to the standalone bundle.'), new sf(An));
+      let $i = `Couldn't find plugin for AST format "${Ge}".`;
+      throw (($i += ' Plugins must be explicitly added to the standalone bundle.'), new sf($i));
     }
     function Jf({ plugins: W, parser: Ge }) {
-      let An = Nd(W, Ge);
-      return Id(An, Ge);
+      let $i = Nd(W, Ge);
+      return Id($i, Ge);
     }
     function Id(W, Ge) {
-      let An = W.parsers[Ge];
-      return typeof An == 'function' ? An() : An;
+      let $i = W.parsers[Ge];
+      return typeof $i == 'function' ? $i() : $i;
     }
     function E0(W, Ge) {
-      let An = W.printers[Ge];
-      return typeof An == 'function' ? An() : An;
+      let $i = W.printers[Ge];
+      return typeof $i == 'function' ? $i() : $i;
     }
     var Gf = { astFormat: 'estree', printer: {}, originalText: void 0, locStart: null, locEnd: null };
     async function gf(W, Ge = {}) {
-      var An;
+      var $i;
       let Vi = { ...W };
       if (!Vi.parser)
         if (Vi.filepath) {
@@ -20100,7 +20100,7 @@ in order for it to be formatted.`,
         Cl = Nd(Vi.plugins, Vi.parser),
         Sl = await Id(Cl, Vi.parser);
       (Vi.astFormat = Sl.astFormat), (Vi.locEnd = Sl.locEnd), (Vi.locStart = Sl.locStart);
-      let Tl = (An = Cl.printers) != null && An[Sl.astFormat] ? Cl : C0(Vi.plugins, Sl.astFormat),
+      let Tl = ($i = Cl.printers) != null && $i[Sl.astFormat] ? Cl : C0(Vi.plugins, Sl.astFormat),
         Ml = await E0(Tl, Sl.astFormat);
       Vi.printer = Ml;
       let $l = Tl.defaultOptions
@@ -20119,11 +20119,11 @@ in order for it to be formatted.`,
     var Md = b0;
     function Od(W, Ge) {
       let {
-        printer: { massageAstNode: An, getVisitorKeys: Vi },
+        printer: { massageAstNode: $i, getVisitorKeys: Vi },
       } = Ge;
-      if (!An) return W;
+      if (!$i) return W;
       let qi = Md(Vi),
-        el = An.ignoredProperties ?? new Set();
+        el = $i.ignoredProperties ?? new Set();
       return Cl(W);
       function Cl(Sl, Tl) {
         if (!(Sl !== null && typeof Sl == 'object')) return Sl;
@@ -20134,28 +20134,28 @@ in order for it to be formatted.`,
           !Object.prototype.hasOwnProperty.call(Sl, Ol) ||
             el.has(Ol) ||
             ($l.has(Ol) ? (Ml[Ol] = Cl(Sl[Ol], Sl)) : (Ml[Ol] = Sl[Ol]));
-        let Ql = An(Sl, Ml, Tl);
+        let Ql = $i(Sl, Ml, Tl);
         if (Ql !== null) return Ql ?? Ml;
       }
     }
     var yf = Od,
       Qf = V(Fl(), 1);
     async function g(W, Ge) {
-      let An = await Jf(Ge),
-        Vi = An.preprocess ? An.preprocess(W, Ge) : W;
+      let $i = await Jf(Ge),
+        Vi = $i.preprocess ? $i.preprocess(W, Ge) : W;
       Ge.originalText = Vi;
       let qi;
       try {
-        qi = await An.parse(Vi, Ge, Ge);
+        qi = await $i.parse(Vi, Ge, Ge);
       } catch (el) {
         u(el, W);
       }
       return { text: Vi, ast: qi };
     }
     function u(W, Ge) {
-      let { loc: An } = W;
-      if (An) {
-        let Vi = (0, Qf.codeFrameColumns)(Ge, An, { highlightCode: !0 });
+      let { loc: $i } = W;
+      if ($i) {
+        let Vi = (0, Qf.codeFrameColumns)(Ge, $i, { highlightCode: !0 });
         throw (
           ((W.message +=
             `
@@ -20239,19 +20239,19 @@ in order for it to be formatted.`,
           return this.getNode(W + 1);
         }
         call(W, ...Ge) {
-          let { stack: An } = this,
-            { length: Vi } = An,
-            qi = Ih(!1, An, -1);
-          for (let el of Ge) (qi = qi[el]), An.push(el, qi);
+          let { stack: $i } = this,
+            { length: Vi } = $i,
+            qi = Ih(!1, $i, -1);
+          for (let el of Ge) (qi = qi[el]), $i.push(el, qi);
           try {
             return W(this);
           } finally {
-            An.length = Vi;
+            $i.length = Vi;
           }
         }
         callParent(W, Ge = 0) {
-          let An = ar(this, _, Be).call(this, Ge + 1),
-            Vi = this.stack.splice(An + 1);
+          let $i = ar(this, _, Be).call(this, Ge + 1),
+            Vi = this.stack.splice($i + 1);
           try {
             return W(this);
           } finally {
@@ -20259,41 +20259,41 @@ in order for it to be formatted.`,
           }
         }
         each(W, ...Ge) {
-          let { stack: An } = this,
-            { length: Vi } = An,
-            qi = Ih(!1, An, -1);
-          for (let el of Ge) (qi = qi[el]), An.push(el, qi);
+          let { stack: $i } = this,
+            { length: Vi } = $i,
+            qi = Ih(!1, $i, -1);
+          for (let el of Ge) (qi = qi[el]), $i.push(el, qi);
           try {
-            for (let el = 0; el < qi.length; ++el) An.push(el, qi[el]), W(this, el, qi), (An.length -= 2);
+            for (let el = 0; el < qi.length; ++el) $i.push(el, qi[el]), W(this, el, qi), ($i.length -= 2);
           } finally {
-            An.length = Vi;
+            $i.length = Vi;
           }
         }
         map(W, ...Ge) {
-          let An = [];
+          let $i = [];
           return (
             this.each(
               (Vi, qi, el) => {
-                An[qi] = W(Vi, qi, el);
+                $i[qi] = W(Vi, qi, el);
               },
               ...Ge,
             ),
-            An
+            $i
           );
         }
         match(...W) {
           let Ge = this.stack.length - 1,
-            An = null,
+            $i = null,
             Vi = this.stack[Ge--];
           for (let qi of W) {
             if (Vi === void 0) return !1;
             let el = null;
             if (
-              (typeof An == 'number' && ((el = An), (An = this.stack[Ge--]), (Vi = this.stack[Ge--])),
-              qi && !qi(Vi, An, el))
+              (typeof $i == 'number' && ((el = $i), ($i = this.stack[Ge--]), (Vi = this.stack[Ge--])),
+              qi && !qi(Vi, $i, el))
             )
               return !1;
-            (An = this.stack[Ge--]), (Vi = this.stack[Ge--]);
+            ($i = this.stack[Ge--]), (Vi = this.stack[Ge--]);
           }
           return !0;
         }
@@ -20308,26 +20308,26 @@ in order for it to be formatted.`,
     (_ = new WeakSet()),
       (Be = function (W) {
         let { stack: Ge } = this;
-        for (let An = Ge.length - 1; An >= 0; An -= 2) if (!Array.isArray(Ge[An]) && --W < 0) return An;
+        for (let $i = Ge.length - 1; $i >= 0; $i -= 2) if (!Array.isArray(Ge[$i]) && --W < 0) return $i;
         return -1;
       }),
       (Cn = new WeakSet()),
       (Yi = function* () {
         let { stack: W } = this;
         for (let Ge = W.length - 3; Ge >= 0; Ge -= 2) {
-          let An = W[Ge];
-          Array.isArray(An) || (yield An);
+          let $i = W[Ge];
+          Array.isArray($i) || (yield $i);
         }
       });
     var xl = nl,
       Dl = new Proxy(() => {}, { get: () => Dl }),
       jl = Dl;
     function Zl(W) {
-      return (Ge, An, Vi) => {
+      return (Ge, $i, Vi) => {
         let qi = !!(Vi != null && Vi.backwards);
-        if (An === !1) return !1;
+        if ($i === !1) return !1;
         let { length: el } = Ge,
-          Cl = An;
+          Cl = $i;
         for (; Cl >= 0 && Cl < el; ) {
           let Sl = Ge.charAt(Cl);
           if (W instanceof RegExp) {
@@ -20342,8 +20342,8 @@ in order for it to be formatted.`,
       rh = Zl(' 	'),
       Ph = Zl(',; 	'),
       Th = Zl(/[^\n\r]/);
-    function Oh(W, Ge, An) {
-      let Vi = !!(An != null && An.backwards);
+    function Oh(W, Ge, $i) {
+      let Vi = !!($i != null && $i.backwards);
       if (Ge === !1) return !1;
       let qi = W.charAt(Ge);
       if (Vi) {
@@ -20384,9 +20384,9 @@ in order for it to be formatted.`,
       return Ge;
     }
     var rl = Oh;
-    function oh(W, Ge, An = {}) {
-      let Vi = rh(W, An.backwards ? Ge - 1 : Ge, An),
-        qi = rl(W, Vi, An);
+    function oh(W, Ge, $i = {}) {
+      let Vi = rh(W, $i.backwards ? Ge - 1 : Ge, $i),
+        qi = rl(W, Vi, $i);
       return Vi !== qi;
     }
     var Vh = oh;
@@ -20399,24 +20399,24 @@ in order for it to be formatted.`,
     }
     var eh = e0;
     function* dn(W, Ge) {
-      let { getVisitorKeys: An, filter: Vi = () => !0 } = Ge,
+      let { getVisitorKeys: $i, filter: Vi = () => !0 } = Ge,
         qi = (el) => eh(el) && Vi(el);
-      for (let el of An(W)) {
+      for (let el of $i(W)) {
         let Cl = W[el];
         if (Array.isArray(Cl)) for (let Sl of Cl) qi(Sl) && (yield Sl);
         else qi(Cl) && (yield Cl);
       }
     }
     function* Xi(W, Ge) {
-      let An = [W];
-      for (let Vi = 0; Vi < An.length; Vi++) {
-        let qi = An[Vi];
-        for (let el of dn(qi, Ge)) yield el, An.push(el);
+      let $i = [W];
+      for (let Vi = 0; Vi < $i.length; Vi++) {
+        let qi = $i[Vi];
+        for (let el of dn(qi, Ge)) yield el, $i.push(el);
       }
     }
     function _l(W) {
       let Ge = W.type || W.kind || '(unknown type)',
-        An = String(
+        $i = String(
           W.name ||
             (W.id && (typeof W.id == 'object' ? W.id.name : W.id)) ||
             (W.key && (typeof W.key == 'object' ? W.key.name : W.key)) ||
@@ -20424,7 +20424,7 @@ in order for it to be formatted.`,
             W.operator ||
             '',
         );
-      return An.length > 20 && (An = An.slice(0, 19) + '…'), Ge + (An ? ' ' + An : '');
+      return $i.length > 20 && ($i = $i.slice(0, 19) + '…'), Ge + ($i ? ' ' + $i : '');
     }
     function ah(W, Ge) {
       (W.comments ?? (W.comments = [])).push(Ge), (Ge.printed = !1), (Ge.nodeDescription = _l(W));
@@ -20432,8 +20432,8 @@ in order for it to be formatted.`,
     function Ch(W, Ge) {
       (Ge.leading = !0), (Ge.trailing = !1), ah(W, Ge);
     }
-    function Uh(W, Ge, An) {
-      (Ge.leading = !1), (Ge.trailing = !1), An && (Ge.marker = An), ah(W, Ge);
+    function Uh(W, Ge, $i) {
+      (Ge.leading = !1), (Ge.trailing = !1), $i && (Ge.marker = $i), ah(W, Ge);
     }
     function ad(W, Ge) {
       (Ge.leading = !1), (Ge.trailing = !0), ah(W, Ge);
@@ -20442,21 +20442,21 @@ in order for it to be formatted.`,
     function w0(W, Ge) {
       if (S0.has(W)) return S0.get(W);
       let {
-        printer: { getCommentChildNodes: An, canAttachComment: Vi, getVisitorKeys: qi },
+        printer: { getCommentChildNodes: $i, canAttachComment: Vi, getVisitorKeys: qi },
         locStart: el,
         locEnd: Cl,
       } = Ge;
       if (!Vi) return [];
-      let Sl = ((An == null ? void 0 : An(W, Ge)) ?? [...dn(W, { getVisitorKeys: Md(qi) })]).flatMap((Tl) =>
+      let Sl = (($i == null ? void 0 : $i(W, Ge)) ?? [...dn(W, { getVisitorKeys: Md(qi) })]).flatMap((Tl) =>
         Vi(Tl) ? [Tl] : w0(Tl, Ge),
       );
       return Sl.sort((Tl, Ml) => el(Tl) - el(Ml) || Cl(Tl) - Cl(Ml)), S0.set(W, Sl), Sl;
     }
-    function $0(W, Ge, An, Vi) {
-      let { locStart: qi, locEnd: el } = An,
+    function $0(W, Ge, $i, Vi) {
+      let { locStart: qi, locEnd: el } = $i,
         Cl = qi(Ge),
         Sl = el(Ge),
-        Tl = w0(W, An),
+        Tl = w0(W, $i),
         Ml,
         $l,
         Ql = 0,
@@ -20466,7 +20466,7 @@ in order for it to be formatted.`,
           Vl = Tl[Xl],
           nh = qi(Vl),
           fh = el(Vl);
-        if (nh <= Cl && Sl <= fh) return $0(Vl, Ge, An, Vl);
+        if (nh <= Cl && Sl <= fh) return $0(Vl, Ge, $i, Vl);
         if (fh <= Cl) {
           (Ml = Vl), (Ql = Xl + 1);
           continue;
@@ -20479,15 +20479,15 @@ in order for it to be formatted.`,
       }
       if ((Vi == null ? void 0 : Vi.type) === 'TemplateLiteral') {
         let { quasis: Xl } = Vi,
-          Vl = T0(Xl, Ge, An);
-        Ml && T0(Xl, Ml, An) !== Vl && (Ml = null), $l && T0(Xl, $l, An) !== Vl && ($l = null);
+          Vl = T0(Xl, Ge, $i);
+        Ml && T0(Xl, Ml, $i) !== Vl && (Ml = null), $l && T0(Xl, $l, $i) !== Vl && ($l = null);
       }
       return { enclosingNode: Vi, precedingNode: Ml, followingNode: $l };
     }
     var F0 = () => !1;
     function om(W, Ge) {
-      let { comments: An } = W;
-      if ((delete W.comments, !Zf(An) || !Ge.printer.canAttachComment)) return;
+      let { comments: $i } = W;
+      if ((delete W.comments, !Zf($i) || !Ge.printer.canAttachComment)) return;
       let Vi = [],
         {
           locStart: qi,
@@ -20496,13 +20496,13 @@ in order for it to be formatted.`,
           originalText: Tl,
         } = Ge,
         { ownLine: Ml = F0, endOfLine: $l = F0, remaining: Ql = F0 } = Sl,
-        Ol = An.map((Xl, Vl) => ({
+        Ol = $i.map((Xl, Vl) => ({
           ...$0(W, Xl, Ge),
           comment: Xl,
           text: Tl,
           options: Ge,
           ast: W,
-          isLastComment: An.length - 1 === Vl,
+          isLastComment: $i.length - 1 === Vl,
         }));
       for (let [Xl, Vl] of Ol.entries()) {
         let {
@@ -20549,35 +20549,35 @@ in order for it to be formatted.`,
           } else fh ? ad(fh, nh) : Eh ? Ch(Eh, nh) : Uh(vh || Nh, nh);
       }
       if ((_0(Vi, Ge), !Cl))
-        for (let Xl of An) delete Xl.precedingNode, delete Xl.enclosingNode, delete Xl.followingNode;
+        for (let Xl of $i) delete Xl.precedingNode, delete Xl.enclosingNode, delete Xl.followingNode;
     }
     var R0 = (W) => !/[\S\n\u2028\u2029]/.test(W);
-    function am(W, Ge, An, Vi) {
-      let { comment: qi, precedingNode: el } = An[Vi],
+    function am(W, Ge, $i, Vi) {
+      let { comment: qi, precedingNode: el } = $i[Vi],
         { locStart: Cl, locEnd: Sl } = Ge,
         Tl = Cl(qi);
       if (el)
         for (let Ml = Vi - 1; Ml >= 0; Ml--) {
-          let { comment: $l, precedingNode: Ql } = An[Ml];
+          let { comment: $l, precedingNode: Ql } = $i[Ml];
           if (Ql !== el || !R0(W.slice(Sl($l), Tl))) break;
           Tl = Cl($l);
         }
       return Vh(W, Tl, { backwards: !0 });
     }
-    function lm(W, Ge, An, Vi) {
-      let { comment: qi, followingNode: el } = An[Vi],
+    function lm(W, Ge, $i, Vi) {
+      let { comment: qi, followingNode: el } = $i[Vi],
         { locStart: Cl, locEnd: Sl } = Ge,
         Tl = Sl(qi);
       if (el)
-        for (let Ml = Vi + 1; Ml < An.length; Ml++) {
-          let { comment: $l, followingNode: Ql } = An[Ml];
+        for (let Ml = Vi + 1; Ml < $i.length; Ml++) {
+          let { comment: $l, followingNode: Ql } = $i[Ml];
           if (Ql !== el || !R0(W.slice(Tl, Cl($l)))) break;
           Tl = Sl($l);
         }
       return Vh(W, Tl);
     }
     function _0(W, Ge) {
-      var An, Vi;
+      var $i, Vi;
       let qi = W.length;
       if (qi === 0) return;
       let { precedingNode: el, followingNode: Cl } = W[0],
@@ -20587,7 +20587,7 @@ in order for it to be formatted.`,
         let { comment: Ml, precedingNode: $l, followingNode: Ql } = W[Tl - 1];
         jl.strictEqual($l, el), jl.strictEqual(Ql, Cl);
         let Ol = Ge.originalText.slice(Ge.locEnd(Ml), Sl);
-        if (((Vi = (An = Ge.printer).isGap) == null ? void 0 : Vi.call(An, Ol, Ge)) ?? /^[\s(]*$/.test(Ol))
+        if (((Vi = ($i = Ge.printer).isGap) == null ? void 0 : Vi.call($i, Ol, Ge)) ?? /^[\s(]*$/.test(Ol))
           Sl = Ge.locStart(Ml);
         else break;
       }
@@ -20596,53 +20596,53 @@ in order for it to be formatted.`,
         Ml.comments && Ml.comments.length > 1 && Ml.comments.sort(($l, Ql) => Ge.locStart($l) - Ge.locStart(Ql));
       W.length = 0;
     }
-    function T0(W, Ge, An) {
-      let Vi = An.locStart(Ge) - 1;
-      for (let qi = 1; qi < W.length; ++qi) if (Vi < An.locStart(W[qi])) return qi - 1;
+    function T0(W, Ge, $i) {
+      let Vi = $i.locStart(Ge) - 1;
+      for (let qi = 1; qi < W.length; ++qi) if (Vi < $i.locStart(W[qi])) return qi - 1;
       return 0;
     }
     function um(W, Ge) {
-      let An = Ge - 1;
-      (An = rh(W, An, { backwards: !0 })), (An = rl(W, An, { backwards: !0 })), (An = rh(W, An, { backwards: !0 }));
-      let Vi = rl(W, An, { backwards: !0 });
-      return An !== Vi;
+      let $i = Ge - 1;
+      ($i = rh(W, $i, { backwards: !0 })), ($i = rl(W, $i, { backwards: !0 })), ($i = rh(W, $i, { backwards: !0 }));
+      let Vi = rl(W, $i, { backwards: !0 });
+      return $i !== Vi;
     }
     var k0 = um;
     function j0(W, Ge) {
-      let An = W.node;
-      return (An.printed = !0), Ge.printer.printComment(W, Ge);
+      let $i = W.node;
+      return ($i.printed = !0), Ge.printer.printComment(W, Ge);
     }
     function cm(W, Ge) {
-      var An;
+      var $i;
       let Vi = W.node,
         qi = [j0(W, Ge)],
         { printer: el, originalText: Cl, locStart: Sl, locEnd: Tl } = Ge;
-      if ((An = el.isBlockComment) != null && An.call(el, Vi)) {
+      if (($i = el.isBlockComment) != null && $i.call(el, Vi)) {
         let $l = Vh(Cl, Tl(Vi)) ? (Vh(Cl, Sl(Vi), { backwards: !0 }) ? Wh : Rh) : ' ';
         qi.push($l);
       } else qi.push(Wh);
       let Ml = rl(Cl, rh(Cl, Tl(Vi)));
       return Ml !== !1 && Vh(Cl, Ml) && qi.push(Wh), qi;
     }
-    function hm(W, Ge, An) {
+    function hm(W, Ge, $i) {
       var Vi;
       let qi = W.node,
         el = j0(W, Ge),
         { printer: Cl, originalText: Sl, locStart: Tl } = Ge,
         Ml = (Vi = Cl.isBlockComment) == null ? void 0 : Vi.call(Cl, qi);
-      if ((An != null && An.hasLineSuffix && !(An != null && An.isBlock)) || Vh(Sl, Tl(qi), { backwards: !0 })) {
+      if (($i != null && $i.hasLineSuffix && !($i != null && $i.isBlock)) || Vh(Sl, Tl(qi), { backwards: !0 })) {
         let $l = k0(Sl, Tl(qi));
         return { doc: Lh([Wh, $l ? Wh : '', el]), isBlock: Ml, hasLineSuffix: !0 };
       }
-      return !Ml || (An != null && An.hasLineSuffix)
+      return !Ml || ($i != null && $i.hasLineSuffix)
         ? { doc: [Lh([' ', el]), td], isBlock: Ml, hasLineSuffix: !0 }
         : { doc: [' ', el], isBlock: Ml, hasLineSuffix: !1 };
     }
     function pm(W, Ge) {
-      let An = W.node;
-      if (!An) return {};
+      let $i = W.node;
+      if (!$i) return {};
       let Vi = Ge[Symbol.for('printedComments')];
-      if ((An.comments || []).filter((Sl) => !Vi.has(Sl)).length === 0) return { leading: '', trailing: '' };
+      if (($i.comments || []).filter((Sl) => !Vi.has(Sl)).length === 0) return { leading: '', trailing: '' };
       let qi = [],
         el = [],
         Cl;
@@ -20656,23 +20656,23 @@ in order for it to be formatted.`,
         { leading: qi, trailing: el }
       );
     }
-    function dm(W, Ge, An) {
-      let { leading: Vi, trailing: qi } = pm(W, An);
+    function dm(W, Ge, $i) {
+      let { leading: Vi, trailing: qi } = pm(W, $i);
       return !Vi && !qi ? Ge : tf(Ge, (el) => [Vi, el, qi]);
     }
     function fm(W) {
-      let { [Symbol.for('comments')]: Ge, [Symbol.for('printedComments')]: An } = W;
+      let { [Symbol.for('comments')]: Ge, [Symbol.for('printedComments')]: $i } = W;
       for (let Vi of Ge) {
-        if (!Vi.printed && !An.has(Vi))
+        if (!Vi.printed && !$i.has(Vi))
           throw new Error('Comment "' + Vi.value.trim() + '" was not printed. Please report this error!');
         delete Vi.printed;
       }
     }
-    async function mm(W, Ge, An, Vi, qi) {
+    async function mm(W, Ge, $i, Vi, qi) {
       let {
         embeddedLanguageFormatting: el,
         printer: { embed: Cl, hasPrettierIgnore: Sl = () => !1, getVisitorKeys: Tl },
-      } = An;
+      } = $i;
       if (!Cl || el !== 'auto') return;
       if (Cl.length > 2)
         throw new Error(
@@ -20685,20 +20685,20 @@ in order for it to be formatted.`,
       for (let { print: Vl, node: nh, pathStack: fh } of $l)
         try {
           W.stack = fh;
-          let vh = await Vl(Ol, Ge, W, An);
+          let vh = await Vl(Ol, Ge, W, $i);
           vh && qi.set(nh, vh);
         } catch (vh) {
           if (globalThis.PRETTIER_DEBUG) throw vh;
         }
       W.stack = Ql;
       function Ol(Vl, nh) {
-        return gm(Vl, nh, An, Vi);
+        return gm(Vl, nh, $i, Vi);
       }
       function Xl() {
         let { node: Vl } = W;
         if (Vl === null || typeof Vl != 'object' || Sl(W)) return;
         for (let fh of Ml(Vl)) Array.isArray(Vl[fh]) ? W.each(Xl, fh) : W.call(Xl, fh);
-        let nh = Cl(W, An);
+        let nh = Cl(W, $i);
         if (nh) {
           if (typeof nh == 'function') {
             $l.push({ print: nh, node: Vl, pathStack: [...W.stack] });
@@ -20708,15 +20708,15 @@ in order for it to be formatted.`,
         }
       }
     }
-    async function gm(W, Ge, An, Vi) {
-      let qi = await Cd({ ...An, ...Ge, parentParser: An.parser, originalText: W }, { passThrough: !0 }),
+    async function gm(W, Ge, $i, Vi) {
+      let qi = await Cd({ ...$i, ...Ge, parentParser: $i.parser, originalText: W }, { passThrough: !0 }),
         { ast: el } = await N(W, qi),
         Cl = await Vi(el, qi);
       return Zd(Cl);
     }
     function ym(W, Ge) {
       let {
-          originalText: An,
+          originalText: $i,
           [Symbol.for('comments')]: Vi,
           locStart: qi,
           locEnd: el,
@@ -20726,12 +20726,12 @@ in order for it to be formatted.`,
         Tl = qi(Sl),
         Ml = el(Sl);
       for (let $l of Vi) qi($l) >= Tl && el($l) <= Ml && Cl.add($l);
-      return An.slice(Tl, Ml);
+      return $i.slice(Tl, Ml);
     }
     var Dm = ym;
     async function A0(W, Ge) {
       ({ ast: W } = await H0(W, Ge));
-      let An = new Map(),
+      let $i = new Map(),
         Vi = new xl(W),
         qi = new Map();
       await mm(Vi, Cl, Ge, A0, qi);
@@ -20748,12 +20748,12 @@ in order for it to be formatted.`,
         let Ml = Vi.node;
         if (Ml == null) return '';
         let $l = Ml && typeof Ml == 'object' && Tl === void 0;
-        if ($l && An.has(Ml)) return An.get(Ml);
+        if ($l && $i.has(Ml)) return $i.get(Ml);
         let Ql = V0(Vi, Ge, Cl, Tl, qi);
-        return $l && An.set(Ml, Ql), Ql;
+        return $l && $i.set(Ml, Ql), Ql;
       }
     }
-    function V0(W, Ge, An, Vi, qi) {
+    function V0(W, Ge, $i, Vi, qi) {
       var el;
       let { node: Cl } = W,
         { printer: Sl } = Ge,
@@ -20763,45 +20763,45 @@ in order for it to be formatted.`,
           ? (Tl = Dm(W, Ge))
           : qi.has(Cl)
           ? (Tl = qi.get(Cl))
-          : (Tl = Sl.print(W, Ge, An, Vi)),
+          : (Tl = Sl.print(W, Ge, $i, Vi)),
         Cl === Ge.cursorNode && (Tl = tf(Tl, (Ml) => [$d, Ml, $d])),
         Sl.printComment && (!Sl.willPrintOwnComments || !Sl.willPrintOwnComments(W, Ge)) && (Tl = dm(W, Tl, Ge)),
         Tl
       );
     }
     async function H0(W, Ge) {
-      let An = W.comments ?? [];
-      (Ge[Symbol.for('comments')] = An),
+      let $i = W.comments ?? [];
+      (Ge[Symbol.for('comments')] = $i),
         (Ge[Symbol.for('tokens')] = W.tokens ?? []),
         (Ge[Symbol.for('printedComments')] = new Set()),
         om(W, Ge);
       let {
         printer: { preprocess: Vi },
       } = Ge;
-      return (W = Vi ? await Vi(W, Ge) : W), { ast: W, comments: An };
+      return (W = Vi ? await Vi(W, Ge) : W), { ast: W, comments: $i };
     }
     var xm = ({ parser: W }) => W === 'json' || W === 'json5' || W === 'json-stringify';
     function Cm(W, Ge) {
-      let An = [W.node, ...W.parentNodes],
+      let $i = [W.node, ...W.parentNodes],
         Vi = new Set([Ge.node, ...Ge.parentNodes]);
-      return An.find((qi) => W0.has(qi.type) && Vi.has(qi));
+      return $i.find((qi) => W0.has(qi.type) && Vi.has(qi));
     }
     function z0(W) {
       let Ge = W.length - 1;
       for (;;) {
-        let An = W[Ge];
-        if ((An == null ? void 0 : An.type) === 'Program' || (An == null ? void 0 : An.type) === 'File') Ge--;
+        let $i = W[Ge];
+        if (($i == null ? void 0 : $i.type) === 'Program' || ($i == null ? void 0 : $i.type) === 'File') Ge--;
         else break;
       }
       return W.slice(0, Ge + 1);
     }
-    function Em(W, Ge, { locStart: An, locEnd: Vi }) {
+    function Em(W, Ge, { locStart: $i, locEnd: Vi }) {
       let qi = W.node,
         el = Ge.node;
       if (qi === el) return { startNode: qi, endNode: el };
-      let Cl = An(W.node);
+      let Cl = $i(W.node);
       for (let Tl of z0(Ge.parentNodes))
-        if (An(Tl) >= Cl) el = Tl;
+        if ($i(Tl) >= Cl) el = Tl;
         else break;
       let Sl = Vi(Ge.node);
       for (let Tl of z0(W.parentNodes)) {
@@ -20811,13 +20811,13 @@ in order for it to be formatted.`,
       }
       return { startNode: qi, endNode: el };
     }
-    function P0(W, Ge, An, Vi, qi = [], el) {
-      let { locStart: Cl, locEnd: Sl } = An,
+    function P0(W, Ge, $i, Vi, qi = [], el) {
+      let { locStart: Cl, locEnd: Sl } = $i,
         Tl = Cl(W),
         Ml = Sl(W);
       if (!(Ge > Ml || Ge < Tl || (el === 'rangeEnd' && Ge === Tl) || (el === 'rangeStart' && Ge === Ml))) {
-        for (let $l of w0(W, An)) {
-          let Ql = P0($l, Ge, An, Vi, [W, ...qi], el);
+        for (let $l of w0(W, $i)) {
+          let Ql = P0($l, Ge, $i, Vi, [W, ...qi], el);
           if (Ql) return Ql;
         }
         if (!Vi || Vi(W, qi[0])) return { node: W, parentNodes: qi };
@@ -20865,7 +20865,7 @@ in order for it to be formatted.`,
         'UnionTypeDefinition',
         'ScalarTypeDefinition',
       ]);
-    function U0(W, Ge, An) {
+    function U0(W, Ge, $i) {
       if (!Ge) return !1;
       switch (W.parser) {
         case 'flow':
@@ -20877,7 +20877,7 @@ in order for it to be formatted.`,
         case 'espree':
         case 'meriyah':
         case '__babel_estree':
-          return bm(Ge.type, An == null ? void 0 : An.type);
+          return bm(Ge.type, $i == null ? void 0 : $i.type);
         case 'json':
         case 'json5':
         case 'json-stringify':
@@ -20889,14 +20889,14 @@ in order for it to be formatted.`,
       }
       return !1;
     }
-    function vm(W, Ge, An) {
+    function vm(W, Ge, $i) {
       let { rangeStart: Vi, rangeEnd: qi, locStart: el, locEnd: Cl } = Ge;
       jl.ok(qi > Vi);
       let Sl = W.slice(Vi, qi).search(/\S/),
         Tl = Sl === -1;
       if (!Tl) for (Vi += Sl; qi > Vi && !/\S/.test(W[qi - 1]); --qi);
-      let Ml = P0(An, Vi, Ge, (Xl, Vl) => U0(Ge, Xl, Vl), [], 'rangeStart'),
-        $l = Tl ? Ml : P0(An, qi, Ge, (Xl) => U0(Ge, Xl), [], 'rangeEnd');
+      let Ml = P0($i, Vi, Ge, (Xl, Vl) => U0(Ge, Xl, Vl), [], 'rangeStart'),
+        $l = Tl ? Ml : P0($i, qi, Ge, (Xl) => U0(Ge, Xl), [], 'rangeEnd');
       if (!Ml || !$l) return { rangeStart: 0, rangeEnd: 0 };
       let Ql, Ol;
       if (xm(Ge)) {
@@ -20906,9 +20906,9 @@ in order for it to be formatted.`,
       return { rangeStart: Math.min(el(Ql), el(Ol)), rangeEnd: Math.max(Cl(Ql), Cl(Ol)) };
     }
     function Sm(W, Ge) {
-      let { cursorOffset: An, locStart: Vi, locEnd: qi } = Ge,
+      let { cursorOffset: $i, locStart: Vi, locEnd: qi } = Ge,
         el = Md(Ge.printer.getVisitorKeys),
-        Cl = (Tl) => Vi(Tl) <= An && qi(Tl) >= An,
+        Cl = (Tl) => Vi(Tl) <= $i && qi(Tl) >= $i,
         Sl = W;
       for (let Tl of Xi(W, { getVisitorKeys: el, filter: Cl })) Sl = Tl;
       return Sl;
@@ -20916,14 +20916,14 @@ in order for it to be formatted.`,
     var wm = Sm,
       q0 = '\uFEFF',
       K0 = Symbol('cursor');
-    async function J0(W, Ge, An = 0) {
+    async function J0(W, Ge, $i = 0) {
       if (!W || W.trim().length === 0) return { formatted: '', cursorOffset: -1, comments: [] };
       let { ast: Vi, text: qi } = await N(W, Ge);
       Ge.cursorOffset >= 0 && (Ge.cursorNode = wm(Vi, Ge));
       let el = await A0(Vi, Ge);
-      An > 0 && (el = Kd([Wh, el], An, Ge.tabWidth));
+      $i > 0 && (el = Kd([Wh, el], $i, Ge.tabWidth));
       let Cl = Jh(el, Ge);
-      if (An > 0) {
+      if ($i > 0) {
         let Tl = Cl.formatted.trim();
         Cl.cursorNodeStart !== void 0 && (Cl.cursorNodeStart -= Cl.formatted.indexOf(Tl)),
           (Cl.formatted = Tl + _d(Ge.endOfLine));
@@ -20956,8 +20956,8 @@ in order for it to be formatted.`,
       return { formatted: Cl.formatted, cursorOffset: -1, comments: Sl };
     }
     async function Fm(W, Ge) {
-      let { ast: An, text: Vi } = await N(W, Ge),
-        { rangeStart: qi, rangeEnd: el } = vm(Vi, Ge, An),
+      let { ast: $i, text: Vi } = await N(W, Ge),
+        { rangeStart: qi, rangeEnd: el } = vm(Vi, Ge, $i),
         Cl = Vi.slice(qi, el),
         Sl = Math.min(
           qi,
@@ -21005,42 +21005,42 @@ in order for it to be formatted.`,
       }
       return { formatted: Xl, cursorOffset: Ol, comments: $l.comments };
     }
-    function B0(W, Ge, An) {
-      return typeof Ge != 'number' || Number.isNaN(Ge) || Ge < 0 || Ge > W.length ? An : Ge;
+    function B0(W, Ge, $i) {
+      return typeof Ge != 'number' || Number.isNaN(Ge) || Ge < 0 || Ge > W.length ? $i : Ge;
     }
     function G0(W, Ge) {
-      let { cursorOffset: An, rangeStart: Vi, rangeEnd: qi } = Ge;
+      let { cursorOffset: $i, rangeStart: Vi, rangeEnd: qi } = Ge;
       return (
-        (An = B0(W, An, -1)),
+        ($i = B0(W, $i, -1)),
         (Vi = B0(W, Vi, 0)),
         (qi = B0(W, qi, W.length)),
-        { ...Ge, cursorOffset: An, rangeStart: Vi, rangeEnd: qi }
+        { ...Ge, cursorOffset: $i, rangeStart: Vi, rangeEnd: qi }
       );
     }
     function Y0(W, Ge) {
-      let { cursorOffset: An, rangeStart: Vi, rangeEnd: qi, endOfLine: el } = G0(W, Ge),
+      let { cursorOffset: $i, rangeStart: Vi, rangeEnd: qi, endOfLine: el } = G0(W, Ge),
         Cl = W.charAt(0) === q0;
-      if ((Cl && ((W = W.slice(1)), An--, Vi--, qi--), el === 'auto' && (el = Gd(W)), W.includes('\r'))) {
+      if ((Cl && ((W = W.slice(1)), $i--, Vi--, qi--), el === 'auto' && (el = Gd(W)), W.includes('\r'))) {
         let Sl = (Tl) =>
           uh(
             W.slice(0, Math.max(Tl, 0)),
             `\r
 `,
           );
-        (An -= Sl(An)), (Vi -= Sl(Vi)), (qi -= Sl(qi)), (W = dd(W));
+        ($i -= Sl($i)), (Vi -= Sl(Vi)), (qi -= Sl(qi)), (W = dd(W));
       }
       return {
         hasBOM: Cl,
         text: W,
-        options: G0(W, { ...Ge, cursorOffset: An, rangeStart: Vi, rangeEnd: qi, endOfLine: el }),
+        options: G0(W, { ...Ge, cursorOffset: $i, rangeStart: Vi, rangeEnd: qi, endOfLine: el }),
       };
     }
     async function X0(W, Ge) {
-      let An = await Jf(Ge);
-      return !An.hasPragma || An.hasPragma(W);
+      let $i = await Jf(Ge);
+      return !$i.hasPragma || $i.hasPragma(W);
     }
     async function Q0(W, Ge) {
-      let { hasBOM: An, text: Vi, options: qi } = Y0(W, await Cd(Ge));
+      let { hasBOM: $i, text: Vi, options: qi } = Y0(W, await Cd(Ge));
       if ((qi.rangeStart >= qi.rangeEnd && Vi !== '') || (qi.requirePragma && !(await X0(Vi, qi))))
         return { formatted: W, cursorOffset: Ge.cursorOffset, comments: [] };
       let el;
@@ -21053,31 +21053,31 @@ in order for it to be formatted.`,
               !(await X0(Vi, qi)) &&
               (Vi = qi.printer.insertPragma(Vi)),
             (el = await J0(Vi, qi))),
-        An && ((el.formatted = q0 + el.formatted), el.cursorOffset >= 0 && el.cursorOffset++),
+        $i && ((el.formatted = q0 + el.formatted), el.cursorOffset >= 0 && el.cursorOffset++),
         el
       );
     }
-    async function Tm(W, Ge, An) {
+    async function Tm(W, Ge, $i) {
       let { text: Vi, options: qi } = Y0(W, await Cd(Ge)),
         el = await N(Vi, qi);
       return (
-        An && (An.preprocessForPrint && (el.ast = await H0(el.ast, qi)), An.massage && (el.ast = yf(el.ast, qi))), el
+        $i && ($i.preprocessForPrint && (el.ast = await H0(el.ast, qi)), $i.massage && (el.ast = yf(el.ast, qi))), el
       );
     }
     async function km(W, Ge) {
       Ge = await Cd(Ge);
-      let An = await A0(W, Ge);
-      return Jh(An, Ge);
+      let $i = await A0(W, Ge);
+      return Jh($i, Ge);
     }
     async function Pm(W, Ge) {
-      let An = Ff(W),
-        { formatted: Vi } = await Q0(An, { ...Ge, parser: '__js_expression' });
+      let $i = Ff(W),
+        { formatted: Vi } = await Q0($i, { ...Ge, parser: '__js_expression' });
       return Vi;
     }
     async function Bm(W, Ge) {
       Ge = await Cd(Ge);
-      let { ast: An } = await N(W, Ge);
-      return A0(An, Ge);
+      let { ast: $i } = await N(W, Ge);
+      return A0($i, Ge);
     }
     async function Nm(W, Ge) {
       return Jh(W, await Cd(Ge));
@@ -21112,7 +21112,7 @@ in order for it to be formatted.`,
     function Im(W, Ge) {
       if (Ge === !1) return !1;
       if (W.charAt(Ge) === '/' && W.charAt(Ge + 1) === '*') {
-        for (let An = Ge + 2; An < W.length; ++An) if (W.charAt(An) === '*' && W.charAt(An + 1) === '/') return An + 2;
+        for (let $i = Ge + 2; $i < W.length; ++$i) if (W.charAt($i) === '*' && W.charAt($i + 1) === '/') return $i + 2;
       }
       return Ge;
     }
@@ -21122,16 +21122,16 @@ in order for it to be formatted.`,
     }
     var I0 = Mm;
     function Om(W, Ge) {
-      let An = null,
+      let $i = null,
         Vi = Ge;
-      for (; Vi !== An; ) (An = Vi), (Vi = rh(W, Vi)), (Vi = N0(W, Vi)), (Vi = I0(W, Vi)), (Vi = rl(W, Vi));
+      for (; Vi !== $i; ) ($i = Vi), (Vi = rh(W, Vi)), (Vi = N0(W, Vi)), (Vi = I0(W, Vi)), (Vi = rl(W, Vi));
       return Vi;
     }
     var M0 = Om;
     function Lm(W, Ge) {
-      let An = null,
+      let $i = null,
         Vi = Ge;
-      for (; Vi !== An; ) (An = Vi), (Vi = Ph(W, Vi)), (Vi = N0(W, Vi)), (Vi = rh(W, Vi));
+      for (; Vi !== $i; ) ($i = Vi), (Vi = Ph(W, Vi)), (Vi = N0(W, Vi)), (Vi = rh(W, Vi));
       return (Vi = I0(W, Vi)), (Vi = rl(W, Vi)), Vi !== !1 && Vh(W, Vi);
     }
     var O0 = Lm;
@@ -21140,18 +21140,18 @@ in order for it to be formatted.`,
       return W.replace(/[|\\{}()[\]^$+*?.]/g, '\\$&').replace(/-/g, '\\x2d');
     }
     function Rm(W, Ge) {
-      let An = W.match(new RegExp(`(${$m(Ge)})+`, 'g'));
-      return An === null ? 0 : An.reduce((Vi, qi) => Math.max(Vi, qi.length / Ge.length), 0);
+      let $i = W.match(new RegExp(`(${$m(Ge)})+`, 'g'));
+      return $i === null ? 0 : $i.reduce((Vi, qi) => Math.max(Vi, qi.length / Ge.length), 0);
     }
     var _m = Rm;
     function jm(W, Ge) {
-      let An = W.lastIndexOf(`
+      let $i = W.lastIndexOf(`
 `);
-      return An === -1 ? 0 : md(W.slice(An + 1).match(/^[\t ]*/)[0], Ge);
+      return $i === -1 ? 0 : md(W.slice($i + 1).match(/^[\t ]*/)[0], Ge);
     }
     var Vm = jm;
-    function Hm(W, Ge, An) {
-      for (let Vi = Ge; Vi < An; ++Vi)
+    function Hm(W, Ge, $i) {
+      for (let Vi = Ge; Vi < $i; ++Vi)
         if (
           W.charAt(Vi) ===
           `
@@ -21161,41 +21161,41 @@ in order for it to be formatted.`,
       return !1;
     }
     var zm = Hm;
-    function Wm(W, Ge, An = {}) {
-      return rh(W, An.backwards ? Ge - 1 : Ge, An) !== Ge;
+    function Wm(W, Ge, $i = {}) {
+      return rh(W, $i.backwards ? Ge - 1 : Ge, $i) !== Ge;
     }
     var Um = Wm;
     function qm(W, Ge) {
-      let An = M0(W, Ge);
-      return An === !1 ? '' : W.charAt(An);
+      let $i = M0(W, Ge);
+      return $i === !1 ? '' : W.charAt($i);
     }
     var Km = qm;
-    function Jm(W, Ge, An) {
+    function Jm(W, Ge, $i) {
       let Vi = Ge === '"' ? "'" : '"',
         qi = El(!1, W, /\\(.)|(["'])/gs, (el, Cl, Sl) =>
           Cl === Vi
             ? Cl
             : Sl === Ge
             ? '\\' + Sl
-            : Sl || (An && /^[^\n\r"'0-7\\bfnrt-vx\u2028\u2029]$/.test(Cl) ? Cl : '\\' + Cl),
+            : Sl || ($i && /^[^\n\r"'0-7\\bfnrt-vx\u2028\u2029]$/.test(Cl) ? Cl : '\\' + Cl),
         );
       return Ge + qi + Ge;
     }
     var Gm = Jm;
-    function Ym(W, Ge, An) {
-      return M0(W, An(Ge));
+    function Ym(W, Ge, $i) {
+      return M0(W, $i(Ge));
     }
     function Xm(W, Ge) {
       return arguments.length === 2 || typeof Ge == 'number' ? M0(W, Ge) : Ym(...arguments);
     }
-    function Qm(W, Ge, An) {
-      return k0(W, An(Ge));
+    function Qm(W, Ge, $i) {
+      return k0(W, $i(Ge));
     }
     function Zm(W, Ge) {
       return arguments.length === 2 || typeof Ge == 'number' ? k0(W, Ge) : Qm(...arguments);
     }
-    function e1(W, Ge, An) {
-      return O0(W, An(Ge));
+    function e1(W, Ge, $i) {
+      return O0(W, $i(Ge));
     }
     function t1(W, Ge) {
       return arguments.length === 2 || typeof Ge == 'number' ? O0(W, Ge) : e1(...arguments);
@@ -21242,16 +21242,16 @@ in order for it to be formatted.`,
       },
       s1 = '3.0.2';
     function Df(W, Ge = 1) {
-      return async (...An) => {
-        let Vi = An[Ge] ?? {},
+      return async (...$i) => {
+        let Vi = $i[Ge] ?? {},
           qi = Vi.plugins ?? [];
-        return (An[Ge] = { ...Vi, plugins: Array.isArray(qi) ? qi : Object.values(qi) }), W(...An);
+        return ($i[Ge] = { ...Vi, plugins: Array.isArray(qi) ? qi : Object.values(qi) }), W(...$i);
       };
     }
     var tm = Df(Q0);
     async function nm(W, Ge) {
-      let { formatted: An } = await tm(W, { ...Ge, cursorOffset: -1 });
-      return An;
+      let { formatted: $i } = await tm(W, { ...Ge, cursorOffset: -1 });
+      return $i;
     }
     async function o1(W, Ge) {
       return (await nm(W, Ge)) === W;
@@ -21601,7 +21601,7 @@ var standaloneExports = standalone.exports,
       },
       ht = ['toMessage'],
       ar = ['message'];
-    function $i(g) {
+    function An(g) {
       let { toMessage: u } = g,
         N = e(g, ht);
       return function _({ loc: Be, details: Cn }) {
@@ -21640,7 +21640,7 @@ var standaloneExports = standalone.exports,
           { message: Yi } = Cn,
           nl = e(Cn, ar),
           xl = typeof Yi == 'string' ? () => Yi : Yi;
-        N[_] = $i(
+        N[_] = An(
           Object.assign({ code: a.SyntaxError, reasonCode: _, toMessage: xl }, u ? { syntaxPlugin: u } : {}, nl),
         );
       }
@@ -31801,22 +31801,22 @@ var standaloneExports = standalone.exports,
       m = /(\r?\n|^) *\* ?/g,
       v = [];
     function I(ar) {
-      let $i = ar.match(s);
-      return $i ? $i[0].trimLeft() : '';
+      let An = ar.match(s);
+      return An ? An[0].trimLeft() : '';
     }
     function L(ar) {
-      let $i = ar.match(s);
-      return $i && $i[0] ? ar.substring($i[0].length) : ar;
+      let An = ar.match(s);
+      return An && An[0] ? ar.substring(An[0].length) : ar;
     }
     function V(ar) {
       return se(ar).pragmas;
     }
     function se(ar) {
-      let $i = `
+      let An = `
 `;
       ar = ar.replace(n, '').replace(e, '').replace(m, '$1');
       let tl = '';
-      for (; tl !== ar; ) (tl = ar), (ar = ar.replace(l, `${$i}$1 $2${$i}`));
+      for (; tl !== ar; ) (tl = ar), (ar = ar.replace(l, `${An}$1 $2${An}`));
       ar = ar.replace(a, '').trimRight();
       let Wi = Object.create(null),
         hl = ar.replace(f, '').replace(a, '').trimRight(),
@@ -31829,22 +31829,22 @@ var standaloneExports = standalone.exports,
       }
       return { comments: hl, pragmas: Wi };
     }
-    function Ee({ comments: ar = '', pragmas: $i = {} }) {
+    function Ee({ comments: ar = '', pragmas: An = {} }) {
       let tl = `
 `,
         Wi = '/**',
         hl = ' *',
         fl = ' */',
-        dl = Object.keys($i),
+        dl = Object.keys(An),
         Al = dl
-          .map((vl) => ht(vl, $i[vl]))
+          .map((vl) => ht(vl, An[vl]))
           .reduce((vl, kl) => vl.concat(kl), [])
           .map((vl) => `${hl} ${vl}${tl}`)
           .join('');
       if (!ar) {
         if (dl.length === 0) return '';
-        if (dl.length === 1 && !Array.isArray($i[dl[0]])) {
-          let vl = $i[dl[0]];
+        if (dl.length === 1 && !Array.isArray(An[dl[0]])) {
+          let vl = An[dl[0]];
           return `${Wi} ${ht(dl[0], vl)[0]}${fl}`;
         }
       }
@@ -31855,8 +31855,8 @@ var standaloneExports = standalone.exports,
           .join(tl) + tl;
       return Wi + tl + (ar ? Fl : '') + (ar && dl.length ? hl + tl : '') + Al + fl;
     }
-    function ht(ar, $i) {
-      return v.concat($i).map((tl) => `@${ar} ${tl}`.trim());
+    function ht(ar, An) {
+      return v.concat(An).map((tl) => `@${ar} ${tl}`.trim());
     }
   }),
   Ft$1 = {};
@@ -32755,22 +32755,22 @@ var Ws$1 = Xs$1(),
       m = /(\r?\n|^) *\* ?/g,
       v = [];
     function I(ar) {
-      let $i = ar.match(s);
-      return $i ? $i[0].trimLeft() : '';
+      let An = ar.match(s);
+      return An ? An[0].trimLeft() : '';
     }
     function L(ar) {
-      let $i = ar.match(s);
-      return $i && $i[0] ? ar.substring($i[0].length) : ar;
+      let An = ar.match(s);
+      return An && An[0] ? ar.substring(An[0].length) : ar;
     }
     function V(ar) {
       return se(ar).pragmas;
     }
     function se(ar) {
-      let $i = `
+      let An = `
 `;
       ar = ar.replace(n, '').replace(e, '').replace(m, '$1');
       let tl = '';
-      for (; tl !== ar; ) (tl = ar), (ar = ar.replace(l, `${$i}$1 $2${$i}`));
+      for (; tl !== ar; ) (tl = ar), (ar = ar.replace(l, `${An}$1 $2${An}`));
       ar = ar.replace(a, '').trimRight();
       let Wi = Object.create(null),
         hl = ar.replace(f, '').replace(a, '').trimRight(),
@@ -32783,22 +32783,22 @@ var Ws$1 = Xs$1(),
       }
       return { comments: hl, pragmas: Wi };
     }
-    function Ee({ comments: ar = '', pragmas: $i = {} }) {
+    function Ee({ comments: ar = '', pragmas: An = {} }) {
       let tl = `
 `,
         Wi = '/**',
         hl = ' *',
         fl = ' */',
-        dl = Object.keys($i),
+        dl = Object.keys(An),
         Al = dl
-          .map((vl) => ht(vl, $i[vl]))
+          .map((vl) => ht(vl, An[vl]))
           .reduce((vl, kl) => vl.concat(kl), [])
           .map((vl) => `${hl} ${vl}${tl}`)
           .join('');
       if (!ar) {
         if (dl.length === 0) return '';
-        if (dl.length === 1 && !Array.isArray($i[dl[0]])) {
-          let vl = $i[dl[0]];
+        if (dl.length === 1 && !Array.isArray(An[dl[0]])) {
+          let vl = An[dl[0]];
           return `${Wi} ${ht(dl[0], vl)[0]}${fl}`;
         }
       }
@@ -32809,8 +32809,8 @@ var Ws$1 = Xs$1(),
           .join(tl) + tl;
       return Wi + tl + (ar ? Fl : '') + (ar && dl.length ? hl + tl : '') + Al + fl;
     }
-    function ht(ar, $i) {
-      return v.concat($i).map((tl) => `@${ar} ${tl}`.trim());
+    function ht(ar, An) {
+      return v.concat(An).map((tl) => `@${ar} ${tl}`.trim());
     }
   }),
   Ss = {};
@@ -35453,35 +35453,35 @@ function $o(r, e, n) {
     Ee = e.singleQuote ? "{' '}" : '{" "}',
     ht = se ? ' ' : P$1([Ee, F$1], ' '),
     ar = ((o = (s = l.openingElement) == null ? void 0 : s.name) == null ? void 0 : o.name) === 'fbt',
-    $i = Vo(r, e, n, ht, ar),
+    An = Vo(r, e, n, ht, ar),
     tl = l.children.some((dl) => Zt(dl));
-  for (let dl = $i.length - 2; dl >= 0; dl--) {
-    let Al = $i[dl] === '' && $i[dl + 1] === '',
-      Fl = $i[dl] === C$1 && $i[dl + 1] === '' && $i[dl + 2] === C$1,
-      vl = ($i[dl] === F$1 || $i[dl] === C$1) && $i[dl + 1] === '' && $i[dl + 2] === ht,
-      kl = $i[dl] === ht && $i[dl + 1] === '' && ($i[dl + 2] === F$1 || $i[dl + 2] === C$1),
-      El = $i[dl] === ht && $i[dl + 1] === '' && $i[dl + 2] === ht,
+  for (let dl = An.length - 2; dl >= 0; dl--) {
+    let Al = An[dl] === '' && An[dl + 1] === '',
+      Fl = An[dl] === C$1 && An[dl + 1] === '' && An[dl + 2] === C$1,
+      vl = (An[dl] === F$1 || An[dl] === C$1) && An[dl + 1] === '' && An[dl + 2] === ht,
+      kl = An[dl] === ht && An[dl + 1] === '' && (An[dl + 2] === F$1 || An[dl + 2] === C$1),
+      El = An[dl] === ht && An[dl + 1] === '' && An[dl + 2] === ht,
       Jl =
-        ($i[dl] === F$1 && $i[dl + 1] === '' && $i[dl + 2] === C$1) ||
-        ($i[dl] === C$1 && $i[dl + 1] === '' && $i[dl + 2] === F$1);
-    (Fl && tl) || Al || vl || El || Jl ? $i.splice(dl, 2) : kl && $i.splice(dl + 1, 2);
+        (An[dl] === F$1 && An[dl + 1] === '' && An[dl + 2] === C$1) ||
+        (An[dl] === C$1 && An[dl + 1] === '' && An[dl + 2] === F$1);
+    (Fl && tl) || Al || vl || El || Jl ? An.splice(dl, 2) : kl && An.splice(dl + 1, 2);
   }
-  for (; $i.length > 0 && Qn(w$1(!1, $i, -1)); ) $i.pop();
-  for (; $i.length > 1 && Qn($i[0]) && Qn($i[1]); ) $i.shift(), $i.shift();
+  for (; An.length > 0 && Qn(w$1(!1, An, -1)); ) An.pop();
+  for (; An.length > 1 && Qn(An[0]) && Qn(An[1]); ) An.shift(), An.shift();
   let Wi = [];
-  for (let [dl, Al] of $i.entries()) {
+  for (let [dl, Al] of An.entries()) {
     if (Al === ht) {
-      if (dl === 1 && $i[dl - 1] === '') {
-        if ($i.length === 2) {
+      if (dl === 1 && An[dl - 1] === '') {
+        if (An.length === 2) {
           Wi.push(Ee);
           continue;
         }
         Wi.push([Ee, C$1]);
         continue;
-      } else if (dl === $i.length - 1) {
+      } else if (dl === An.length - 1) {
         Wi.push(Ee);
         continue;
-      } else if ($i[dl - 1] === '' && $i[dl - 2] === C$1) {
+      } else if (An[dl - 1] === '' && An[dl - 2] === C$1) {
         Wi.push(Ee);
         continue;
       }
@@ -35497,7 +35497,7 @@ function $o(r, e, n) {
   )
     return hl;
   let fl = y$1([f, E([C$1, hl]), C$1, m]);
-  return V ? fl : qe([y$1([f, ...$i, m]), fl]);
+  return V ? fl : qe([y$1([f, ...An, m]), fl]);
 }
 function Vo(r, e, n, s, o) {
   let a = [];
@@ -35806,9 +35806,9 @@ function Ir(r, e, n) {
   let Ee = Y(o.right),
     ht = I.findIndex((fl) => typeof fl != 'string' && !Array.isArray(fl) && fl.type === ue),
     ar = I.slice(0, ht === -1 ? 1 : ht + 1),
-    $i = I.slice(ar.length, Ee ? -1 : void 0),
+    An = I.slice(ar.length, Ee ? -1 : void 0),
     tl = Symbol('logicalChain-' + ++cp),
-    Wi = y$1([...ar, E($i)], { id: tl });
+    Wi = y$1([...ar, E(An)], { id: tl });
   if (!Ee) return Wi;
   let hl = w$1(!1, I, -1);
   return y$1([Wi, mt(hl, { groupId: tl })]);
@@ -35840,7 +35840,7 @@ function Zn(r, e, n, s, o) {
   else {
     let ar =
       I === '|>' && (a = r.root.extra) != null && a.__isUsingHackPipeline
-        ? r.call(($i) => Zn($i, e, n, !0, o), 'right')
+        ? r.call((An) => Zn(An, e, n, !0, o), 'right')
         : e('right');
     V = [v ? A : '', I, v ? ' ' : A, ar, L];
   }
@@ -35902,10 +35902,10 @@ function vt(r, e, n) {
       se =
         !e.__inJestEach &&
         m.length > 1 &&
-        m.every((ar, $i, tl) => {
+        m.every((ar, An, tl) => {
           let Wi = ar == null ? void 0 : ar.type;
           if (!G(ar) && !Z(ar)) return !1;
-          let hl = tl[$i + 1];
+          let hl = tl[An + 1];
           if (hl && Wi !== hl.type) return !1;
           let fl = G(ar) ? 'elements' : 'properties';
           return ar[fl] && ar[fl].length > 1;
@@ -36194,14 +36194,14 @@ function Tp(r, e, n) {
     return J(Hl) && Hl.property.type === 'Identifier' && (se(Hl.property.name) || Nl);
   }
   let ar = v.length >= 2 && !d(v[1][0].node) && ht(v);
-  function $i(Il) {
+  function An(Il) {
     let Ll = Il.map((Nl) => Nl.printed);
     return Il.length > 0 && w$1(!1, Il, -1).needsParens ? ['(', ...Ll, ')'] : Ll;
   }
   function tl(Il) {
-    return Il.length === 0 ? '' : E(y$1([C$1, B$1(C$1, Il.map($i))]));
+    return Il.length === 0 ? '' : E(y$1([C$1, B$1(C$1, Il.map(An))]));
   }
-  let Wi = v.map($i),
+  let Wi = v.map(An),
     hl = Wi,
     fl = ar ? 3 : 2,
     dl = v.flat(),
@@ -36212,7 +36212,7 @@ function Tp(r, e, n) {
   if (v.length <= fl && !Al) return hr(r) ? hl : y$1(hl);
   let Fl = w$1(!1, v[ar ? 1 : 0], -1).node,
     vl = !k(Fl) && l(Fl),
-    kl = [$i(v[0]), ar ? v.slice(1, 2).map($i) : '', vl ? C$1 : '', tl(v.slice(ar ? 2 : 1))],
+    kl = [An(v[0]), ar ? v.slice(1, 2).map(An) : '', vl ? C$1 : '', tl(v.slice(ar ? 2 : 1))],
     El = a.map(({ node: Il }) => Il).filter(k);
   function Jl() {
     let Il = w$1(!1, w$1(!1, v, -1), -1).node,
@@ -37134,8 +37134,8 @@ function Mt(r, e, n) {
     Ee = V.type === s.type && !se,
     ht,
     ar,
-    $i = 0;
-  do (ar = ht || s), (ht = r.getParentNode($i)), $i++;
+    An = 0;
+  do (ar = ht || s), (ht = r.getParentNode(An)), An++;
   while (ht && ht.type === s.type && f.every((vl) => ht[vl] !== ar));
   let tl = ht || V,
     Wi = ar;
@@ -37386,8 +37386,8 @@ function ls(r, e) {
             m = !1;
             let ht = { ind: V, mode: nt, doc: Ee.contents },
               ar = s - a,
-              $i = v.length > 0;
-            if (!Ee.break && zr(ht, l, ar, $i, n)) l.push(ht);
+              An = v.length > 0;
+            if (!Ee.break && zr(ht, l, ar, An, n)) l.push(ht);
             else if (Ee.expandedStates) {
               let tl = w$1(!1, Ee.expandedStates, -1);
               if (Ee.break) {
@@ -37401,7 +37401,7 @@ function ls(r, e) {
                   } else {
                     let hl = Ee.expandedStates[Wi],
                       fl = { ind: V, mode: nt, doc: hl };
-                    if (zr(fl, l, ar, $i, n)) {
+                    if (zr(fl, l, ar, An, n)) {
                       l.push(fl);
                       break;
                     }
@@ -37416,9 +37416,9 @@ function ls(r, e) {
         let ht = s - a,
           { parts: ar } = Ee;
         if (ar.length === 0) break;
-        let [$i, tl] = ar,
-          Wi = { ind: V, mode: nt, doc: $i },
-          hl = { ind: V, mode: Ce, doc: $i },
+        let [An, tl] = ar,
+          Wi = { ind: V, mode: nt, doc: An },
+          hl = { ind: V, mode: Ce, doc: An },
           fl = zr(Wi, [], ht, v.length > 0, n, !0);
         if (ar.length === 1) {
           fl ? l.push(Wi) : l.push(hl);
@@ -37433,7 +37433,7 @@ function ls(r, e) {
         ar.splice(0, 2);
         let Fl = { ind: V, mode: se, doc: St(ar) },
           vl = ar[0];
-        zr({ ind: V, mode: nt, doc: [$i, tl, vl] }, [], ht, v.length > 0, n, !0)
+        zr({ ind: V, mode: nt, doc: [An, tl, vl] }, [], ht, v.length > 0, n, !0)
           ? l.push(Fl, dl, Wi)
           : fl
           ? l.push(Fl, Al, Wi)
@@ -38072,18 +38072,18 @@ function Et(r, e, n) {
     Ee = V ? ';' : a.type === 'TSInterfaceBody' || a.type === 'TSTypeLiteral' ? P$1(o, ';') : ',',
     ht = a.type === 'RecordExpression' ? '#{' : a.exact ? '{|' : '{',
     ar = a.exact ? '|}' : '}',
-    $i = [],
+    An = [],
     tl = v.map((dl) => {
-      let Al = [...$i, y$1(dl.printed)];
+      let Al = [...An, y$1(dl.printed)];
       return (
-        ($i = [Ee, A]),
+        (An = [Ee, A]),
         (dl.node.type === 'TSPropertySignature' ||
           dl.node.type === 'TSMethodSignature' ||
           dl.node.type === 'TSConstructSignatureDeclaration' ||
           dl.node.type === 'TSCallSignatureDeclaration') &&
           d(dl.node, x$1.PrettierIgnore) &&
-          $i.shift(),
-        me(dl.node, e) && $i.push(C$1),
+          An.shift(),
+        me(dl.node, e) && An.push(C$1),
         Al
       );
     });
@@ -38093,7 +38093,7 @@ function Et(r, e, n) {
       let Al = d(a, x$1.Line);
       dl = [M(r, e), Al || z$1(e.originalText, O$1(w$1(!1, Kt(a), -1))) ? C$1 : A, '...'];
     } else dl = ['...'];
-    tl.push([...$i, ...dl]);
+    tl.push([...An, ...dl]);
   }
   let Wi = (s = w$1(!1, v, -1)) == null ? void 0 : s.node,
     hl = !(
@@ -38158,7 +38158,7 @@ function Ci(r, e, n, s = {}) {
     m = !s.expandLastArg && r.node.body.type === 'ArrowFunctionExpression',
     v;
   (function ar() {
-    let { node: $i } = r,
+    let { node: An } = r,
       tl = Cc(r, e, n, s);
     if (o.length === 0) o.push(tl);
     else {
@@ -38167,8 +38167,8 @@ function Ci(r, e, n, s = {}) {
     }
     m &&
       (f ||
-        (f = ($i.returnType && X($i).length > 0) || $i.typeParameters || X($i).some((Wi) => Wi.type !== 'Identifier'))),
-      !m || $i.body.type !== 'ArrowFunctionExpression' ? ((a = n('body', s)), (v = $i.body)) : r.call(ar, 'body');
+        (f = (An.returnType && X(An).length > 0) || An.typeParameters || X(An).some((Wi) => Wi.type !== 'Identifier'))),
+      !m || An.body.type !== 'ArrowFunctionExpression' ? ((a = n('body', s)), (v = An.body)) : r.call(ar, 'body');
   })();
   let I = !Ie(e.originalText, v) && (Fi(v) || dc(v, a, e) || (!f && Ei(v))),
     L = r.key === 'callee' && it(r.parent),
@@ -39303,10 +39303,10 @@ async function vc(r, e, n) {
       Ee = a[f],
       ht = se > 2 && V[0].trim() === '' && V[1].trim() === '',
       ar = se > 2 && V[se - 1].trim() === '' && V[se - 2].trim() === '',
-      $i = V.every((Wi) => /^\s*(?:#[^\n\r]*)?$/.test(Wi));
+      An = V.every((Wi) => /^\s*(?:#[^\n\r]*)?$/.test(Wi));
     if (!I && /#[^\n\r]*$/.test(V[se - 1])) return null;
     let tl = null;
-    $i ? (tl = _c(V)) : (tl = await r(L, { parser: 'graphql' })),
+    An ? (tl = _c(V)) : (tl = await r(L, { parser: 'graphql' })),
       tl
         ? ((tl = Zr(tl, !1)), !v && ht && l.push(''), l.push(tl), !I && ar && l.push(''))
         : !v && !I && ht && l.push(''),
@@ -39342,21 +39342,21 @@ async function Mi(r, e, n, s, o) {
   let { node: a } = s,
     l = xs;
   xs = (xs + 1) >>> 0;
-  let f = ($i) => `PRETTIER_HTML_PLACEHOLDER_${$i}_${l}_IN_JS`,
-    m = a.quasis.map(($i, tl, Wi) => (tl === Wi.length - 1 ? $i.value.cooked : $i.value.cooked + f(tl))).join(''),
+  let f = (An) => `PRETTIER_HTML_PLACEHOLDER_${An}_${l}_IN_JS`,
+    m = a.quasis.map((An, tl, Wi) => (tl === Wi.length - 1 ? An.value.cooked : An.value.cooked + f(tl))).join(''),
     v = Rt(s, n),
     I = new RegExp(f('(\\d+)'), 'g'),
     L = 0,
     V = await e(m, {
       parser: r,
-      __onHtmlRoot($i) {
-        L = $i.children.length;
+      __onHtmlRoot(An) {
+        L = An.children.length;
       },
     }),
-    se = ut(V, ($i) => {
-      if (typeof $i != 'string') return $i;
+    se = ut(V, (An) => {
+      if (typeof An != 'string') return An;
       let tl = [],
-        Wi = $i.split(I);
+        Wi = An.split(I);
       for (let hl = 0; hl < Wi.length; hl++) {
         let fl = Wi[hl];
         if (hl % 2 === 0) {
@@ -40912,11 +40912,11 @@ function buildTree(r) {
     } else kl == -3 ? (v = Al) : kl == -4 && (I = Al);
     return dl;
   }
-  let $i = [],
+  let An = [],
     tl = [];
-  for (; f.pos > 0; ) L(r.start || 0, r.bufferStart || 0, $i, tl, -1);
-  let Wi = (e = r.length) !== null && e !== void 0 ? e : $i.length ? tl[0] + $i[0].length : 0;
-  return new Tree(m[r.topID], $i.reverse(), tl.reverse(), Wi);
+  for (; f.pos > 0; ) L(r.start || 0, r.bufferStart || 0, An, tl, -1);
+  let Wi = (e = r.length) !== null && e !== void 0 ? e : An.length ? tl[0] + An[0].length : 0;
+  return new Tree(m[r.topID], An.reverse(), tl.reverse(), Wi);
 }
 const nodeSizeCache = new WeakMap();
 function nodeSize(r, e) {
@@ -40941,12 +40941,12 @@ function balanceRange(r, e, n, s, o, a, l, f, m) {
   let I = Math.ceil((v * 1.5) / 8),
     L = [],
     V = [];
-  function se(Ee, ht, ar, $i, tl) {
-    for (let Wi = ar; Wi < $i; ) {
+  function se(Ee, ht, ar, An, tl) {
+    for (let Wi = ar; Wi < An; ) {
       let hl = Wi,
         fl = ht[Wi],
         dl = nodeSize(r, Ee[Wi]);
-      for (Wi++; Wi < $i; Wi++) {
+      for (Wi++; Wi < An; Wi++) {
         let Al = nodeSize(r, Ee[Wi]);
         if (dl + Al >= I) break;
         dl += Al;
@@ -41205,10 +41205,10 @@ class HighlightBuilder {
       let se = e.node.enter(V.overlay[0].from + f, 1),
         Ee = this.highlighters.filter((ar) => !ar.scope || ar.scope(V.tree.type)),
         ht = e.firstChild();
-      for (let ar = 0, $i = f; ; ar++) {
+      for (let ar = 0, An = f; ; ar++) {
         let tl = ar < V.overlay.length ? V.overlay[ar] : null,
           Wi = tl ? tl.from + f : m,
-          hl = Math.max(n, $i),
+          hl = Math.max(n, An),
           fl = Math.min(s, Wi);
         if (hl < fl && ht)
           for (
@@ -41220,10 +41220,10 @@ class HighlightBuilder {
 
           );
         if (!tl || Wi > s) break;
-        ($i = tl.to + f),
-          $i > n &&
-            (this.highlightRange(se.cursor(), Math.max(n, tl.from + f), Math.min(s, $i), '', Ee),
-            this.startSpan(Math.min(s, $i), v));
+        (An = tl.to + f),
+          An > n &&
+            (this.highlightRange(se.cursor(), Math.max(n, tl.from + f), Math.min(s, An), '', Ee),
+            this.startSpan(Math.min(s, An), v));
       }
       ht && e.parent();
     } else if (e.firstChild()) {
@@ -42516,11 +42516,11 @@ function matchPlainBrackets(r, e, n, s, o, a, l) {
     n < 0 && (V += se.length);
     let Ee = e + V * n;
     for (let ht = n > 0 ? 0 : se.length - 1, ar = n > 0 ? se.length : -1; ht != ar; ht += n) {
-      let $i = l.indexOf(se[ht]);
-      if (!($i < 0 || s.resolveInner(Ee + ht, 1).type != o))
-        if (($i % 2 == 0) == n > 0) L++;
+      let An = l.indexOf(se[ht]);
+      if (!(An < 0 || s.resolveInner(Ee + ht, 1).type != o))
+        if ((An % 2 == 0) == n > 0) L++;
         else {
-          if (L == 1) return { start: v, end: { from: Ee + ht, to: Ee + ht + 1 }, matched: $i >> 1 == m >> 1 };
+          if (L == 1) return { start: v, end: { from: Ee + ht, to: Ee + ht + 1 }, matched: An >> 1 == m >> 1 };
           L--;
         }
     }
@@ -44628,7 +44628,7 @@ class FuzzyMatcher {
       Ee = -1,
       ht = -1,
       ar = /[a-z]/.test(e),
-      $i = !0;
+      An = !0;
     for (let tl = 0, Wi = Math.min(e.length, 200), hl = 0; tl < Wi && L < m; ) {
       let fl = codePointAt(e, tl);
       f < 0 &&
@@ -44648,11 +44648,11 @@ class FuzzyMatcher {
             ? 2
             : 0;
       (!tl || (Al == 1 && ar) || (hl == 0 && Al != 0)) &&
-        (n[L] == fl || (s[L] == fl && (V = !0)) ? (l[L++] = tl) : l.length && ($i = !1)),
+        (n[L] == fl || (s[L] == fl && (V = !0)) ? (l[L++] = tl) : l.length && (An = !1)),
         (hl = Al),
         (tl += codePointSize(fl));
     }
-    return L == m && l[0] == 0 && $i
+    return L == m && l[0] == 0 && An
       ? this.result(-100 + (V ? -200 : 0), l, e)
       : se == m && Ee == 0
       ? this.ret(-200 - e.length + (ht == e.length ? 0 : -100), [0, ht])
@@ -44661,7 +44661,7 @@ class FuzzyMatcher {
       : se == m
       ? this.ret(-200 + -700 - e.length, [Ee, ht])
       : L == m
-      ? this.result(-100 + (V ? -200 : 0) + -700 + ($i ? 0 : -1100), l, e)
+      ? this.result(-100 + (V ? -200 : 0) + -700 + (An ? 0 : -1100), l, e)
       : n.length == 2
       ? !1
       : this.result((o[0] ? -700 : 0) + -200 + -1100, o, e);
@@ -44730,9 +44730,9 @@ function defaultPositionInfo(r, e, n, s, o, a) {
     tl >= ht || tl > e.top ? (I = n.bottom - e.top) : ((v = 'bottom'), (I = e.bottom - n.top));
   }
   let ar = (e.bottom - e.top) / a.offsetHeight,
-    $i = (e.right - e.left) / a.offsetWidth;
+    An = (e.right - e.left) / a.offsetWidth;
   return {
-    style: `${v}: ${I / ar}px; max-width: ${L / $i}px`,
+    style: `${v}: ${I / ar}px; max-width: ${L / An}px`,
     class: 'cm-completionInfo-' + (m ? (l ? 'left-narrow' : 'right-narrow') : f ? 'left' : 'right'),
   };
 }
@@ -46404,7 +46404,7 @@ var F = Object.assign(Object.assign({}, z), B),
               Ee = S(v).run,
               ht = S(v).run,
               ar = S(v).run,
-              $i = S(v).run;
+              An = S(v).run;
             return {
               focus: function () {
                 return v.focus();
@@ -46426,7 +46426,7 @@ var F = Object.assign(Object.assign({}, z), B),
                 ar(placeholder(tl));
               },
               setStyle: function (tl) {
-                tl === void 0 && (tl = {}), $i(EditorView.theme({ '&': Object.assign({}, tl) }));
+                tl === void 0 && (tl = {}), An(EditorView.theme({ '&': Object.assign({}, tl) }));
               },
             };
           })(o.value);
@@ -47253,19 +47253,19 @@ var stringify = function (e, n, s) {
     I('', { '': e })
   );
   function I(ht, ar) {
-    let $i = ar[ht];
+    let An = ar[ht];
     switch (
-      ($i != null &&
-        (typeof $i.toJSON5 == 'function'
-          ? ($i = $i.toJSON5(ht))
-          : typeof $i.toJSON == 'function' && ($i = $i.toJSON(ht))),
-      f && ($i = f.call(ar, ht, $i)),
-      $i instanceof Number
-        ? ($i = Number($i))
-        : $i instanceof String
-        ? ($i = String($i))
-        : $i instanceof Boolean && ($i = $i.valueOf()),
-      $i)
+      (An != null &&
+        (typeof An.toJSON5 == 'function'
+          ? (An = An.toJSON5(ht))
+          : typeof An.toJSON == 'function' && (An = An.toJSON(ht))),
+      f && (An = f.call(ar, ht, An)),
+      An instanceof Number
+        ? (An = Number(An))
+        : An instanceof String
+        ? (An = String(An))
+        : An instanceof Boolean && (An = An.valueOf()),
+      An)
     ) {
       case null:
         return 'null';
@@ -47274,13 +47274,13 @@ var stringify = function (e, n, s) {
       case !1:
         return 'false';
     }
-    if (typeof $i == 'string') return L($i);
-    if (typeof $i == 'number') return String($i);
-    if (typeof $i == 'object') return Array.isArray($i) ? Ee($i) : V($i);
+    if (typeof An == 'string') return L(An);
+    if (typeof An == 'number') return String(An);
+    if (typeof An == 'object') return Array.isArray(An) ? Ee(An) : V(An);
   }
   function L(ht) {
     const ar = { "'": 0.1, '"': 0.2 },
-      $i = {
+      An = {
         "'": "\\'",
         '"': '\\"',
         '\\': '\\\\',
@@ -47308,8 +47308,8 @@ var stringify = function (e, n, s) {
             continue;
           }
       }
-      if ($i[fl]) {
-        tl += $i[fl];
+      if (An[fl]) {
+        tl += An[fl];
         continue;
       }
       if (fl < ' ') {
@@ -47320,16 +47320,16 @@ var stringify = function (e, n, s) {
       tl += fl;
     }
     const Wi = v || Object.keys(ar).reduce((hl, fl) => (ar[hl] < ar[fl] ? hl : fl));
-    return (tl = tl.replace(new RegExp(Wi, 'g'), $i[Wi])), Wi + tl + Wi;
+    return (tl = tl.replace(new RegExp(Wi, 'g'), An[Wi])), Wi + tl + Wi;
   }
   function V(ht) {
     if (o.indexOf(ht) >= 0) throw TypeError('Converting circular structure to JSON5');
     o.push(ht);
     let ar = a;
     a = a + m;
-    let $i = l || Object.keys(ht),
+    let An = l || Object.keys(ht),
       tl = [];
-    for (const hl of $i) {
+    for (const hl of An) {
       const fl = I(hl, ht);
       if (fl !== void 0) {
         let dl = se(hl) + ':';
@@ -47363,8 +47363,8 @@ var stringify = function (e, n, s) {
     if (ht.length === 0) return L(ht);
     const ar = String.fromCodePoint(ht.codePointAt(0));
     if (!util.isIdStartChar(ar)) return L(ht);
-    for (let $i = ar.length; $i < ht.length; $i++)
-      if (!util.isIdContinueChar(String.fromCodePoint(ht.codePointAt($i)))) return L(ht);
+    for (let An = ar.length; An < ht.length; An++)
+      if (!util.isIdContinueChar(String.fromCodePoint(ht.codePointAt(An)))) return L(ht);
     return ht;
   }
   function Ee(ht) {
@@ -47372,19 +47372,19 @@ var stringify = function (e, n, s) {
     o.push(ht);
     let ar = a;
     a = a + m;
-    let $i = [];
+    let An = [];
     for (let Wi = 0; Wi < ht.length; Wi++) {
       const hl = I(String(Wi), ht);
-      $i.push(hl !== void 0 ? hl : 'null');
+      An.push(hl !== void 0 ? hl : 'null');
     }
     let tl;
-    if ($i.length === 0) tl = '[]';
-    else if (m === '') tl = '[' + $i.join(',') + ']';
+    if (An.length === 0) tl = '[]';
+    else if (m === '') tl = '[' + An.join(',') + ']';
     else {
       let Wi =
           `,
 ` + a,
-        hl = $i.join(Wi);
+        hl = An.join(Wi);
       tl =
         `[
 ` +
@@ -54244,7 +54244,7 @@ var mock = { exports: {} };
         function ar(hl) {
           n.call(this, 'control-character'), (this.code = hl.toUpperCase());
         }
-        var $i = (function () {
+        var An = (function () {
             function hl(Al, Fl) {
               function vl() {
                 this.constructor = Al;
@@ -55307,7 +55307,7 @@ var mock = { exports: {} };
           })(),
           tl = 1,
           Wi = {};
-        r.exports = $i;
+        r.exports = An;
       },
       function (r, e, n) {
         var s = n(3),
@@ -55332,7 +55332,7 @@ var mock = { exports: {} };
             '\\D': l + f + v,
           };
         function se(Ee, ht) {
-          for (var ar = '', $i = Ee; $i <= ht; $i++) ar += String.fromCharCode($i);
+          for (var ar = '', An = Ee; An <= ht; An++) ar += String.fromCharCode(An);
           return ar;
         }
         (a.gen = function (Ee, ht, ar) {
@@ -55382,7 +55382,7 @@ var mock = { exports: {} };
             },
             'match': function (Ee, ht, ar) {
               ht = '';
-              for (var $i = 0; $i < Ee.body.length; $i++) ht += this.gen(Ee.body[$i], ht, ar);
+              for (var An = 0; An < Ee.body.length; An++) ht += this.gen(Ee.body[An], ht, ar);
               return ht;
             },
             'capture-group': function (Ee, ht, ar) {
@@ -55399,24 +55399,24 @@ var mock = { exports: {} };
             },
             'quantified': function (Ee, ht, ar) {
               ht = '';
-              for (var $i = this.quantifier(Ee.quantifier), tl = 0; tl < $i; tl++) ht += this.gen(Ee.body, ht, ar);
+              for (var An = this.quantifier(Ee.quantifier), tl = 0; tl < An; tl++) ht += this.gen(Ee.body, ht, ar);
               return ht;
             },
             'quantifier': function (Ee, ht, ar) {
-              var $i = Math.max(Ee.min, 0),
-                tl = isFinite(Ee.max) ? Ee.max : $i + o.integer(3, 7);
-              return o.integer($i, tl);
+              var An = Math.max(Ee.min, 0),
+                tl = isFinite(Ee.max) ? Ee.max : An + o.integer(3, 7);
+              return o.integer(An, tl);
             },
             'charset': function (Ee, ht, ar) {
               if (Ee.invert) return this['invert-charset'](Ee, ht, ar);
-              var $i = o.pick(Ee.body);
-              return this.gen($i, ht, ar);
+              var An = o.pick(Ee.body);
+              return this.gen(An, ht, ar);
             },
             'invert-charset': function (Ee, ht, ar) {
-              for (var $i = I, tl = 0, Wi; tl < Ee.body.length; tl++)
+              for (var An = I, tl = 0, Wi; tl < Ee.body.length; tl++)
                 switch (((Wi = Ee.body[tl]), Wi.type)) {
                   case 'literal':
-                    $i = $i.replace(Wi.body, '');
+                    An = An.replace(Wi.body, '');
                     break;
                   case 'range':
                     for (
@@ -55426,17 +55426,17 @@ var mock = { exports: {} };
                       dl <= fl;
                       dl++
                     )
-                      $i = $i.replace(String.fromCharCode(dl), '');
+                      An = An.replace(String.fromCharCode(dl), '');
                   default:
                     var Al = V[Wi.text];
-                    if (Al) for (var Fl = 0; Fl <= Al.length; Fl++) $i = $i.replace(Al[Fl], '');
+                    if (Al) for (var Fl = 0; Fl <= Al.length; Fl++) An = An.replace(Al[Fl], '');
                 }
-              return o.pick($i.split(''));
+              return o.pick(An.split(''));
             },
             'range': function (Ee, ht, ar) {
-              var $i = this.gen(Ee.start, ht, ar).charCodeAt(),
+              var An = this.gen(Ee.start, ht, ar).charCodeAt(),
                 tl = this.gen(Ee.end, ht, ar).charCodeAt();
-              return String.fromCharCode(o.integer($i, tl));
+              return String.fromCharCode(o.integer(An, tl));
             },
             'literal': function (Ee, ht, ar) {
               return Ee.escaped ? Ee.body : Ee.text;
@@ -55459,11 +55459,11 @@ var mock = { exports: {} };
                   ht = `\0       \x07 \b 	 
  \v \f \r              \x1B    `.split(' '),
                   ar = {},
-                  $i = 0;
-                $i < Ee.length;
-                $i++
+                  An = 0;
+                An < Ee.length;
+                An++
               )
-                ar[Ee[$i]] = ht[$i];
+                ar[Ee[An]] = ht[An];
               return ar;
             })(),
             'control-character': function (Ee, ht, ar) {
@@ -55566,21 +55566,21 @@ var mock = { exports: {} };
               var ar;
               switch (ht) {
                 case 'number':
-                  var $i = (I + '').split('.');
-                  ($i[0] = +$i[0]),
+                  var An = (I + '').split('.');
+                  (An[0] = +An[0]),
                     Ee.min !== void 0 &&
                       Ee.max !== void 0 &&
-                      (m.greaterThanOrEqualTo('value', v.path, $i[0], Math.min(Ee.min, Ee.max), V),
-                      m.lessThanOrEqualTo('value', v.path, $i[0], Math.max(Ee.min, Ee.max), V)),
+                      (m.greaterThanOrEqualTo('value', v.path, An[0], Math.min(Ee.min, Ee.max), V),
+                      m.lessThanOrEqualTo('value', v.path, An[0], Math.max(Ee.min, Ee.max), V)),
                     Ee.min !== void 0 &&
                       Ee.max === void 0 &&
-                      m.equal('value', v.path, $i[0], Ee.min, V, '[value] ' + L),
+                      m.equal('value', v.path, An[0], Ee.min, V, '[value] ' + L),
                     Ee.decimal &&
                       (Ee.dmin !== void 0 &&
                         Ee.dmax !== void 0 &&
-                        (m.greaterThanOrEqualTo('value', v.path, $i[1].length, Ee.dmin, V),
-                        m.lessThanOrEqualTo('value', v.path, $i[1].length, Ee.dmax, V)),
-                      Ee.dmin !== void 0 && Ee.dmax === void 0 && m.equal('value', v.path, $i[1].length, Ee.dmin, V));
+                        (m.greaterThanOrEqualTo('value', v.path, An[1].length, Ee.dmin, V),
+                        m.lessThanOrEqualTo('value', v.path, An[1].length, Ee.dmax, V)),
+                      Ee.dmin !== void 0 && Ee.dmax === void 0 && m.equal('value', v.path, An[1].length, Ee.dmin, V));
                   break;
                 case 'boolean':
                   break;
@@ -55629,12 +55629,12 @@ var mock = { exports: {} };
                     V,
                     this.diff(
                       (function () {
-                        var $i;
+                        var An;
                         return (
                           o.each(v.properties, function (tl) {
-                            tl.name === ht[ar] && ($i = tl);
+                            tl.name === ht[ar] && (An = tl);
                           }),
-                          $i || v.properties[ar]
+                          An || v.properties[ar]
                         );
                       })(),
                       I[ht[ar]],
@@ -55745,9 +55745,9 @@ var mock = { exports: {} };
         try {
           new window.Event('custom');
         } catch {
-          window.Event = function (Ee, ht, ar, $i) {
+          window.Event = function (Ee, ht, ar, An) {
             var tl = document.createEvent('CustomEvent');
-            return tl.initCustomEvent(Ee, ht, ar, $i), tl;
+            return tl.initCustomEvent(Ee, ht, ar, An), tl;
           };
         }
         var o = { UNSENT: 0, OPENED: 1, HEADERS_RECEIVED: 2, LOADING: 3, DONE: 4 },
@@ -55809,14 +55809,14 @@ var mock = { exports: {} };
           (v.prototype.mock = !0),
           (v.prototype.match = !1),
           s.extend(v.prototype, {
-            open: function (se, Ee, ht, ar, $i) {
+            open: function (se, Ee, ht, ar, An) {
               var tl = this;
               s.extend(this.custom, {
                 method: se,
                 url: Ee,
                 async: typeof ht == 'boolean' ? ht : !0,
                 username: ar,
-                password: $i,
+                password: An,
                 options: { url: Ee, type: se },
               }),
                 (this.custom.timeout = (function (Fl) {
@@ -55841,7 +55841,7 @@ var mock = { exports: {} };
                 var fl = I();
                 this.custom.xhr = fl;
                 for (var dl = 0; dl < a.length; dl++) fl.addEventListener(a[dl], hl);
-                ar ? fl.open(se, Ee, ht, ar, $i) : fl.open(se, Ee, ht);
+                ar ? fl.open(se, Ee, ht, ar, An) : fl.open(se, Ee, ht);
                 for (var Al = 0; Al < l.length; Al++)
                   try {
                     fl[l[Al]] = tl[l[Al]];
@@ -55930,21 +55930,21 @@ var mock = { exports: {} };
               ar[Ee] || (ar[Ee] = []), ar[Ee].push(ht);
             },
             removeEventListener: function (Ee, ht) {
-              for (var ar = this.custom.events[Ee] || [], $i = 0; $i < ar.length; $i++)
-                ar[$i] === ht && ar.splice($i--, 1);
+              for (var ar = this.custom.events[Ee] || [], An = 0; An < ar.length; An++)
+                ar[An] === ht && ar.splice(An--, 1);
             },
             dispatchEvent: function (Ee) {
               for (var ht = this.custom.events[Ee.type] || [], ar = 0; ar < ht.length; ar++) ht[ar].call(this, Ee);
-              var $i = 'on' + Ee.type;
-              this[$i] && this[$i](Ee);
+              var An = 'on' + Ee.type;
+              this[An] && this[An](Ee);
             },
           });
         function I() {
           var se = (function () {
             var ar = /^(?:about|app|app-storage|.+-extension|file|res|widget):$/,
-              $i = /^([\w.+-]+:)(?:\/\/([^\/?#:]*)(?::(\d+)|)|)/,
+              An = /^([\w.+-]+:)(?:\/\/([^\/?#:]*)(?::(\d+)|)|)/,
               tl = location.href,
-              Wi = $i.exec(tl.toLowerCase()) || [];
+              Wi = An.exec(tl.toLowerCase()) || [];
             return ar.test(Wi[1]);
           })();
           return window.ActiveXObject ? (!se && Ee()) || ht() : Ee();
@@ -55964,9 +55964,9 @@ var mock = { exports: {} };
             var ht = v.Mock._mocked[Ee];
             if ((!ht.rurl || ar(ht.rurl, se.url)) && (!ht.rtype || ar(ht.rtype, se.type.toLowerCase()))) return ht;
           }
-          function ar($i, tl) {
-            if (s.type($i) === 'string') return $i === tl;
-            if (s.type($i) === 'regexp') return $i.test(tl);
+          function ar(An, tl) {
+            if (s.type(An) === 'string') return An === tl;
+            if (s.type(An) === 'regexp') return An.test(tl);
           }
         }
         function V(se, Ee) {
@@ -56023,7 +56023,7 @@ const autoComplete = json5Language.data.of({ autocomplete: getCompletions }),
         f = navigator.platform.toLowerCase().includes('mac'),
         m = keymap.of([
           { win: 'Shift-Alt-f', mac: 'Shift-Cmd-f', run: () => (L(), !0) },
-          { key: 'Ctrl-s', run: () => (L(), !0) },
+          { win: 'Ctrl-s', mac: 'Cmd-s', run: () => (L(), !0) },
           { win: 'Shift-Alt-z', mac: 'Shift-Cmd-z', run: () => (V(), !0) },
         ]),
         v = computed(() => (l.value ? [...defaultExtensions, m, EditorView.lineWrapping] : [...defaultExtensions, m]));
@@ -56565,16 +56565,16 @@ function createHTTPBatchLink(r) {
             { promise: Ee, cancel: ht } = se.load(L);
           let ar;
           return (
-            Ee.then(($i) => {
-              ar = $i;
-              const tl = transformResult($i.json, a);
+            Ee.then((An) => {
+              ar = An;
+              const tl = transformResult(An.json, a);
               if (!tl.ok) {
-                V.error(TRPCClientError.from(tl.error, { meta: $i.meta }));
+                V.error(TRPCClientError.from(tl.error, { meta: An.meta }));
                 return;
               }
-              V.next({ context: $i.meta, result: tl.result }), V.complete();
-            }).catch(($i) => {
-              V.error(TRPCClientError.from($i, { meta: ar == null ? void 0 : ar.meta }));
+              V.next({ context: An.meta, result: tl.result }), V.complete();
+            }).catch((An) => {
+              V.error(TRPCClientError.from(An, { meta: ar == null ? void 0 : ar.meta }));
             }),
             () => {
               ht();
@@ -56817,115 +56817,119 @@ const useCollectionsStore = withRefs(
   ),
   useRuleConfigStore = withRefs(
     defineStore('rule-config', () => {
-      const { selectedRuleId: r } = useRuleListStore(),
-        e = ref(),
-        n = computed(() => {
-          var ht;
-          return ((ht = e.value) == null ? void 0 : ht.mocks) ?? [];
-        }),
+      const { collectionId: r } = useDetailStore(),
+        { selectedRuleId: e } = useRuleListStore(),
+        n = ref(),
         s = computed(() => {
-          var ht;
-          return ((ht = e.value) == null ? void 0 : ht.matchers) ?? [];
+          var ar;
+          return ((ar = n.value) == null ? void 0 : ar.mocks) ?? [];
+        }),
+        o = computed(() => {
+          var ar;
+          return ((ar = n.value) == null ? void 0 : ar.matchers) ?? [];
         });
-      watch(r, o);
-      async function o() {
-        if (!r.value) {
-          e.value = void 0;
+      watch(r, () => {
+        n.value = void 0;
+      }),
+        watch(e, a);
+      async function a() {
+        if (!e.value) {
+          n.value = void 0;
           return;
         }
         try {
-          const ht = await trpc.getRuleFull.query(r.value);
-          e.value = ht;
-        } catch (ht) {
-          handleError(ht);
-        }
-      }
-      async function a(ht) {
-        try {
-          await trpc.updateRule.mutate({ id: r.value, ...ht });
+          const ar = await trpc.getRuleFull.query(e.value);
+          n.value = ar;
         } catch (ar) {
           handleError(ar);
         }
       }
-      async function l(ht) {
+      async function l(ar) {
         try {
-          const ar = await trpc.createMock.mutate({ name: ht, ruleId: r.value });
-          return await o(), ar;
+          await trpc.updateRule.mutate({ id: e.value, ...ar });
+        } catch (An) {
+          handleError(An);
+        }
+      }
+      async function f(ar) {
+        try {
+          const An = await trpc.createMock.mutate({ name: ar, ruleId: e.value });
+          return await a(), An;
+        } catch (An) {
+          handleError(An);
+        }
+      }
+      async function m(ar) {
+        try {
+          await trpc.deleteMock.mutate(ar), await a();
+        } catch (An) {
+          handleError(An);
+        }
+      }
+      async function v(ar) {
+        try {
+          await trpc.updateMock.mutate(ar);
+        } catch (An) {
+          handleError(An);
+        }
+      }
+      async function I() {
+        try {
+          await trpc.createMatcher.mutate(e.value), await a();
         } catch (ar) {
           handleError(ar);
         }
       }
-      async function f(ht) {
+      async function L(ar) {
         try {
-          await trpc.deleteMock.mutate(ht), await o();
-        } catch (ar) {
-          handleError(ar);
+          await trpc.updateMatcher.mutate(ar);
+        } catch (An) {
+          handleError(An);
         }
       }
-      async function m(ht) {
+      async function V(ar) {
         try {
-          await trpc.updateMock.mutate(ht);
-        } catch (ar) {
-          handleError(ar);
+          await trpc.deleteMatcher.mutate(ar), await a();
+        } catch (An) {
+          handleError(An);
         }
       }
-      async function v() {
+      async function se(ar) {
         try {
-          await trpc.createMatcher.mutate(r.value), await o();
-        } catch (ht) {
-          handleError(ht);
+          await trpc.createMatcherConfig.mutate(ar), await a();
+        } catch (An) {
+          handleError(An);
         }
       }
-      async function I(ht) {
+      async function Ee(ar) {
         try {
-          await trpc.updateMatcher.mutate(ht);
-        } catch (ar) {
-          handleError(ar);
+          await trpc.updateMatcherConfig.mutate(ar);
+        } catch (An) {
+          handleError(An);
         }
       }
-      async function L(ht) {
+      async function ht(ar) {
         try {
-          await trpc.deleteMatcher.mutate(ht), await o();
-        } catch (ar) {
-          handleError(ar);
-        }
-      }
-      async function V(ht) {
-        try {
-          await trpc.createMatcherConfig.mutate(ht), await o();
-        } catch (ar) {
-          handleError(ar);
-        }
-      }
-      async function se(ht) {
-        try {
-          await trpc.updateMatcherConfig.mutate(ht);
-        } catch (ar) {
-          handleError(ar);
-        }
-      }
-      async function Ee(ht) {
-        try {
-          await trpc.deleteMatcherConfig.mutate(ht), await o();
-        } catch (ar) {
-          handleError(ar);
+          await trpc.deleteMatcherConfig.mutate(ar), await a();
+        } catch (An) {
+          handleError(An);
         }
       }
       return {
-        selectedRuleId: r,
-        selectedRule: e,
-        mockList: n,
-        matcherList: s,
-        updateRuleConfig: a,
-        createMock: l,
-        updateMock: m,
-        deleteMock: f,
-        createMatcher: v,
-        updateMatcher: I,
-        deleteMatcher: L,
-        createMatcherConfig: V,
-        updateMatcherConfig: se,
-        deleteMatcherConfig: Ee,
+        selectedRuleId: e,
+        selectedRule: n,
+        mockList: s,
+        matcherList: o,
+        updateRuleConfig: l,
+        createMock: f,
+        updateMock: v,
+        deleteMock: m,
+        createMatcher: I,
+        updateMatcher: L,
+        deleteMatcher: V,
+        createMatcherConfig: se,
+        updateMatcherConfig: Ee,
+        deleteMatcherConfig: ht,
       };
     }),
   );
@@ -57561,7 +57565,7 @@ const copy$1 = getDefaultExportFromCjs(copyToClipboard),
                       {
                         key: 0,
                         class: 'flex items-center pl-3 pr-8 inset-0 absolute cursor-pointer text-sm',
-                        onClick: ht[0] || (ht[0] = ($i) => (l.value = !0)),
+                        onClick: ht[0] || (ht[0] = (An) => (l.value = !0)),
                       },
                       [
                         createBaseVNode(
@@ -57578,13 +57582,13 @@ const copy$1 = getDefaultExportFromCjs(copyToClipboard),
                     'ref_key': 'inputRef',
                     'ref': m,
                     'modelValue': a.value,
-                    'onUpdate:modelValue': ht[1] || (ht[1] = ($i) => (a.value = $i)),
+                    'onUpdate:modelValue': ht[1] || (ht[1] = (An) => (a.value = An)),
                     'class': 'pr-8',
                     'placeholder': l.value ? 'Search' : '',
                     'bordered': '',
                     'size': 'sm',
-                    'onFocus': ht[2] || (ht[2] = ($i) => (l.value = !0)),
-                    'onClick': ht[3] || (ht[3] = ($i) => (l.value = !0)),
+                    'onFocus': ht[2] || (ht[2] = (An) => (l.value = !0)),
+                    'onClick': ht[3] || (ht[3] = (An) => (l.value = !0)),
                     'onKeydown': withKeys(se, ['esc']),
                   },
                   null,
@@ -57616,19 +57620,19 @@ const copy$1 = getDefaultExportFromCjs(copyToClipboard),
                           { key: 0 },
                           renderList(
                             v.value,
-                            ($i) => (
+                            (An) => (
                               openBlock(),
                               createBlock(
                                 _sfc_main$e,
                                 {
-                                  'key': $i.id,
-                                  'mock': $i,
-                                  'selected': $i.id === Ee.modelValue,
+                                  'key': An.id,
+                                  'mock': An,
+                                  'selected': An.id === Ee.modelValue,
                                   'dropdown-open': l.value,
                                   'read-only': Ee.readOnly,
-                                  'onClick': (tl) => I($i.id),
-                                  'onDelete': (tl) => L($i.id),
-                                  'onEditConfirm': (tl) => V($i.id, tl),
+                                  'onClick': (tl) => I(An.id),
+                                  'onDelete': (tl) => L(An.id),
+                                  'onEditConfirm': (tl) => V(An.id, tl),
                                 },
                                 null,
                                 8,
@@ -57706,8 +57710,8 @@ const copy$1 = getDefaultExportFromCjs(copyToClipboard),
               'flex items-center text-xs leading-6 cursor-pointer py-1 px-2 rounded',
               { 'hover:bg-base-200/80': !ht.selected, 'bg-primary-content/30': ht.selected },
             ]),
-            onMouseenter: ar[3] || (ar[3] = ($i) => (f.value = !0)),
-            onMouseleave: ar[4] || (ar[4] = ($i) => (f.value = !1)),
+            onMouseenter: ar[3] || (ar[3] = (An) => (f.value = !0)),
+            onMouseleave: ar[4] || (ar[4] = (An) => (f.value = !1)),
           },
           [
             createVNode(
@@ -57729,7 +57733,7 @@ const copy$1 = getDefaultExportFromCjs(copyToClipboard),
                         'ref_key': 'inputRef',
                         'ref': l,
                         'modelValue': a.value,
-                        'onUpdate:modelValue': ar[1] || (ar[1] = ($i) => (a.value = $i)),
+                        'onUpdate:modelValue': ar[1] || (ar[1] = (An) => (a.value = An)),
                         'class': 'flex-1 text-xs px-1 rounded',
                         'size': 'xs',
                         'bordered': '',
@@ -57773,7 +57777,7 @@ const copy$1 = getDefaultExportFromCjs(copyToClipboard),
                               unref(_sfc_main$l),
                               {
                                 transparent: '',
-                                onClick: ar[0] || (ar[0] = withModifiers(($i) => (o.value = !0), ['stop'])),
+                                onClick: ar[0] || (ar[0] = withModifiers((An) => (o.value = !0), ['stop'])),
                               },
                               { default: withCtx(() => [createVNode(unref(Edit))]), _: 1 },
                             ),
@@ -58307,45 +58311,45 @@ const copy$1 = getDefaultExportFromCjs(copyToClipboard),
       var ar;
       const { selectedRule: e, deleteMock: n, updateMock: s } = useRuleConfigStore(),
         o = computed(() => {
-          var $i;
-          return (($i = e.value) == null ? void 0 : $i.mocks) ?? [];
+          var An;
+          return ((An = e.value) == null ? void 0 : An.mocks) ?? [];
         }),
         a = ref(!1),
         l = computed(() => {
-          var $i;
-          return ($i = o.value.find((tl) => tl.default)) == null ? void 0 : $i.id;
+          var An;
+          return (An = o.value.find((tl) => tl.default)) == null ? void 0 : An.id;
         }),
         f = ref(l.value ?? 0),
-        m = computed(() => o.value.find(($i) => $i.id === f.value)),
+        m = computed(() => o.value.find((An) => An.id === f.value)),
         v = ref(((ar = m.value) == null ? void 0 : ar.body) ?? '');
-      useEventBus(GlobalEvents.ChangeSelectMock).on(($i) => {
-        o.value.find((tl) => tl.id === $i.id) && (f.value = $i.id);
+      useEventBus(GlobalEvents.ChangeSelectMock).on((An) => {
+        o.value.find((tl) => tl.id === An.id) && (f.value = An.id);
       }),
         watch(f, () => {
-          var $i;
-          v.value = (($i = m.value) == null ? void 0 : $i.body) ?? '';
+          var An;
+          v.value = ((An = m.value) == null ? void 0 : An.body) ?? '';
         }),
         watch(l, () => {
           f.value = l.value ?? 0;
         });
-      const L = useDebounceFn(($i) => {
-        s($i);
+      const L = useDebounceFn((An) => {
+        s(An);
       }, updateSaveDelay);
       function V() {
-        const $i = f.value,
+        const An = f.value,
           tl = v.value;
-        $i && L({ id: $i, body: tl });
+        An && L({ id: An, body: tl });
       }
-      async function se($i) {
-        $i === f.value && (f.value = l.value ?? 0), await n($i);
+      async function se(An) {
+        An === f.value && (f.value = l.value ?? 0), await n(An);
       }
-      async function Ee($i, tl) {
-        (o.value.find((Wi) => Wi.id === $i).name = tl), await s({ id: $i, name: tl });
+      async function Ee(An, tl) {
+        (o.value.find((Wi) => Wi.id === An).name = tl), await s({ id: An, name: tl });
       }
-      function ht($i) {
-        !$i || !o.value.find((tl) => tl.id === $i) || (f.value = $i);
+      function ht(An) {
+        !An || !o.value.find((tl) => tl.id === An) || (f.value = An);
       }
-      return ($i, tl) => (
+      return (An, tl) => (
         openBlock(),
         createBlock(unref(_sfc_main$v), null, {
           header: withCtx(() => [
@@ -58445,7 +58449,7 @@ const copy$1 = getDefaultExportFromCjs(copyToClipboard),
       }
       async function V(se, Ee) {
         const ht = Ee.trim(),
-          ar = n.value.find(($i) => $i.id === se);
+          ar = n.value.find((An) => An.id === se);
         ht && ar && ht !== ar.name && ((ar.name = ht), await o({ id: se, name: ht }));
       }
       return (se, Ee) => (
