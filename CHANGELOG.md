@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.1.2-alpha.1](https://github.com/aijun-li/mockya/compare/v0.1.2-alpha.0...v0.1.2-alpha.1) (2023-10-23)
+
+### Bug Fixes
+
+- log info ([5ca88d2](https://github.com/aijun-li/mockya/commit/5ca88d21a1cc44467e357fc488285b137fd38e3f))
+
 ## [0.1.2-alpha.0](https://github.com/aijun-li/mockya/compare/v0.1.1...v0.1.2-alpha.0) (2023-10-23)
 
 **Note:** Version bump only for package root
