@@ -18,7 +18,7 @@ interface Props {
 }
 
 type Emits = {
-  'edit-confirm': [name: string];
+  'edit-confirm': [name: string, exitEdit: () => void];
   'edit-cancel': [];
   'delete': [];
 };
@@ -53,9 +53,12 @@ whenever(editActive, () => {
   });
 });
 
-function onEditConfirm() {
-  emit('edit-confirm', editName.value);
+function exitEdit() {
   editActive.value = false;
+}
+
+function onEditConfirm() {
+  emit('edit-confirm', editName.value, exitEdit);
 }
 
 function onEditCancel() {

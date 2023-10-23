@@ -2,12 +2,13 @@
 import { ContentCard, ResizeLayout } from '@/components';
 import { LocalStorageKey } from '@/const';
 import { Hero } from '@/daisy';
-import { useDetailStore, useRuleConfigStore } from '@/store';
+import { useDetailStore, useRuleConfigStore, useRuleListStore } from '@/store';
 import { HandLeft } from '@icon-park/vue-next';
 import BasicConfigPanel from './panels/BasicConfig.vue';
 import MatcherConfigPanel from './panels/MatcherConfig.vue';
 import MockConfigPanel from './panels/MockConfig.vue';
 import RuleListPanel from './panels/RuleList.vue';
+import { onUnmounted } from 'vue';
 
 interface Props {
   id: string;
@@ -15,8 +16,17 @@ interface Props {
 
 const props = defineProps<Props>();
 
-const { setDetailCollectionId } = useDetailStore();
+const { setDetailCollectionId, collectionId, collectionName } = useDetailStore();
 const { selectedRule } = useRuleConfigStore();
+const { selectedRuleId, rules } = useRuleListStore();
+
+onUnmounted(() => {
+  collectionId.value = '';
+  collectionName.value = '';
+  selectedRuleId.value = 0;
+  selectedRule.value = undefined;
+  rules.value = [];
+});
 
 setDetailCollectionId(props.id);
 </script>
