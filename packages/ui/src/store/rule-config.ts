@@ -4,20 +4,16 @@ import { BaseRuleConfig, Rule } from '@/types/rule';
 import { handleError, withRefs } from '@/utils';
 import { defineStore } from 'pinia';
 import { computed, ref, watch } from 'vue';
-import { useDetailStore, useRuleListStore } from '.';
+import { useRuleListStore } from '.';
 
 export const useRuleConfigStore = withRefs(
   defineStore('rule-config', () => {
-    const { collectionId } = useDetailStore();
     const { selectedRuleId } = useRuleListStore();
     const selectedRule = ref<Rule>();
 
     const mockList = computed(() => selectedRule.value?.mocks ?? []);
     const matcherList = computed(() => selectedRule.value?.matchers ?? []);
 
-    watch(collectionId, () => {
-      selectedRule.value = undefined;
-    });
     watch(selectedRuleId, fetchRuleConfig);
 
     async function fetchRuleConfig() {

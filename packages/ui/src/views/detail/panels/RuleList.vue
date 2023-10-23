@@ -27,11 +27,12 @@ function onCreateBtnClick() {
   });
 }
 
-async function onCreateRule(name: string) {
+async function onCreateRule(name: string, exitEdit: () => void) {
   const newName = name.trim();
 
   if (newName) {
     const data = await createRule(newName);
+    exitEdit();
     if (rules.value.find((rule) => rule.id === data?.id)) {
       selectedRuleId.value = data!.id;
     }
@@ -44,7 +45,7 @@ async function onDeleteRule(id: number) {
   await deleteRule(id);
 }
 
-async function onUpdateRule(id: number, name: string) {
+async function onUpdateRule(id: number, name: string, exitEdit: () => void) {
   const newName = name.trim();
   const target = rules.value.find((rule) => rule.id === id);
 
@@ -55,6 +56,8 @@ async function onUpdateRule(id: number, name: string) {
       id,
       name: newName,
     });
+
+    exitEdit();
   }
 }
 </script>
@@ -80,7 +83,7 @@ async function onUpdateRule(id: number, name: string) {
             :rule="rule"
             :selected="selectedRuleId === rule.id"
             @delete="onDeleteRule(rule.id)"
-            @edit-confirm="onUpdateRule(rule.id, $event)"
+            @edit-confirm="(name, exitEdit) => onUpdateRule(rule.id, name, exitEdit)"
             @click="selectedRuleId = rule.id"
           />
         </div>
