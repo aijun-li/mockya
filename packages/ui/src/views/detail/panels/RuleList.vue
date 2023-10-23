@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { ContentCard, IconButton, RuleItem } from '@/components';
-import { Tooltip } from '@/daisy';
+import { Tooltip, Loading } from '@/daisy';
 import { useRuleListStore } from '@/store';
 import { BaseRule } from '@/types';
 import { FileAddition } from '@icon-park/vue-next';
@@ -11,7 +11,7 @@ const emptyRule = {
   name: 'new rule',
 } as BaseRule;
 
-const { rules, createRule, updateRule, deleteRule, selectedRuleId } = useRuleListStore();
+const { rules, createRule, updateRule, deleteRule, selectedRuleId, loading } = useRuleListStore();
 
 const createActive = ref(false);
 
@@ -27,11 +27,12 @@ function onCreateBtnClick() {
   });
 }
 
-async function onCreateRule(name: string) {
+async function onCreateRule(name: string, exitEdit: () => void) {
   const newName = name.trim();
 
   if (newName) {
     const data = await createRule(newName);
+    exitEdit();
     if (rules.value.find((rule) => rule.id === data?.id)) {
       selectedRuleId.value = data!.id;
     }
@@ -44,7 +45,7 @@ async function onDeleteRule(id: number) {
   await deleteRule(id);
 }
 
-async function onUpdateRule(id: number, name: string) {
+async function onUpdateRule(id: number, name: string, exitEdit: () => void) {
   const newName = name.trim();
   const target = rules.value.find((rule) => rule.id === id);
 
@@ -55,6 +56,8 @@ async function onUpdateRule(id: number, name: string) {
       id,
       name: newName,
     });
+
+    exitEdit();
   }
 }
 </script>
@@ -64,7 +67,7 @@ async function onUpdateRule(id: number, name: string) {
     <template #header>
       <div class="px-4 py-2 pr-3 flex items-center justify-between">
         <span>Rules</span>
-        <Tooltip class="flex text-xs" content="Add Rule" position="left">
+        <Tooltip v-show="!loading" class="flex text-xs" content="Add Rule" position="left">
           <IconButton @click="onCreateBtnClick">
             <FileAddition />
           </IconButton>
@@ -73,14 +76,14 @@ async function onUpdateRule(id: number, name: string) {
     </template>
 
     <template #default>
-      <div class="w-full h-full p-2 flex flex-col overflow-auto">
+      <div v-if="!loading" class="w-full h-full p-2 flex flex-col overflow-auto">
         <div v-for="rule in rules" :key="rule.name" class="rule-item">
           <RuleItem
             class="rule-item"
             :rule="rule"
             :selected="selectedRuleId === rule.id"
             @delete="onDeleteRule(rule.id)"
-            @edit-confirm="onUpdateRule(rule.id, $event)"
+            @edit-confirm="(name, exitEdit) => onUpdateRule(rule.id, name, exitEdit)"
             @click="selectedRuleId = rule.id"
           />
         </div>
@@ -95,6 +98,10 @@ async function onUpdateRule(id: number, name: string) {
             @edit-cancel="createActive = false"
           />
         </div>
+      </div>
+
+      <div v-else class="w-full h-full flex-center">
+        <Loading shape="dots" size="lg" />
       </div>
     </template>
   </ContentCard>
