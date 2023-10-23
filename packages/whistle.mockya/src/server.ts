@@ -90,6 +90,8 @@ export default (server: Whistle.PluginServer, options: Whistle.PluginOptions) =>
     const bodyEntries = await getBodyEntries(req);
     const fullEntries = [...queryEntries, ...bodyEntries];
 
+    console.log('[Mockya][Incoming]: ', url.href, fullEntries);
+
     const availableRules = rules.filter((rule) => rule.enabled && path.includes(rule.path.trim()));
 
     const candidates = availableRules
@@ -124,6 +126,8 @@ export default (server: Whistle.PluginServer, options: Whistle.PluginOptions) =>
         return arr;
       }, [] as MatchCandidate[])
       .sort(matchCandidateCompareFn);
+
+    console.log('[Mockya][Candidates]: ', candidates);
 
     const returnData = candidates[0]?.[0];
 
