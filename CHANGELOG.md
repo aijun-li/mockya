@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.1.3-alpha.0](https://github.com/aijun-li/mockya/compare/v0.1.1...v0.1.3-alpha.0) (2023-10-23)
+
+### Features
+
+- add basic log ([1419f35](https://github.com/aijun-li/mockya/commit/1419f3562b235540715c04191a4f0bd3a296258a))
+- add loading for rule list ([71af179](https://github.com/aijun-li/mockya/commit/71af179ca32a9c09e8271050a8a53ea04c697d54))
+
 ## [0.1.2](https://github.com/aijun-li/mockya/compare/v0.1.2-alpha.0...v0.1.2) (2023-10-23)
 
 ### Features
