@@ -11,8 +11,15 @@ export const useRuleListStore = withRefs(
 
     const selectedRuleId = ref(0);
     const rules = ref<BaseRule[]>([]);
+    const loading = ref(false);
 
-    watch(collectionId, fetchRuleList);
+    watch(collectionId, async () => {
+      rules.value = [];
+      selectedRuleId.value = 0;
+      loading.value = true;
+      await fetchRuleList();
+      loading.value = false;
+    });
 
     async function fetchRuleList() {
       if (!collectionId.value) {
@@ -62,6 +69,7 @@ export const useRuleListStore = withRefs(
     }
 
     return {
+      loading,
       selectedRuleId,
       rules,
       fetchRuleList,

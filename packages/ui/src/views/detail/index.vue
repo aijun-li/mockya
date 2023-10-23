@@ -16,11 +16,13 @@ interface Props {
 
 const props = defineProps<Props>();
 
-const { setDetailCollectionId } = useDetailStore();
+const { setDetailCollectionId, collectionId, collectionName } = useDetailStore();
 const { selectedRule } = useRuleConfigStore();
 const { selectedRuleId, rules } = useRuleListStore();
 
 onUnmounted(() => {
+  collectionId.value = '';
+  collectionName.value = '';
   selectedRuleId.value = 0;
   selectedRule.value = undefined;
   rules.value = [];
