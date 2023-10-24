@@ -1,0 +1,32 @@
+name: Publish Package
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4.1.1
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4.0.0
+        with:
+          node-version: '18.x'
+          registry-url: 'https://registry.npmjs.org'
+      - name: Install Pnpm
+        run: npm install -g pnpm
+      - name: Install Dependencies
+        run: pnpm install
+      - name: Build
+        run: pnpm build
+      - name: Commit
+        run: 'git config user.email "liaijun.cn@gmail.com" && git config user.name "liaijun" && git add --all && git commit --no-verify -m "chore: build"'
+      - name: Publish
+        run: pnpm lerna publish from-package
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      - name: Notify
+        run: curl https://bark.bytecask.com/mapoos/Mockya%20Published
