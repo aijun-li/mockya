@@ -45,8 +45,10 @@
     "tailwindcss": "^3.3.3",
     "typescript": "^5.0.2",
     "vite": "^4.4.5",
+    "vite-plugin-pwa": "^0.16.6",
     "vue-eslint-parser": "^9.3.1",
     "vue-tsc": "^1.8.5",
-    "whistle.mockya": "workspace:*"
+    "whistle.mockya": "workspace:*",
+    "workbox-window": "^7.0.0"
   }
 }

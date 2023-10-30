@@ -3,6 +3,7 @@ name: Publish Package
 on:
   push:
     branches: [main]
+    paths: ['packages/whistle.mockya/package.json']
   workflow_dispatch:
 
 jobs:
@@ -25,7 +26,7 @@ jobs:
       - name: Commit
         run: 'git config user.email "liaijun.cn@gmail.com" && git config user.name "liaijun" && git add --all && git commit --no-verify -m "chore: build"'
       - name: Publish
-        run: pnpm lerna publish from-package
+        run: pnpm lerna publish from-package --yes
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
       - name: Notify
