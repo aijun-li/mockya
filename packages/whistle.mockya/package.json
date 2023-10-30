@@ -1,6 +1,6 @@
 {
   "name": "whistle.mockya",
-  "version": "0.1.3-alpha.0",
+  "version": "0.1.3",
   "description": "API mock plugin for whistle",
   "keywords": [
     "whistle",
