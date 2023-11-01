@@ -1,7 +1,7 @@
 import type Koa from 'koa';
+import bodyParser from 'koa-bodyparser';
 import Router from 'koa-router';
 import hintRouter from './hint';
-import bodyParser from 'koa-bodyparser';
 
 const HTTP_PREFIX = '/api';
 

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="67px" height="67px" viewBox="0 0 67 67" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>编组 2</title>
+    <defs>
+        <rect id="path-1" x="0" y="0" width="66" height="66"></rect>
+        <path d="M65.8130907,6.1817218e-13 L66,66.0731296 L9.02389274e-13,66.0731296 C13.8753938,60.6910432 26.646424,53.1666667 38.3130907,43.5 C49.9797574,33.8333333 59.146424,19.3333333 65.8130907,6.1817218e-13 Z" id="path-3"></path>
+        <filter x="-63.6%" y="-39.4%" width="184.8%" height="184.8%" filterUnits="objectBoundingBox" id="filter-4">
+            <feOffset dx="-14" dy="2" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="7" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.290131255 0" type="matrix" in="shadowBlurOuter1"></feColorMatrix>
+        </filter>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="easy-mock" transform="translate(-58.000000, -169.000000)">
+            <g id="编组-2" transform="translate(58.686909, 169.426870)">
+                <mask id="mask-2" fill="white">
+                    <use xlink:href="#path-1"></use>
+                </mask>
+                <use id="矩形" fill-opacity="0" fill="#D8D8D8" xlink:href="#path-1"></use>
+                <path d="M61.3383393,0 L61.3383393,63 L4.52524858,63 C0.62206463,59.5639225 -0.756145605,57.0168662 0.390617869,55.3588312 C8.08881505,44.2284799 16.5090858,34.2999127 25.65143,25.5731296 C36.8366109,14.8963659 48.7322474,6.37198942 61.3383393,0 Z" id="矩形备份-5" fill="#FFFFFF" opacity="0.592110043" mask="url(#mask-2)" transform="translate(30.669170, 31.500000) rotate(-180.000000) translate(-30.669170, -31.500000) "></path>
+                <g id="矩形备份-4" mask="url(#mask-2)" transform="translate(33.000000, 33.036565) scale(-1, 1) rotate(-180.000000) translate(-33.000000, -33.036565) ">
+                    <use fill="black" fill-opacity="1" filter="url(#filter-4)" xlink:href="#path-3"></use>
+                    <use fill="#FFFFFF" fill-rule="evenodd" xlink:href="#path-3"></use>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

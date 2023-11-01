@@ -1,4 +1,5 @@
 import cors from '@koa/cors';
+import fs from 'fs';
 import Koa from 'koa';
 import onerror from 'koa-onerror';
 import serve from 'koa-static';
@@ -19,6 +20,14 @@ export default (server: Whistle.PluginServer, options: Whistle.PluginOptions) =>
       allowMethods: 'GET,HEAD,PUT,POST,DELETE,PATCH,OPTIONS',
     }),
   );
+
+  app.use(async (ctx, next) => {
+    await next();
+    if (ctx.response.status === 404) {
+      ctx.type = 'text/html; charset=utf-8';
+      ctx.body = fs.readFileSync(path.join(__dirname, '../../public/index.html'));
+    }
+  });
 
   setupRouter(app);
 

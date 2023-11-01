@@ -32,4 +32,11 @@ export const routes: Readonly<RouteRecordRaw[]> = [
     path: '/traffic',
     component: TrafficPage,
   },
+  {
+    name: 'fallback',
+    path: '/:path(.*)*',
+    redirect: {
+      name: 'home',
+    },
+  },
 ];
