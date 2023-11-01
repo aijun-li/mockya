@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.1.4](https://github.com/aijun-li/mockya/compare/v0.1.3...v0.1.4) (2023-11-01)
+
+### Features
+
+- add pv tracking & optimize pwa ([ce3a2e0](https://github.com/aijun-li/mockya/commit/ce3a2e0ec5cd805c9cde4f78f1aaf40ddde495fe))
+
 ## 0.1.3 (2023-10-30)
 
 ### Features
