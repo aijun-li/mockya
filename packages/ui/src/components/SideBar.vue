@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import { Button, Tooltip, toast } from '@/daisy';
 import { Analysis, Home, MonitorOne, Search, Setting } from '@icon-park/vue-next';
+import { useMediaQuery } from '@vueuse/core';
 import { useRouter } from 'vue-router';
 
 const router = useRouter();
@@ -48,13 +49,20 @@ const bottomConfigs = [
 
 const configGroups = [topConfigs, bottomConfigs];
 
+const isPWA = useMediaQuery('(display-mode: fullscreen), (display-mode: standalone)');
+
 function goRoute(path: string) {
   router.push(path);
 }
 </script>
 
 <template>
-  <div class="py-2 h-screen w-10 bg-base-200 flex flex-col items-center justify-between">
+  <div
+    class="py-2 h-screen w-10 bg-base-200 flex flex-col items-center justify-between"
+    :class="{
+      'pt-0': isPWA,
+    }"
+  >
     <div v-for="(group, index) in configGroups" :key="index" class="flex flex-col items-center gap-2">
       <Tooltip
         v-for="config in group"
