@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.1.5-alpha.0](https://github.com/aijun-li/mockya/compare/v0.1.4...v0.1.5-alpha.0) (2023-11-02)
+
+### Bug Fixes
+
+- save code locally on change ([ff57103](https://github.com/aijun-li/mockya/commit/ff5710375c6b2d204bb7b66761f4e8b57acf2987))
+
 ## [0.1.4](https://github.com/aijun-li/mockya/compare/v0.1.3...v0.1.4) (2023-11-01)
 
 ### Features
