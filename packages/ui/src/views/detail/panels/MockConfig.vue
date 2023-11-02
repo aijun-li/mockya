@@ -44,6 +44,9 @@ const saveCode = useDebounceFn((params: { id: number; body: string }) => {
 function onCodeChange() {
   const id = selectedMockId.value;
   const body = code.value;
+  if (selectedMock.value) {
+    selectedMock.value.body = code.value;
+  }
   if (id) {
     saveCode({ id, body });
   }
