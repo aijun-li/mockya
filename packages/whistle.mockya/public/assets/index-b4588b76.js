@@ -58518,7 +58518,7 @@ const copy$1 = getDefaultExportFromCjs(copyToClipboard),
       function V() {
         const An = f.value,
           tl = v.value;
-        An && L({ id: An, body: tl });
+        m.value && (m.value.body = v.value), An && L({ id: An, body: tl });
       }
       async function se(An) {
         An === f.value && (f.value = l.value ?? 0), await n(An);

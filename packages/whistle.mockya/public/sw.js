@@ -31,10 +31,10 @@ define(['./workbox-e1e09b90'], function (e) {
   }),
     e.precacheAndRoute(
       [
-        { url: 'assets/index-1b98981c.js', revision: null },
         { url: 'assets/index-6d18d40d.css', revision: null },
+        { url: 'assets/index-b4588b76.js', revision: null },
         { url: 'assets/workbox-window.prod.es5-a7b12eab.js', revision: null },
-        { url: 'index.html', revision: 'f7a5ebe360ac3f0b8136f8256b44629a' },
+        { url: 'index.html', revision: '5d74e20b018bdc363531a028f26f41f7' },
         { url: 'manifest.webmanifest', revision: '1f69497d71302d98e1a1422008c6a75c' },
       ],
       {},
