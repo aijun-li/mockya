@@ -50,14 +50,18 @@ export default {
       },
     }),
 
-  update: async ({ id, mockId }: { id: number; mockId: number }) =>
+  update: async ({ id, mockId, delay }: { id: number; mockId?: number; delay?: number }) =>
     prisma.matcher.update({
       data: {
-        mock: {
-          connect: {
-            id: mockId,
-          },
-        },
+        delay,
+        mock:
+          mockId !== undefined
+            ? {
+                connect: {
+                  id: mockId,
+                },
+              }
+            : undefined,
       },
       where: {
         id,

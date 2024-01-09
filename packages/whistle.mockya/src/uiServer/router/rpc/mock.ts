@@ -44,7 +44,7 @@ export default router({
 
       const target = await db.mock.get(id);
       if (target.default && name) {
-        throw new Error(`Default mock' name cannot be changed!`);
+        throw new Error(`Default mock's name cannot be changed!`);
       }
 
       const data = await db.mock.update({ id, name, body });

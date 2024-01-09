@@ -43,7 +43,7 @@ const filteredMatcherList = computed(() => {
           <div v-if="index !== 0" class="divider my-2" />
           <MatcherItem
             :matcher="matcher"
-            @update="updateMatcher({ id: matcher.id, mockId: $event })"
+            @update="updateMatcher({ id: matcher.id, ...$event })"
             @delete="deleteMatcher(matcher.id)"
             @create-config="createMatcherConfig(matcher.id)"
             @update-config="updateMatcherConfig"
