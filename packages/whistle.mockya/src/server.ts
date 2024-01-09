@@ -1,9 +1,15 @@
 import JSON5 from 'json5';
 import Mock from 'mockjs';
-import db from './db';
-import { JSONValue, MatchCandidate, OriginalReq } from './types';
-import baseLogger from './logger';
 import winston from 'winston';
+import db from './db';
+import baseLogger from './logger';
+import { JSONValue, MatchCandidate, OriginalReq } from './types';
+
+function sleep(time: number) {
+  return new Promise<void>((resolve) => {
+    setTimeout(resolve, time);
+  });
+}
 
 function handleError(error: unknown, logger: winston.Logger) {
   console.error(error);
@@ -119,7 +125,16 @@ export default (server: Whistle.PluginServer, options: Whistle.PluginOptions) =>
             const mockBody = validateJSON5(matcher.mock.body, logger);
             // fallback mock only works when configured path is not empty
             if (mockBody !== undefined && pathLength) {
-              arr.push([0, pathLength, 1, new Date(matcher.createdAt).valueOf(), mockBody, rule.id, matcher.id]);
+              arr.push([
+                0,
+                pathLength,
+                1,
+                new Date(matcher.createdAt).valueOf(),
+                mockBody,
+                rule.id,
+                matcher.id,
+                matcher.delay,
+              ]);
             }
           } else {
             const availableConfigs = matcher.configs.filter((config) => config.key.trim() && config.value.trim());
@@ -141,6 +156,7 @@ export default (server: Whistle.PluginServer, options: Whistle.PluginOptions) =>
                   mockBody,
                   rule.id,
                   matcher.id,
+                  matcher.delay,
                 ]);
               }
             }
@@ -151,10 +167,14 @@ export default (server: Whistle.PluginServer, options: Whistle.PluginOptions) =>
       }, [] as MatchCandidate[])
       .sort(matchCandidateCompareFn);
 
-    const returnCandidate = candidates[0];
+    const returnCandidate: MatchCandidate = candidates[0];
     const returnData = returnCandidate?.[4];
+    const delay = returnCandidate?.[7];
 
     if (returnData !== undefined) {
+      if (delay) {
+        await sleep(delay * 1000);
+      }
       res.setHeader('mockya', '1');
       res.setHeader('Content-Type', 'application/json; charset=UTF-8');
       res.end(JSON.stringify(Mock.mock(returnData)));

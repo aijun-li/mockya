@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { IconButton, MockDropdownList } from '@/components';
 import { GlobalEvents, updateSaveDelay } from '@/const';
-import { Button, Input, Tooltip } from '@/daisy';
+import { Button, Input, Range, Tooltip } from '@/daisy';
 import { useConfirm } from '@/hooks';
 import { Matcher, MatcherUpdateConfig } from '@/types';
 import { Delete, Plus, ReduceOne } from '@icon-park/vue-next';
@@ -13,7 +13,7 @@ interface Props {
 }
 
 type Emits = {
-  'update': [mockId: number];
+  'update': [{ mockId?: number; delay?: number }];
   'delete': [];
   'create-config': [];
   'delete-config': [id: number];
@@ -29,6 +29,8 @@ const configs = computed(() => props.matcher.configs);
 const mock = computed(() => props.matcher.mock);
 
 const isDefault = computed(() => props.matcher.default);
+
+const delay = ref(props.matcher.delay);
 
 const bus = useEventBus(GlobalEvents.ChangeSelectMock);
 
@@ -46,9 +48,13 @@ const onConfigFieldInput = useDebounceFn((params: MatcherUpdateConfig) => {
   emit('update-config', params);
 }, updateSaveDelay);
 
+const onDelayInput = useDebounceFn((value: number) => {
+  emit('update', { delay: value });
+}, updateSaveDelay);
+
 function onMockChange(id: number) {
   bus.emit({ id });
-  emit('update', id);
+  emit('update', { mockId: id });
 }
 </script>
 
@@ -109,8 +115,13 @@ function onMockChange(id: number) {
         </div>
       </template>
 
-      <div class="info-label">Use</div>
+      <div class="info-label">Delay</div>
+      <div class="flex-center">
+        <Range v-model="delay" :max="60" @input="onDelayInput" />
+        <div class="w-6 ml-2 flex-center flex-none">{{ delay }}s</div>
+      </div>
 
+      <div class="info-label">Use</div>
       <div class="flex items-center">
         <MockDropdownList v-model="mock.id" class="mr-2" read-only @change="onMockChange" />
         <IconButton

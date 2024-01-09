@@ -12,4 +12,5 @@ export type MatchCandidate = [
   body: JSONValue,
   ruleId: number,
   matcherId: number,
+  delay: number,
 ];

@@ -81,7 +81,7 @@ export const useRuleConfigStore = withRefs(
       }
     }
 
-    async function updateMatcher(params: { id: number; mockId: number }) {
+    async function updateMatcher(params: { id: number; mockId?: number; delay?: number }) {
       try {
         await trpc.updateMatcher.mutate(params);
         // await fetchRuleConfig();

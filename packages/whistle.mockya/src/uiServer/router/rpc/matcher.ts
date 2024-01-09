@@ -34,7 +34,8 @@ export default router({
     .input(
       z.object({
         id: z.number(),
-        mockId: z.number(),
+        mockId: z.number().optional(),
+        delay: z.number().optional(),
       }),
     )
     .mutation(async ({ input: params }) => {

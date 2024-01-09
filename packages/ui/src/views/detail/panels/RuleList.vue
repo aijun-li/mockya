@@ -1,10 +1,9 @@
 <script lang="ts" setup>
 import { ContentCard, IconButton, RuleItem } from '@/components';
-import { Tooltip, Loading } from '@/daisy';
+import { Loading, Tooltip } from '@/daisy';
 import { useRuleListStore } from '@/store';
 import { BaseRule } from '@/types';
-import { FileAddition } from '@icon-park/vue-next';
-
+import { FileAddition, HandUp } from '@icon-park/vue-next';
 import { nextTick, ref } from 'vue';
 
 const emptyRule = {
@@ -76,7 +75,16 @@ async function onUpdateRule(id: number, name: string, exitEdit: () => void) {
     </template>
 
     <template #default>
-      <div v-if="!loading" class="w-full h-full p-2 flex flex-col overflow-auto">
+      <div v-if="loading" class="w-full h-full flex-center">
+        <Loading shape="dots" size="lg" />
+      </div>
+
+      <div v-else-if="!rules.length && !createActive" class="w-full h-full p-2 flex-center flex-col text-lg relative">
+        <HandUp class="mb-4" :size="36" />
+        Create One
+      </div>
+
+      <div v-else class="w-full h-full p-2 flex flex-col overflow-auto">
         <div v-for="rule in rules" :key="rule.name" class="rule-item">
           <RuleItem
             class="rule-item"
@@ -98,10 +106,6 @@ async function onUpdateRule(id: number, name: string, exitEdit: () => void) {
             @edit-cancel="createActive = false"
           />
         </div>
-      </div>
-
-      <div v-else class="w-full h-full flex-center">
-        <Loading shape="dots" size="lg" />
       </div>
     </template>
   </ContentCard>
