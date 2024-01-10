@@ -1,6 +1,5 @@
 import db from '@/db';
 import { procedure, router } from '@/tools/trpc';
-
 import { z } from 'zod';
 
 export default router({
@@ -9,8 +8,8 @@ export default router({
     return data;
   }),
 
-  getMatcherConditionList: procedure.input(z.number()).query(async ({ input: ruleId }) => {
-    const data = await db.matcher.getListFull(ruleId);
+  getMatcherConditionList: procedure.input(z.number()).query(async ({ input: matcherId }) => {
+    const data = await db.matcherCondition.getList(matcherId);
     return data;
   }),
 

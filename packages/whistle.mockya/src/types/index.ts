@@ -4,13 +4,13 @@ export type OriginalReq = Whistle.PluginServerRequest['originalReq'];
 
 export type JSONValue = null | string | number | boolean | { [x: string]: JSONValue } | Array<JSONValue>;
 
-export type MatchCandidate = [
-  conditionCount: number,
-  pathLength: number,
-  isDefault: number,
-  createdAt: number,
-  body: JSONValue,
-  ruleId: number,
-  matcherId: number,
-  delay: number,
-];
+export type MatchCandidate = {
+  conditionCount: number;
+  pathLength: number;
+  isDefault: number;
+  createdAt: number;
+  delay: number;
+  body: JSONValue;
+  ruleId: number;
+  matcherId: number;
+};

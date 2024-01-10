@@ -48,6 +48,7 @@ export default {
       include: {
         rules: {
           include: {
+            conditions: true,
             matchers: {
               include: {
                 mock: {

@@ -7,12 +7,14 @@ import matcherConditionRouter from './matcher-condition';
 import mockRouter from './mock';
 import mockHeaderRouter from './mock-header';
 import ruleRouter from './rule';
+import ruleConditionRouter from './rule-condition';
 
 const RPC_PREFIX = '/trpc';
 
 export const trpcRouter = mergeRouters(
   collectionRouter,
   ruleRouter,
+  ruleConditionRouter,
   mockRouter,
   mockHeaderRouter,
   matcherRouter,

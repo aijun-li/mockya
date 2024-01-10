@@ -36,7 +36,7 @@ function validateJSON5(code: string): JSONValue | undefined {
   }
 }
 
-async function getBodyEntries(req: Whistle.PluginServerRequest, logger: winston.Logger) {
+async function getBodyEntries(req: Whistle.PluginServerRequest) {
   const rawBody: string = await new Promise((resolve) => {
     req.getReqSession((result) => {
       if (typeof result === 'string') {
@@ -69,8 +69,8 @@ async function getBodyEntries(req: Whistle.PluginServerRequest, logger: winston.
 }
 
 function matchCandidateCompareFn(a: MatchCandidate, b: MatchCandidate) {
-  const [aConditionCount, aPathLength, aIsDefault, aCreatedAt] = a;
-  const [bConditionCount, bPathLength, bIsDefault, bCreatedAt] = b;
+  const { conditionCount: aConditionCount, pathLength: aPathLength, isDefault: aIsDefault, createdAt: aCreatedAt } = a;
+  const { conditionCount: bConditionCount, pathLength: bPathLength, isDefault: bIsDefault, createdAt: bCreatedAt } = b;
 
   if (aConditionCount !== bConditionCount) {
     return bConditionCount - aConditionCount;
@@ -107,33 +107,47 @@ export default (server: Whistle.PluginServer, options: Whistle.PluginOptions) =>
     const path = url.pathname.trim();
 
     const queryEntries = Array.from(url.searchParams.entries());
-    const bodyEntries = await getBodyEntries(req, logger);
+    const bodyEntries = await getBodyEntries(req);
     const fullEntries = [...queryEntries, ...bodyEntries];
 
     logger.info(`query: ${JSON.stringify(queryEntries)}`);
     logger.info(`body: ${JSON.stringify(bodyEntries)}`);
 
-    const availableRules = rules.filter((rule) => rule.enabled && path.includes(rule.path.trim()));
+    const availableRules = rules.filter(
+      (rule) =>
+        rule.enabled &&
+        path.includes(rule.path.trim()) &&
+        rule.conditions
+          .filter((condition) => condition.key.trim() && condition.value.trim())
+          .every((condition) =>
+            fullEntries.some(
+              ([key, value]) => key.trim() === condition.key.trim() && value.trim() === condition.value.trim(),
+            ),
+          ),
+    );
 
     const candidates = availableRules
       .reduce((arr, rule) => {
         const pathLength = rule.path.trim().length;
+        const ruleConditionsLength = rule.conditions.filter(
+          (condition) => condition.key.trim() && condition.value.trim(),
+        ).length;
 
         rule.matchers.forEach((matcher) => {
           if (matcher.default) {
             const mockBody = validateJSON5(matcher.mock.body);
-            // fallback mock only works when configured path is not empty
-            if (mockBody !== undefined && pathLength) {
-              arr.push([
-                0,
+            // fallback mock only works when configured path is not empty or have valid rule conditions
+            if (mockBody !== undefined && (pathLength || ruleConditionsLength)) {
+              arr.push({
+                conditionCount: 0 + ruleConditionsLength,
                 pathLength,
-                1,
-                new Date(matcher.createdAt).valueOf(),
-                mockBody,
-                rule.id,
-                matcher.id,
-                matcher.delay,
-              ]);
+                isDefault: 1,
+                createdAt: new Date(matcher.createdAt).valueOf(),
+                body: mockBody,
+                ruleId: rule.id,
+                matcherId: matcher.id,
+                delay: matcher.delay,
+              });
             }
           } else {
             const availableConditions = matcher.conditions.filter(
@@ -149,16 +163,16 @@ export default (server: Whistle.PluginServer, options: Whistle.PluginOptions) =>
             if (matchAllConditions) {
               const mockBody = validateJSON5(matcher.mock.body);
               if (mockBody !== undefined) {
-                arr.push([
-                  availableConditions.length,
+                arr.push({
+                  conditionCount: availableConditions.length + ruleConditionsLength,
                   pathLength,
-                  0,
-                  new Date(matcher.createdAt).valueOf(),
-                  mockBody,
-                  rule.id,
-                  matcher.id,
-                  matcher.delay,
-                ]);
+                  isDefault: 0,
+                  createdAt: new Date(matcher.createdAt).valueOf(),
+                  body: mockBody,
+                  ruleId: rule.id,
+                  matcherId: matcher.id,
+                  delay: matcher.delay,
+                });
               }
             }
           }
@@ -168,9 +182,9 @@ export default (server: Whistle.PluginServer, options: Whistle.PluginOptions) =>
       }, [] as MatchCandidate[])
       .sort(matchCandidateCompareFn);
 
-    const returnCandidate: MatchCandidate = candidates[0];
-    const returnData = returnCandidate?.[4];
-    const delay = returnCandidate?.[7];
+    const returnCandidate = candidates[0] as MatchCandidate | undefined;
+    const returnData = returnCandidate?.body;
+    const delay = returnCandidate?.delay;
 
     if (returnData !== undefined) {
       if (delay) {
@@ -179,7 +193,7 @@ export default (server: Whistle.PluginServer, options: Whistle.PluginOptions) =>
       res.setHeader('mockya', '1');
       res.setHeader('Content-Type', 'application/json; charset=UTF-8');
       res.end(JSON.stringify(Mock.mock(returnData)));
-      logger.info(`match: ${collection?.id}/${returnCandidate[5]}/${returnCandidate[6]}`);
+      logger.info(`match: ${collection?.id}/${returnCandidate?.ruleId}/${returnCandidate?.matcherId}`);
       logger.info('mock: true');
     } else {
       req.passThrough();

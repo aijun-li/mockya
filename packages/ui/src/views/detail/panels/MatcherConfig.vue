@@ -2,7 +2,7 @@
 import { ContentCard, IconButton, MatcherItem } from '@/components';
 import { Tooltip } from '@/daisy';
 import { useRuleConfigStore } from '@/store';
-import { FileAddition } from '@icon-park/vue-next';
+import { FileAddition, HandUp } from '@icon-park/vue-next';
 import { computed } from 'vue';
 
 const {
@@ -16,8 +16,13 @@ const {
   deleteMatcherCondition,
 } = useRuleConfigStore();
 
+const validConditionsLen = computed(
+  () =>
+    selectedRule.value?.conditions.filter((condition) => condition.key.trim() && condition.value.trim()).length ?? 0,
+);
+
 const filteredMatcherList = computed(() => {
-  if (selectedRule.value?.path.trim().length) {
+  if (selectedRule.value?.path.trim().length || validConditionsLen.value) {
     return matcherList.value;
   } else {
     return matcherList.value.filter((matcher) => !matcher.default);
@@ -38,7 +43,7 @@ const filteredMatcherList = computed(() => {
       </div>
     </template>
     <template #default>
-      <div class="p-4 text-sm overflow-auto h-full">
+      <div v-if="filteredMatcherList.length" class="p-4 text-sm overflow-auto h-full">
         <template v-for="(matcher, index) in filteredMatcherList" :key="matcher.id">
           <div v-if="index !== 0" class="divider my-2" />
           <MatcherItem
@@ -50,6 +55,11 @@ const filteredMatcherList = computed(() => {
             @delete-condition="deleteMatcherCondition"
           />
         </template>
+      </div>
+      <div v-else class="p-4 text-lg h-full flex-center flex-col">
+        <HandUp class="mb-4" :size="36" />
+        <span>Create One Matcher</span>
+        <span class="text-xs text-center">add url-path/conditions to use FALLBACK matcher</span>
       </div>
     </template>
   </ContentCard>

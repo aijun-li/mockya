@@ -3,7 +3,7 @@ import { IconButton, MockDropdownList } from '@/components';
 import { GlobalEvents, updateSaveDelay } from '@/const';
 import { Button, Input, Range, Tooltip } from '@/daisy';
 import { useConfirm } from '@/hooks';
-import { Matcher, MatcherUpdateCondition } from '@/types';
+import { Matcher, UpdateConditionParams } from '@/types';
 import { Delete, Plus, ReduceOne } from '@icon-park/vue-next';
 import { useDebounceFn, useEventBus } from '@vueuse/core';
 import { computed, ref } from 'vue';
@@ -17,7 +17,7 @@ type Emits = {
   'delete': [];
   'create-condition': [];
   'delete-condition': [id: number];
-  'update-condition': [params: MatcherUpdateCondition];
+  'update-condition': [params: UpdateConditionParams];
 };
 
 const props = defineProps<Props>();
@@ -44,7 +44,7 @@ const {
   emit('delete');
 });
 
-const onConditionFieldInput = useDebounceFn((params: MatcherUpdateCondition) => {
+const onConditionFieldInput = useDebounceFn((params: UpdateConditionParams) => {
   emit('update-condition', params);
 }, updateSaveDelay);
 
@@ -108,7 +108,11 @@ function onMockChange(id: number) {
       <template v-else>
         <div class="info-label">When</div>
         <div class="info-label flex">
-          <Tooltip class="flex-1 mr-2" content="only works when URL Path is not empty" position="bottom">
+          <Tooltip
+            class="flex-1 mr-2"
+            content="only works when URL Path is not empty or have valid basic conditions"
+            position="bottom"
+          >
             <Button class="flex-center w-full text-xs">Fallback</Button>
           </Tooltip>
           <div class="empty-placeholder" />

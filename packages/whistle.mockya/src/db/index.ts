@@ -4,10 +4,12 @@ import matcherCondition from './matcher-condition';
 import mock from './mock';
 import mockHeader from './mock-header';
 import rule from './rule';
+import ruleCondition from './rule-condition';
 
 export default {
   collection,
   rule,
+  ruleCondition,
   mock,
   mockHeader,
   matcher,

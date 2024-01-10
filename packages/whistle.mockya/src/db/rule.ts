@@ -1,6 +1,7 @@
 import prisma from '@/tools/prisma';
 
 const fullIncludeConfig = {
+  conditions: true,
   mocks: {
     include: {
       headers: true,

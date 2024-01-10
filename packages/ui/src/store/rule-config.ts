@@ -1,5 +1,5 @@
 import { trpc } from '@/service';
-import { MatcherUpdateCondition } from '@/types';
+import { UpdateConditionParams } from '@/types';
 import { BaseRuleConfig, Rule } from '@/types/rule';
 import { handleError, withRefs } from '@/utils';
 import { defineStore } from 'pinia';
@@ -36,6 +36,32 @@ export const useRuleConfigStore = withRefs(
           id: selectedRuleId.value,
           ...config,
         });
+      } catch (error) {
+        handleError(error);
+      }
+    }
+
+    async function createRuleCondition(ruleId: number) {
+      try {
+        await trpc.createRuleCondition.mutate(ruleId);
+        await fetchRuleConfig();
+      } catch (error) {
+        handleError(error);
+      }
+    }
+
+    async function updateRuleCondition(params: UpdateConditionParams) {
+      try {
+        await trpc.updateRuleCondition.mutate(params);
+      } catch (error) {
+        handleError(error);
+      }
+    }
+
+    async function deleteRuleCondition(id: number) {
+      try {
+        await trpc.deleteRuleCondition.mutate(id);
+        await fetchRuleConfig();
       } catch (error) {
         handleError(error);
       }
@@ -108,7 +134,7 @@ export const useRuleConfigStore = withRefs(
       }
     }
 
-    async function updateMatcherCondition(params: MatcherUpdateCondition) {
+    async function updateMatcherCondition(params: UpdateConditionParams) {
       try {
         await trpc.updateMatcherCondition.mutate(params);
         // await fetchRuleConfig();
@@ -134,6 +160,10 @@ export const useRuleConfigStore = withRefs(
       matcherList,
 
       updateRuleConfig,
+
+      createRuleCondition,
+      updateRuleCondition,
+      deleteRuleCondition,
 
       createMock,
       updateMock,

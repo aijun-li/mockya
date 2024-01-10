@@ -81,7 +81,7 @@ async function onUpdateRule(id: number, name: string, exitEdit: () => void) {
 
       <div v-else-if="!rules.length && !createActive" class="w-full h-full p-2 flex-center flex-col text-lg relative">
         <HandUp class="mb-4" :size="36" />
-        Create One
+        Create One Rule
       </div>
 
       <div v-else class="w-full h-full p-2 flex flex-col overflow-auto">
