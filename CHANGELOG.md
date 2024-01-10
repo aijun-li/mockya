@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.1.5](https://github.com/aijun-li/mockya/compare/v0.1.3...v0.1.5) (2024-01-10)
+
+### Bug Fixes
+
+- save code locally on change ([045cb5f](https://github.com/aijun-li/mockya/commit/045cb5ff0da7bea0dfe8d1f327c8267b8579881b))
+
+### Features
+
+- add pv tracking & optimize pwa ([ae3360f](https://github.com/aijun-li/mockya/commit/ae3360fbdfb3e8aded5192c2dfc27a3229950520))
+- support basic conditions ([835e810](https://github.com/aijun-li/mockya/commit/835e81047ac28cc4901f7f680cf3dec991f0426f))
+- support delay config ([defbaf7](https://github.com/aijun-li/mockya/commit/defbaf7737d636f39bc877541127ec38ec79ce03))
+- sync collection update time on operations ([a99b07e](https://github.com/aijun-li/mockya/commit/a99b07e5a22d404cbbecbece6a7beca3969a7f27))
+
 ## [0.1.5-alpha.0](https://github.com/aijun-li/mockya/compare/v0.1.4...v0.1.5-alpha.0) (2023-11-02)
 
 ### Bug Fixes
