@@ -44,65 +44,75 @@ export default {
     });
   },
 
-  create: async ({ name, collectionId }: { name: string; collectionId: string }) => {
-    const rule = await prisma.rule.create({
-      data: {
-        name,
-        collection: {
-          connect: {
-            id: collectionId,
+  create: ({ name, collectionId }: { name: string; collectionId: string }) =>
+    prisma.$transaction(async (tx) => {
+      const rule = await tx.rule.create({
+        data: {
+          name,
+          collection: {
+            connect: {
+              id: collectionId,
+            },
           },
         },
-      },
-    });
+      });
 
-    const mock = await prisma.mock.create({
-      data: {
-        default: true,
-        name: 'Default',
-        rule: {
-          connect: {
-            id: rule.id,
+      const mock = await tx.mock.create({
+        data: {
+          default: true,
+          name: 'Default',
+          rule: {
+            connect: {
+              id: rule.id,
+            },
           },
         },
-      },
-    });
+      });
 
-    await prisma.matcher.create({
-      data: {
-        default: true,
-        rule: {
-          connect: {
-            id: rule.id,
+      await tx.matcher.create({
+        data: {
+          default: true,
+          rule: {
+            connect: {
+              id: rule.id,
+            },
+          },
+          mock: {
+            connect: {
+              id: mock.id,
+            },
           },
         },
-        mock: {
-          connect: {
-            id: mock.id,
-          },
-        },
-      },
-    });
+      });
 
-    return prisma.rule.findUniqueOrThrow({
-      where: {
-        id: rule.id,
-      },
-      include: {
-        mocks: true,
-        matchers: {
-          include: {
-            mock: {
-              select: {
-                id: true,
-                name: true,
+      await tx.collection.update({
+        where: {
+          id: collectionId,
+        },
+        data: {
+          updatedAt: new Date(),
+        },
+      });
+
+      return tx.rule.findUniqueOrThrow({
+        where: {
+          id: rule.id,
+        },
+        include: {
+          mocks: true,
+          matchers: {
+            include: {
+              mock: {
+                select: {
+                  id: true,
+                  name: true,
+                },
               },
             },
           },
         },
-      },
-    });
-  },
+      });
+    }),
 
   update: ({ id, name, enabled, path }: { id: number; name?: string; enabled?: boolean; path?: string }) => {
     return prisma.rule.update({
@@ -110,6 +120,7 @@ export default {
         name,
         enabled,
         path,
+        collection: { update: { updatedAt: new Date() } },
       },
       where: {
         id,
@@ -118,21 +129,21 @@ export default {
   },
 
   delete: (id: number) => {
-    return prisma.rule.delete({
-      where: {
-        id,
-      },
-    });
-  },
+    return prisma.$transaction(async (tx) => {
+      await tx.rule.update({
+        where: {
+          id,
+        },
+        data: {
+          collection: { update: { updatedAt: new Date() } },
+        },
+      });
 
-  syncUpdatedAt: (id: number) => {
-    return prisma.rule.update({
-      data: {
-        updatedAt: new Date(),
-      },
-      where: {
-        id,
-      },
+      return tx.rule.delete({
+        where: {
+          id,
+        },
+      });
     });
   },
 };

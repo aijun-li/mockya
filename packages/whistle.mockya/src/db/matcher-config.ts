@@ -16,14 +16,25 @@ export default {
     }),
 
   create: (matcherId: number) =>
-    prisma.matcherConfig.create({
-      data: {
-        matcher: {
-          connect: {
-            id: matcherId,
+    prisma.$transaction(async (tx) => {
+      await tx.matcher.update({
+        where: {
+          id: matcherId,
+        },
+        data: {
+          rule: { update: { collection: { update: { updatedAt: new Date() } } } },
+        },
+      });
+
+      return tx.matcherConfig.create({
+        data: {
+          matcher: {
+            connect: {
+              id: matcherId,
+            },
           },
         },
-      },
+      });
     }),
 
   update: ({ id, key, value }: { id: number; key?: string; value?: string }) =>
@@ -31,6 +42,7 @@ export default {
       data: {
         key,
         value,
+        matcher: { update: { rule: { update: { collection: { update: { updatedAt: new Date() } } } } } },
       },
       where: {
         id,
@@ -38,9 +50,20 @@ export default {
     }),
 
   delete: (id: number) =>
-    prisma.matcherConfig.delete({
-      where: {
-        id,
-      },
+    prisma.$transaction(async (tx) => {
+      await tx.matcherConfig.update({
+        where: {
+          id,
+        },
+        data: {
+          matcher: { update: { rule: { update: { collection: { update: { updatedAt: new Date() } } } } } },
+        },
+      });
+
+      return tx.matcherConfig.delete({
+        where: {
+          id,
+        },
+      });
     }),
 };

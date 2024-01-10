@@ -96,15 +96,4 @@ export default {
       },
     });
   },
-
-  syncUpdatedAt: (id: string) => {
-    return prisma.collection.update({
-      data: {
-        updatedAt: new Date(),
-      },
-      where: {
-        id,
-      },
-    });
-  },
 };

@@ -35,19 +35,30 @@ export default {
     }),
 
   create: async ({ ruleId, mockId }: { ruleId: number; mockId: number }) =>
-    prisma.matcher.create({
-      data: {
-        mock: {
-          connect: {
-            id: mockId,
+    prisma.$transaction(async (tx) => {
+      await tx.rule.update({
+        where: {
+          id: ruleId,
+        },
+        data: {
+          collection: { update: { updatedAt: new Date() } },
+        },
+      });
+
+      return tx.matcher.create({
+        data: {
+          mock: {
+            connect: {
+              id: mockId,
+            },
+          },
+          rule: {
+            connect: {
+              id: ruleId,
+            },
           },
         },
-        rule: {
-          connect: {
-            id: ruleId,
-          },
-        },
-      },
+      });
     }),
 
   update: async ({ id, mockId, delay }: { id: number; mockId?: number; delay?: number }) =>
@@ -62,6 +73,7 @@ export default {
                 },
               }
             : undefined,
+        rule: { update: { collection: { update: { updatedAt: new Date() } } } },
       },
       where: {
         id,
@@ -69,9 +81,20 @@ export default {
     }),
 
   delete: (id: number) =>
-    prisma.matcher.delete({
-      where: {
-        id,
-      },
+    prisma.$transaction(async (tx) => {
+      await tx.matcher.update({
+        where: {
+          id,
+        },
+        data: {
+          rule: { update: { collection: { update: { updatedAt: new Date() } } } },
+        },
+      });
+
+      return tx.matcher.delete({
+        where: {
+          id,
+        },
+      });
     }),
 };
