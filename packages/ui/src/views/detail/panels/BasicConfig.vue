@@ -46,7 +46,7 @@ const onConditionDelete = (id: number) => {
 
           <label class="config-label">URL Path</label>
           <div class="flex-1 flex-center">
-            <Input v-model="selectedRule!.path" class="max-w-100 mr-2" size="sm" bordered @input="onPathInput" />
+            <Input v-model="selectedRule!.path" class="mr-2" size="sm" bordered @input="onPathInput" />
             <div class="empty-placeholder" />
           </div>
 
