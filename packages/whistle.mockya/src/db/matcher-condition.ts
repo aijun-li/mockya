@@ -2,14 +2,14 @@ import prisma from '@/tools/prisma';
 
 export default {
   get: (id: number) =>
-    prisma.matcherConfig.findUniqueOrThrow({
+    prisma.matcherCondition.findUniqueOrThrow({
       where: {
         id,
       },
     }),
 
   getList: (matcherId: number) =>
-    prisma.matcherConfig.findMany({
+    prisma.matcherCondition.findMany({
       where: {
         matcherId,
       },
@@ -26,7 +26,7 @@ export default {
         },
       });
 
-      return tx.matcherConfig.create({
+      return tx.matcherCondition.create({
         data: {
           matcher: {
             connect: {
@@ -38,7 +38,7 @@ export default {
     }),
 
   update: ({ id, key, value }: { id: number; key?: string; value?: string }) =>
-    prisma.matcherConfig.update({
+    prisma.matcherCondition.update({
       data: {
         key,
         value,
@@ -51,7 +51,7 @@ export default {
 
   delete: (id: number) =>
     prisma.$transaction(async (tx) => {
-      await tx.matcherConfig.update({
+      await tx.matcherCondition.update({
         where: {
           id,
         },
@@ -60,7 +60,7 @@ export default {
         },
       });
 
-      return tx.matcherConfig.delete({
+      return tx.matcherCondition.delete({
         where: {
           id,
         },

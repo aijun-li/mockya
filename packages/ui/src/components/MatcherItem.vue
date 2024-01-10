@@ -3,7 +3,7 @@ import { IconButton, MockDropdownList } from '@/components';
 import { GlobalEvents, updateSaveDelay } from '@/const';
 import { Button, Input, Range, Tooltip } from '@/daisy';
 import { useConfirm } from '@/hooks';
-import { Matcher, MatcherUpdateConfig } from '@/types';
+import { Matcher, MatcherUpdateCondition } from '@/types';
 import { Delete, Plus, ReduceOne } from '@icon-park/vue-next';
 import { useDebounceFn, useEventBus } from '@vueuse/core';
 import { computed, ref } from 'vue';
@@ -15,16 +15,16 @@ interface Props {
 type Emits = {
   'update': [{ mockId?: number; delay?: number }];
   'delete': [];
-  'create-config': [];
-  'delete-config': [id: number];
-  'update-config': [params: MatcherUpdateConfig];
+  'create-condition': [];
+  'delete-condition': [id: number];
+  'update-condition': [params: MatcherUpdateCondition];
 };
 
 const props = defineProps<Props>();
 
 const emit = defineEmits<Emits>();
 
-const configs = computed(() => props.matcher.configs);
+const conditions = computed(() => props.matcher.conditions);
 
 const mock = computed(() => props.matcher.mock);
 
@@ -44,8 +44,8 @@ const {
   emit('delete');
 });
 
-const onConfigFieldInput = useDebounceFn((params: MatcherUpdateConfig) => {
-  emit('update-config', params);
+const onConditionFieldInput = useDebounceFn((params: MatcherUpdateCondition) => {
+  emit('update-condition', params);
 }, updateSaveDelay);
 
 const onDelayInput = useDebounceFn((value: number) => {
@@ -66,22 +66,22 @@ function onMockChange(id: number) {
 
         <div>
           <div class="grid grid-cols-[1fr,auto,1fr,auto] gap-y-2">
-            <template v-for="config in configs" :key="config.id">
+            <template v-for="condition in conditions" :key="condition.id">
               <Input
-                v-model="config.key"
+                v-model="condition.key"
                 bordered
                 size="sm"
-                @input="onConfigFieldInput({ id: config.id, key: $event.trim() })"
+                @input="onConditionFieldInput({ id: condition.id, key: $event.trim() })"
               />
               <span class="leading-8 mx-2">=</span>
               <Input
-                v-model="config.value"
+                v-model="condition.value"
                 bordered
                 size="sm"
-                @input="onConfigFieldInput({ id: config.id, value: $event.trim() })"
+                @input="onConditionFieldInput({ id: condition.id, value: $event.trim() })"
               />
               <div class="ml-2 h-full flex-center">
-                <IconButton transparent @click="emit('delete-config', config.id)">
+                <IconButton transparent @click="emit('delete-condition', condition.id)">
                   <ReduceOne />
                 </IconButton>
                 <!-- <div v-else class="empty-placeholder" /> -->
@@ -92,10 +92,10 @@ function onMockChange(id: number) {
             <Button
               class="flex-1 mr-2 normal-case text-xs"
               :class="{
-                'mt-2': configs.length,
+                'mt-2': conditions.length,
               }"
               size="sm"
-              @click="emit('create-config')"
+              @click="emit('create-condition')"
             >
               <Plus :stroke-width="5" :size="14" />
               <span>New Condition</span>

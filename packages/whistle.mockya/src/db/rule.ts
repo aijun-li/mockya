@@ -13,7 +13,7 @@ const fullIncludeConfig = {
           headers: true,
         },
       },
-      configs: true,
+      conditions: true,
     },
   },
 };

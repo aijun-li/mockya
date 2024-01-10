@@ -69,11 +69,11 @@ async function getBodyEntries(req: Whistle.PluginServerRequest, logger: winston.
 }
 
 function matchCandidateCompareFn(a: MatchCandidate, b: MatchCandidate) {
-  const [aConfigCount, aPathLength, aIsDefault, aCreatedAt] = a;
-  const [bConfigCount, bPathLength, bIsDefault, bCreatedAt] = b;
+  const [aConditionCount, aPathLength, aIsDefault, aCreatedAt] = a;
+  const [bConditionCount, bPathLength, bIsDefault, bCreatedAt] = b;
 
-  if (aConfigCount !== bConfigCount) {
-    return bConfigCount - aConfigCount;
+  if (aConditionCount !== bConditionCount) {
+    return bConditionCount - aConditionCount;
   } else if (aPathLength !== bPathLength) {
     return bPathLength - aPathLength;
   } else if (aIsDefault !== bIsDefault) {
@@ -136,19 +136,21 @@ export default (server: Whistle.PluginServer, options: Whistle.PluginOptions) =>
               ]);
             }
           } else {
-            const availableConfigs = matcher.configs.filter((config) => config.key.trim() && config.value.trim());
+            const availableConditions = matcher.conditions.filter(
+              (condition) => condition.key.trim() && condition.value.trim(),
+            );
 
-            const matchAllConfigs = availableConfigs.every((config) =>
+            const matchAllConditions = availableConditions.every((condition) =>
               fullEntries.some(
-                ([key, value]) => key.trim() === config.key.trim() && value.trim() === config.value.trim(),
+                ([key, value]) => key.trim() === condition.key.trim() && value.trim() === condition.value.trim(),
               ),
             );
 
-            if (matchAllConfigs) {
+            if (matchAllConditions) {
               const mockBody = validateJSON5(matcher.mock.body);
               if (mockBody !== undefined) {
                 arr.push([
-                  availableConfigs.length,
+                  availableConditions.length,
                   pathLength,
                   0,
                   new Date(matcher.createdAt).valueOf(),

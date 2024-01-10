@@ -11,9 +11,9 @@ const {
   createMatcher,
   updateMatcher,
   deleteMatcher,
-  createMatcherConfig,
-  updateMatcherConfig,
-  deleteMatcherConfig,
+  createMatcherCondition,
+  updateMatcherCondition,
+  deleteMatcherCondition,
 } = useRuleConfigStore();
 
 const filteredMatcherList = computed(() => {
@@ -45,18 +45,12 @@ const filteredMatcherList = computed(() => {
             :matcher="matcher"
             @update="updateMatcher({ id: matcher.id, ...$event })"
             @delete="deleteMatcher(matcher.id)"
-            @create-config="createMatcherConfig(matcher.id)"
-            @update-config="updateMatcherConfig"
-            @delete-config="deleteMatcherConfig"
+            @create-condition="createMatcherCondition(matcher.id)"
+            @update-condition="updateMatcherCondition"
+            @delete-condition="deleteMatcherCondition"
           />
         </template>
       </div>
     </template>
   </ContentCard>
 </template>
-
-<style lang="scss" scoped>
-.config-label {
-  @apply flex-none flex items-center text-sm;
-}
-</style>

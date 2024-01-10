@@ -25,7 +25,7 @@ export default router({
       ruleId,
       mockId: defaultMock.id,
     });
-    await db.matcherConfig.create(matcher.id);
+    await db.matcherCondition.create(matcher.id);
     const data = await db.matcher.getFull(matcher.id);
     return data;
   }),

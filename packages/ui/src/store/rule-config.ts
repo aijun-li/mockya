@@ -1,5 +1,5 @@
 import { trpc } from '@/service';
-import { MatcherUpdateConfig } from '@/types';
+import { MatcherUpdateCondition } from '@/types';
 import { BaseRuleConfig, Rule } from '@/types/rule';
 import { handleError, withRefs } from '@/utils';
 import { defineStore } from 'pinia';
@@ -99,27 +99,27 @@ export const useRuleConfigStore = withRefs(
       }
     }
 
-    async function createMatcherConfig(matcherId: number) {
+    async function createMatcherCondition(matcherId: number) {
       try {
-        await trpc.createMatcherConfig.mutate(matcherId);
+        await trpc.createMatcherCondition.mutate(matcherId);
         await fetchRuleConfig();
       } catch (error) {
         handleError(error);
       }
     }
 
-    async function updateMatcherConfig(params: MatcherUpdateConfig) {
+    async function updateMatcherCondition(params: MatcherUpdateCondition) {
       try {
-        await trpc.updateMatcherConfig.mutate(params);
+        await trpc.updateMatcherCondition.mutate(params);
         // await fetchRuleConfig();
       } catch (error) {
         handleError(error);
       }
     }
 
-    async function deleteMatcherConfig(id: number) {
+    async function deleteMatcherCondition(id: number) {
       try {
-        await trpc.deleteMatcherConfig.mutate(id);
+        await trpc.deleteMatcherCondition.mutate(id);
         await fetchRuleConfig();
       } catch (error) {
         handleError(error);
@@ -143,9 +143,9 @@ export const useRuleConfigStore = withRefs(
       updateMatcher,
       deleteMatcher,
 
-      createMatcherConfig,
-      updateMatcherConfig,
-      deleteMatcherConfig,
+      createMatcherCondition,
+      updateMatcherCondition,
+      deleteMatcherCondition,
     };
   }),
 );

@@ -1,2 +1,4 @@
 packages/config/**/*
 packages/whistle.mockya/public/**/*
+packages/whistle.mockya/dist/**/*
+packages/ui/dev-dist/**/*

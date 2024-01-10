@@ -42,7 +42,7 @@ model Matcher {
   default Boolean @default(false)
   delay   Int     @default(0)
 
-  configs MatcherConfig[]
+  conditions MatcherCondition[]
 
   ruleId Int
   rule   Rule @relation(fields: [ruleId], references: [id], onDelete: Cascade, onUpdate: Cascade)
@@ -54,7 +54,7 @@ model Matcher {
   updatedAt DateTime @updatedAt
 }
 
-model MatcherConfig {
+model MatcherCondition {
   id    Int    @id @default(dbgenerated())
   key   String @default("")
   value String @default("")

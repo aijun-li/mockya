@@ -19,7 +19,7 @@ export default {
             headers: true,
           },
         },
-        configs: true,
+        conditions: true,
       },
     }),
 
@@ -30,7 +30,7 @@ export default {
       },
       include: {
         mock: true,
-        configs: true,
+        conditions: true,
       },
     }),
 
