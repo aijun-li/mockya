@@ -64,5 +64,9 @@ typings/
 .console.log
 
 prisma/*.db
+prisma/*.db-journal
+prisma/*.log
 
 tsconfig.tsbuildinfo
+
+public

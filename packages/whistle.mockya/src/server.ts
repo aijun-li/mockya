@@ -11,9 +11,9 @@ function sleep(time: number) {
   });
 }
 
-function handleError(error: unknown, logger: winston.Logger) {
+function handleError(error: unknown, logger?: winston.Logger) {
   console.error(error);
-  logger.error(JSON.stringify(error, null, 2));
+  logger?.error(JSON.stringify(error, null, 2));
 }
 
 async function getTargetCollection(oReq: OriginalReq, logger: winston.Logger) {
@@ -27,12 +27,11 @@ async function getTargetCollection(oReq: OriginalReq, logger: winston.Logger) {
   }
 }
 
-function validateJSON5(code: string, logger: winston.Logger): JSONValue | undefined {
+function validateJSON5(code: string): JSONValue | undefined {
   try {
     const data = JSON5.parse(code);
     return data;
   } catch (error) {
-    handleError(error, logger);
     return undefined;
   }
 }
@@ -62,7 +61,7 @@ async function getBodyEntries(req: Whistle.PluginServerRequest, logger: winston.
       [] as [string, string][],
     );
   } else {
-    const data = validateJSON5(rawBody, logger);
+    const data = validateJSON5(rawBody);
     return data && typeof data === 'object'
       ? Object.entries(data).map(([key, value]) => [key, typeof value === 'string' ? value : JSON.stringify(value)])
       : [];
@@ -122,7 +121,7 @@ export default (server: Whistle.PluginServer, options: Whistle.PluginOptions) =>
 
         rule.matchers.forEach((matcher) => {
           if (matcher.default) {
-            const mockBody = validateJSON5(matcher.mock.body, logger);
+            const mockBody = validateJSON5(matcher.mock.body);
             // fallback mock only works when configured path is not empty
             if (mockBody !== undefined && pathLength) {
               arr.push([
@@ -146,7 +145,7 @@ export default (server: Whistle.PluginServer, options: Whistle.PluginOptions) =>
             );
 
             if (matchAllConfigs) {
-              const mockBody = validateJSON5(matcher.mock.body, logger);
+              const mockBody = validateJSON5(matcher.mock.body);
               if (mockBody !== undefined) {
                 arr.push([
                   availableConfigs.length,

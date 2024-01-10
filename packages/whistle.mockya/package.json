@@ -18,7 +18,8 @@
     "dev:ts-alias": "tsc-alias -w",
     "dev:whistle": "w2 stop && w2 run",
     "dev:lack": "lack watch dist",
-    "dev": "pnpm run clean && tsc && run-p dev:*",
+    "dev": "cross-env-shell NODE_ENV=development DATABASE_URL=file:./dev.db \"pnpm run clean && tsc && run-p dev:*\"",
+    "db:migrate-dev": "cross-env-shell DATABASE_URL=file:./dev.db \"prisma migrate dev\"",
     "clean": "rimraf dist tsconfig.tsbuildinfo"
   },
   "files": [
@@ -44,6 +45,7 @@
     "@types/node": "^20.5.6",
     "@typescript-eslint/eslint-plugin": "^6.4.1",
     "@typescript-eslint/parser": "^6.4.1",
+    "cross-env": "^7.0.3",
     "eslint": "^8.47.0",
     "eslint-config-prettier": "^9.0.0",
     "eslint-plugin-prettier": "^5.0.0",
