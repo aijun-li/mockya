@@ -23,8 +23,6 @@ jobs:
         run: pnpm install
       - name: Build
         run: pnpm build
-      - name: Commit
-        run: 'git config user.email "liaijun.cn@gmail.com" && git config user.name "liaijun" && git add --all && git commit --no-verify -m "chore: build"'
       - name: Publish
         run: pnpm lerna publish from-package --yes
         env:
