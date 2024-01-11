@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { IColorType, ISize } from '@/daisy/types';
-import { computed, defineModel } from 'vue';
+import { computed } from 'vue';
 
 interface Props {
   size?: ISize;

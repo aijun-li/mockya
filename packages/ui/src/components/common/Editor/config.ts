@@ -28,11 +28,11 @@ export const theme = EditorView.theme({
   '&.cm-focused': { outline: 'none' },
   '.cm-scroller': { fontFamily: 'SFMono-Regular, Consolas, Menlo, monospace', fontSize: '14px' },
   '.cm-gutters': { backgroundColor: 'white', borderRight: 'none' },
-  '.cm-activeLine': { backgroundColor: 'hsl(var(--b2)/0.6)' },
-  '.cm-activeLineGutter': { backgroundColor: 'hsl(var(--b2))' },
+  '.cm-activeLine': { backgroundColor: 'oklch(var(--b2)/0.6)' },
+  '.cm-activeLineGutter': { backgroundColor: 'oklch(var(--b2))' },
   '&.cm-focused > .cm-scroller > .cm-selectionLayer .cm-selectionBackground, .cm-selectionBackground, .cm-content ::selection':
     {
-      backgroundColor: 'hsl(var(--pc)/0.9)',
+      backgroundColor: 'oklch(var(--pc)/0.9)',
     },
 });
 

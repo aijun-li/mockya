@@ -71,7 +71,7 @@ function goRoute(path: string) {
         :content="config.tip"
         position="right"
       >
-        <Button class="sidebar-btn rounded w-8 h-8 hover:shadow" shape="square" @click="config.handler">
+        <Button class="sidebar-btn rounded w-8 h-8 shadow-none hover:shadow" shape="square" @click="config.handler">
           <component :is="config.icon" :size="20" />
         </Button>
       </Tooltip>

@@ -77,7 +77,7 @@ const onConditionDelete = (id: number) => {
             </div>
             <div class="flex items-center w-full">
               <Button
-                class="flex-1 mr-2 normal-case text-xs"
+                class="flex-1 mr-2 text-xs"
                 :class="{
                   'mt-2': selectedRule!.conditions.length,
                 }"

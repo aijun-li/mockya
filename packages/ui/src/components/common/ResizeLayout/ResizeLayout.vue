@@ -20,7 +20,7 @@ const props = withDefaults(defineProps<Props>(), {
   barSize: 8,
   barColor: 'transparent',
   barFocusedSize: 2,
-  barFocusedColor: 'hsl(var(--p))',
+  barFocusedColor: 'oklch(var(--p))',
   localKey: '',
   reverse: false,
 });
@@ -117,8 +117,8 @@ useEventListener(document, 'mousemove', (e) => {
       ? startHeight - e.movementY
       : startHeight + e.movementY
     : props.reverse
-    ? startWidth - e.movementX
-    : startWidth + e.movementX;
+      ? startWidth - e.movementX
+      : startWidth + e.movementX;
 
   startSize.value = `${Math.min(newSize, maxSize)}px`;
 
