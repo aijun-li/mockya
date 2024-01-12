@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.1.6](https://github.com/aijun-li/mockya/compare/v0.1.5...v0.1.6) (2024-01-12)
+
+### Bug Fixes
+
+- update style ([412bbd9](https://github.com/aijun-li/mockya/commit/412bbd9d7f4f5e2f9de978b0cd99c2261ecdc180))
+
+### Features
+
+- support field commands ([c8b99d7](https://github.com/aijun-li/mockya/commit/c8b99d71d40afd79ddf6ec571c47c067048333c3))
+
 ## [0.1.6-alpha.0](https://github.com/aijun-li/mockya/compare/v0.1.5...v0.1.6-alpha.0) (2024-01-10)
 
 ### Bug Fixes
