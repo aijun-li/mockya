@@ -27,9 +27,31 @@ async function getTargetCollection(oReq: OriginalReq, logger: winston.Logger) {
   }
 }
 
+/**
+ * deal with custom field command
+ */
+function fieldCommandReviver(this: any, key: string, value: any) {
+  const matchRes = key.match(/^(.+)>(.+)$/i);
+  if (matchRes) {
+    const realKey = matchRes[1];
+    const command = matchRes[2].trim().toLowerCase();
+    switch (command) {
+      case 'encode':
+        this[realKey] = JSON.stringify(value);
+        return undefined;
+      default:
+        return value;
+    }
+  } else {
+    return value;
+  }
+}
+
 function validateJSON5(code: string): JSONValue | undefined {
   try {
-    const data = JSON5.parse(code);
+    // deal with Mock.js first
+    const mockedCode = JSON.stringify(Mock.mock(JSON5.parse(code)));
+    const data = JSON5.parse(mockedCode, fieldCommandReviver);
     return data;
   } catch (error) {
     return undefined;
@@ -192,7 +214,7 @@ export default (server: Whistle.PluginServer, options: Whistle.PluginOptions) =>
       }
       res.setHeader('mockya', '1');
       res.setHeader('Content-Type', 'application/json; charset=UTF-8');
-      res.end(JSON.stringify(Mock.mock(returnData)));
+      res.end(JSON.stringify(returnData));
       logger.info(`match: ${collection?.id}/${returnCandidate?.ruleId}/${returnCandidate?.matcherId}`);
       logger.info('mock: true');
     } else {

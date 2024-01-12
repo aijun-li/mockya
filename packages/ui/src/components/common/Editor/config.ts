@@ -4,19 +4,40 @@ import { EditorView } from '@codemirror/view';
 import { json5, json5Language, json5ParseLinter } from 'codemirror-json5';
 import Mock from 'mockjs';
 
-const mockVariants = Object.keys(Mock.Random).filter((key) => key !== 'extend' && !key.startsWith('_'));
+const completionRules = [
+  // field command
+  {
+    pattern: /['"].+>\w*/,
+    prefix: '>',
+    candidates: ['encode'],
+    title: 'Field Command',
+  },
+  // mock.js
+  {
+    pattern: /['"]@\w*/,
+    prefix: '@',
+    candidates: Object.keys(Mock.Random).filter((key) => key !== 'extend' && !key.startsWith('_')),
+    title: 'Mock.js Placeholder',
+  },
+];
 
 function getCompletions(context: CompletionContext) {
-  const word = context.matchBefore(/['"]@\w*/);
-  if (!word || word.from == word.to) return null;
-  return {
-    from: word.from + 1,
-    options: mockVariants.map((variant) => ({
-      label: `@${variant}`,
-      type: 'function',
-      section: 'Mock.js Placeholder',
-    })),
-  };
+  for (let i = 0; i < completionRules.length; i++) {
+    const rule = completionRules[i];
+    const word = context.matchBefore(rule.pattern);
+    if (!word || word.from == word.to) {
+      continue;
+    }
+    return {
+      from: word.from + word.text.lastIndexOf(rule.prefix),
+      options: rule.candidates.map((candidate) => ({
+        label: `${rule.prefix}${candidate}`,
+        type: 'function',
+        section: rule.title,
+      })),
+    };
+  }
+  return null;
 }
 
 const autoComplete = json5Language.data.of({
