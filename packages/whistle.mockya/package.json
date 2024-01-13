@@ -59,6 +59,7 @@
     "@koa/cors": "^4.0.0",
     "@prisma/client": "5.4.2",
     "@trpc/server": "^10.40.0",
+    "axios": "^1.6.5",
     "json5": "^2.2.3",
     "koa": "^2.14.2",
     "koa-bodyparser": "^4.2.1",

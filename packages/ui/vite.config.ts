@@ -2,6 +2,7 @@ import vue from '@vitejs/plugin-vue';
 import path from 'path';
 import { defineConfig } from 'vite';
 import { VitePWA } from 'vite-plugin-pwa';
+import { version } from '../whistle.mockya/package.json';
 
 // https://vitejs.dev/config/
 export default defineConfig(({ command }) => ({
@@ -46,6 +47,9 @@ export default defineConfig(({ command }) => ({
     }),
   ],
   base: command === 'serve' ? '/' : '/whistle.mockya/',
+  define: {
+    __APP_VERSION__: JSON.stringify(version),
+  },
   build: {
     outDir: path.resolve(__dirname, '../whistle.mockya/public'),
     emptyOutDir: true,

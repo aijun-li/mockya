@@ -8,6 +8,7 @@ import mockRouter from './mock';
 import mockHeaderRouter from './mock-header';
 import ruleRouter from './rule';
 import ruleConditionRouter from './rule-condition';
+import versionUpdateRouter from './version-update';
 
 const RPC_PREFIX = '/trpc';
 
@@ -19,6 +20,7 @@ export const trpcRouter = mergeRouters(
   mockHeaderRouter,
   matcherRouter,
   matcherConditionRouter,
+  versionUpdateRouter,
 );
 
 export type AppRouter = typeof trpcRouter;

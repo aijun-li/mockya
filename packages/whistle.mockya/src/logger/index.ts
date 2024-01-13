@@ -11,11 +11,15 @@ const loggerFile =
 const { combine, timestamp, printf } = winston.format;
 
 const lineFormat = printf(({ level, message, timestamp, reqId }) => {
-  return `[${new Date(timestamp).toLocaleString()}][${reqId}][${level}]: ${message}`;
+  if (reqId) {
+    return `[${new Date(timestamp).toLocaleString()}][${level}](${reqId}): ${message}`;
+  } else {
+    return `[${new Date(timestamp).toLocaleString()}][${level}]: ${message}`;
+  }
 });
 
 const logger = winston.createLogger({
-  level: 'info',
+  level: 'debug',
   format: combine(timestamp(), lineFormat),
   transports: [new winston.transports.File({ filename: loggerFile })],
 });

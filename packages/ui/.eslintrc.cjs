@@ -3,6 +3,9 @@ module.exports = {
   env: {
     browser: true,
   },
+  globals: {
+    __APP_VERSION__: 'readonly',
+  },
   extends: [require.resolve('@mockya/config/eslint/common'), 'plugin:vue/vue3-recommended'],
   parser: 'vue-eslint-parser',
   parserOptions: {
@@ -10,6 +13,7 @@ module.exports = {
     parser: '@typescript-eslint/parser',
     sourceType: 'module',
   },
+  ignorePatterns: ['.eslintrc.cjs'],
   plugins: ['vue'],
   rules: {
     'vue/multi-word-component-names': 'off',

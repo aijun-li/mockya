@@ -71,7 +71,7 @@ watchEffect(() => {
     :class="['modal', modalPositionClass, !useTopLayer && modelValue && 'modal-open']"
     @close="closeModal"
   >
-    <form method="dialog" class="modal-box">
+    <form method="dialog" class="modal-box flex flex-col">
       <Button v-if="showClose" class="absolute right-2 top-2" shape="circle" type="ghost" @click="closeModalManually">
         ✕
       </Button>

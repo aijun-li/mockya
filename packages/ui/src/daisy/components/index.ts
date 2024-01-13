@@ -1,4 +1,6 @@
 export * from './button';
+export * from './diff';
+export * from './divider';
 export * from './hero';
 export * from './input';
 export * from './loading';
