@@ -51,9 +51,11 @@ export const useVersionStore = withRefs(
 
       try {
         updateVersionLoading.value = true;
-        await trpc.updateVersion.mutate();
-        await sleep(1000);
-        location.reload();
+        const needReload = await trpc.updateVersion.mutate();
+        if (needReload) {
+          await sleep(1000);
+          location.reload();
+        }
       } catch (error) {
         handleError(error);
       } finally {

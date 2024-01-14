@@ -124,13 +124,16 @@ export default router({
     logger.debug(`Plugin Installer: ${pluginInstaller}`);
 
     if (currentVersion === latestVersion) {
-      return;
+      return false;
     }
 
     const command =
       pluginInstaller === 'whistle' ? 'w2 install whistle.mockya' : `${pluginInstaller} i -g whistle.mockya`;
     logger.debug(`Install Command: ${command}`);
 
-    await asyncExec(command);
+    const { stdout } = await asyncExec(command);
+    logger.debug(`Install Stdout: ${stdout}`);
+
+    return true;
   }),
 });
