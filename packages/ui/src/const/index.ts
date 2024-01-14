@@ -4,6 +4,8 @@ export const enum LocalStorageKey {
   DetailResizeLayout = 'mockya-detail-resize-layout',
   ConfigResizeLayout = 'mockya-config-resize-layout',
   EditorLineWrap = 'mockya-editor-line-wrap',
+
+  VersionUpdateShowTime = 'version-update-show-time',
 }
 
 export const GlobalEvents = {

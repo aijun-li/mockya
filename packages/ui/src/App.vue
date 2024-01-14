@@ -1,8 +1,10 @@
 <script setup lang="ts">
 import { useMediaQuery } from '@vueuse/core';
+import dayjs from 'dayjs';
 import { onMounted } from 'vue';
 import { RouterView } from 'vue-router';
 import { SideBar, VersionUpdateModal } from './components';
+import { LocalStorageKey } from './const';
 import { useVersionStore } from './store';
 
 const isPWA = useMediaQuery('(display-mode: fullscreen), (display-mode: standalone)');
@@ -10,9 +12,23 @@ const isPWA = useMediaQuery('(display-mode: fullscreen), (display-mode: standalo
 const { checkForUpdates } = useVersionStore();
 
 onMounted(() => {
+  const storedTime = localStorage.getItem(LocalStorageKey.VersionUpdateShowTime);
+  if (!storedTime) {
+    setTimeout(() => {
+      checkForUpdates();
+    }, 10 * 1000);
+    return;
+  }
+
+  const lastShowTime = dayjs(storedTime).startOf('day').toISOString();
+  const currentTime = dayjs().startOf('day').toISOString();
+  if (currentTime == lastShowTime) {
+    return;
+  }
+  console.log('123');
   setTimeout(() => {
     checkForUpdates();
-  }, 2000);
+  }, 10 * 1000);
 });
 </script>
 

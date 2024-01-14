@@ -14,6 +14,8 @@ export default defineConfig(({ command }) => ({
       includeManifestIcons: false,
       workbox: {
         cleanupOutdatedCaches: true,
+        clientsClaim: true,
+        skipWaiting: true,
       },
       devOptions: {
         enabled: true,

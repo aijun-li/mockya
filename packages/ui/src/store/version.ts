@@ -1,7 +1,10 @@
+import { LocalStorageKey } from '@/const';
 import { toast } from '@/daisy';
 import { trpc } from '@/service';
 import { ChangelogInfo } from '@/types';
 import { handleError, sleep, withRefs } from '@/utils';
+import { whenever } from '@vueuse/core';
+import dayjs from 'dayjs';
 import { defineStore } from 'pinia';
 import { ref } from 'vue';
 
@@ -18,6 +21,10 @@ export const useVersionStore = withRefs(
       latestVersion: '',
       features: [],
       fixes: [],
+    });
+
+    whenever(versionModalVisible, () => {
+      localStorage.setItem(LocalStorageKey.VersionUpdateShowTime, dayjs().toISOString());
     });
 
     async function checkForUpdates(showNoUpdatesToast = false) {
@@ -53,7 +60,7 @@ export const useVersionStore = withRefs(
         updateVersionLoading.value = true;
         const needReload = await trpc.updateVersion.mutate();
         if (needReload) {
-          await sleep(1000);
+          await sleep(5000);
           location.reload();
         }
       } catch (error) {
