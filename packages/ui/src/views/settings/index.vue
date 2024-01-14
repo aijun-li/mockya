@@ -1,59 +1,23 @@
 <script lang="ts" setup>
-import { ContentCard, VersionUpdateModal } from '@/components';
+import { ContentCard } from '@/components';
 import { Button, Diff, Divider, Loading } from '@/daisy';
-import { trpc } from '@/service';
-import { VersionUpdateInfo } from '@/types';
-import { handleError } from '@/utils';
-import { Github, Refresh } from '@icon-park/vue-next';
-import { ref } from 'vue';
+import { useVersionStore } from '@/store';
+import { Github, Log, Refresh } from '@icon-park/vue-next';
 
 const appVersion = import.meta.env.DEV ? `${__APP_VERSION__} (dev)` : __APP_VERSION__;
 
-const updateModalVisible = ref(false);
+const { checkVersionLoading, checkForUpdates } = useVersionStore();
 
-const checkLoading = ref(false);
+async function onCheckForUpdates() {
+  await checkForUpdates(true);
+}
 
-const versionUpdateInfo = ref<VersionUpdateInfo>({
-  hasUpdates: false,
-  changelog: {
-    currentVersion: '',
-    latestVersion: '',
-    features: [],
-    fixes: [],
-  },
-});
+function onViewChangelog() {
+  window.open('https://github.com/aijun-li/mockya/blob/main/CHANGELOG.md', '_blank');
+}
 
 function onReportIssue() {
   window.open('https://github.com/aijun-li/mockya/issues', '_blank');
-}
-
-async function onCheckForUpdates() {
-  if (checkLoading.value) {
-    return;
-  }
-
-  try {
-    checkLoading.value = true;
-    const res = await trpc.checkForUpdates.query();
-
-    versionUpdateInfo.value = res;
-
-    if (res.hasUpdates) {
-      updateModalVisible.value = true;
-    }
-  } catch (error) {
-    handleError(error);
-  } finally {
-    checkLoading.value = false;
-  }
-}
-
-async function onUpdateVersion() {
-  try {
-    await trpc.updateVersion.mutate();
-  } catch (error) {
-    handleError(error);
-  }
 }
 </script>
 
@@ -78,10 +42,14 @@ async function onUpdateVersion() {
           <div>{{ appVersion }}</div>
         </div>
         <div class="flex gap-4">
-          <Button size="xs" :outline="!checkLoading" :disabled="checkLoading" @click="onCheckForUpdates">
-            <Refresh v-if="!checkLoading" />
+          <Button size="xs" :outline="!checkVersionLoading" :disabled="checkVersionLoading" @click="onCheckForUpdates">
+            <Refresh v-if="!checkVersionLoading" />
             <Loading v-else class="w-3" />
             Check for Updates
+          </Button>
+          <Button size="xs" outline @click="onViewChangelog">
+            <Log />
+            View Changelog
           </Button>
           <Button size="xs" outline @click="onReportIssue">
             <Github />
@@ -90,8 +58,6 @@ async function onUpdateVersion() {
         </div>
       </div>
     </ContentCard>
-
-    <VersionUpdateModal v-model="updateModalVisible" :data="versionUpdateInfo" @confirm="onUpdateVersion" />
   </div>
 </template>
 

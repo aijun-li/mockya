@@ -1,9 +1,17 @@
 <script setup lang="ts">
 import { useMediaQuery } from '@vueuse/core';
+import { onMounted } from 'vue';
 import { RouterView } from 'vue-router';
-import { SideBar } from './components';
+import { SideBar, VersionUpdateModal } from './components';
+import { useVersionStore } from './store';
 
 const isPWA = useMediaQuery('(display-mode: fullscreen), (display-mode: standalone)');
+
+const { checkForUpdates } = useVersionStore();
+
+onMounted(() => {
+  checkForUpdates();
+});
 </script>
 
 <template>
@@ -17,5 +25,7 @@ const isPWA = useMediaQuery('(display-mode: fullscreen), (display-mode: standalo
     >
       <RouterView />
     </div>
+
+    <VersionUpdateModal />
   </div>
 </template>

@@ -1,22 +1,11 @@
 <script lang="ts" setup>
-import { Button, Modal } from '@/daisy';
-import { VersionUpdateInfo } from '@/types';
+import { Button, Loading, Modal } from '@/daisy';
+import { useVersionStore } from '@/store';
+
 import { ArrowRight } from '@icon-park/vue-next';
 import { computed } from 'vue';
 
-interface Props {
-  data: VersionUpdateInfo;
-}
-
-type Emits = {
-  confirm: [];
-};
-
-const props = defineProps<Props>();
-
-const emit = defineEmits<Emits>();
-
-const changelog = computed(() => props.data.changelog);
+const { versionModalVisible, updateVersionLoading, changelog, updateVersion } = useVersionStore();
 
 const listConfigs = computed(() => [
   {
@@ -29,11 +18,13 @@ const listConfigs = computed(() => [
   },
 ]);
 
-const visible = defineModel<boolean>({ required: true });
+async function onUpdateClick() {
+  await updateVersion();
+}
 </script>
 
 <template>
-  <Modal v-model="visible" title="New Version Available" show-close>
+  <Modal v-model="versionModalVisible" title="🎉 New Version Available 🎉" show-close>
     <template #default>
       <div class="flex items-center gap-4 text-2xl font-semibold">
         {{ changelog.currentVersion }} <ArrowRight /> {{ changelog.latestVersion }}
@@ -50,8 +41,11 @@ const visible = defineModel<boolean>({ required: true });
       </template>
     </template>
     <template #action>
-      <Button type="ghost" @click="visible = false">Cancel</Button>
-      <Button type="primary" @click="emit('confirm')">Update</Button>
+      <Button type="ghost" @click="versionModalVisible = false">Cancel</Button>
+      <Button type="primary" :disabled="updateVersionLoading" @click="onUpdateClick">
+        <Loading v-if="updateVersionLoading" size="xs" />
+        Update
+      </Button>
     </template>
   </Modal>
 </template>

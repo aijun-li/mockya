@@ -1,14 +1,28 @@
 import logger from '@/logger';
 import { procedure, router } from '@/tools/trpc';
+import { pluginInstaller } from '@/utils';
 import axios from 'axios';
+import { exec } from 'child_process';
 import path from 'path';
+import { promisify } from 'util';
 import { z } from 'zod';
 
-const latestVersionUrl = 'https://registry.npmjs.org/whistle.mockya/latest';
+const asyncExec = promisify(exec);
+
 // TODO: proxy
 const changelogUrl = 'https://raw.githubusercontent.com/aijun-li/mockya/main/CHANGELOG.md';
 
+async function getLatestVersionUrl() {
+  const { stdout: registry } = await asyncExec('npm config get registry');
+  logger.debug(`Registry: ${registry}`);
+
+  const prefix = registry.endsWith('/') ? registry : `${registry}/`;
+  return `${prefix}whistle.mockya/latest`;
+}
+
 async function getVersionInfo(mockVersion?: string) {
+  const latestVersionUrl = await getLatestVersionUrl();
+
   const {
     data: { version: latestVersion },
   }: { data: { version: string } } = await axios.get(latestVersionUrl);
@@ -108,9 +122,16 @@ export default router({
     const { currentVersion, latestVersion } = await getVersionInfo();
 
     logger.debug(`Install Directory: ${path.resolve(__dirname, '../../../..')}`);
+    logger.debug(`Plugin Installer: ${pluginInstaller}`);
 
     if (currentVersion === latestVersion) {
       return;
     }
+
+    const command =
+      pluginInstaller === 'whistle' ? 'w2 install whistle.mockya' : `${pluginInstaller} i -g whistle.mockya`;
+    logger.debug(`Install Command: ${command}`);
+
+    await asyncExec(command);
   }),
 });
