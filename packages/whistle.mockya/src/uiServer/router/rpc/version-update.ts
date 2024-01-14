@@ -1,4 +1,4 @@
-import logger from '@/logger';
+import logger, { logFile } from '@/logger';
 import { procedure, router } from '@/tools/trpc';
 import { pluginInstaller } from '@/utils';
 import axios from 'axios';
@@ -135,5 +135,13 @@ export default router({
     logger.debug(`Install Stdout: ${stdout}`);
 
     return true;
+  }),
+
+  getLogFileUrl: procedure.query(() => {
+    if (process.env.WSL_DISTRO_NAME) {
+      return `file://wsl$/${process.env.WSL_DISTRO_NAME}${logFile}`;
+    } else {
+      return `file://wsl$/Ubuntu${logFile}`;
+    }
   }),
 });

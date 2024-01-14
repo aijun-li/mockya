@@ -1,12 +1,25 @@
 <script lang="ts" setup>
 import { ContentCard } from '@/components';
-import { Button, Diff, Divider, Loading } from '@/daisy';
+import { Button, Diff, Divider, Loading, toast } from '@/daisy';
+import { trpc } from '@/service';
 import { useVersionStore } from '@/store';
-import { Github, Log, Refresh } from '@icon-park/vue-next';
+import { handleError } from '@/utils';
+import { Bug, Github, Log, Refresh } from '@icon-park/vue-next';
+import copy from 'copy-to-clipboard';
 
 const appVersion = import.meta.env.DEV ? `${__APP_VERSION__} (dev)` : __APP_VERSION__;
 
 const { checkVersionLoading, checkForUpdates } = useVersionStore();
+
+async function onCopyLogFileUrl() {
+  try {
+    const logFileUrl = await trpc.getLogFileUrl.query();
+    copy(logFileUrl);
+    toast.success('Log File Url Copied!');
+  } catch (error) {
+    handleError(error);
+  }
+}
 
 async function onCheckForUpdates() {
   await checkForUpdates(true);
@@ -32,6 +45,18 @@ function onReportIssue() {
           <div class="bg-base-200 text-6xl font-black grid place-content-center">Mock Ya</div>
         </template>
       </Diff>
+
+      <Divider />
+
+      <div class="setting-section">
+        <div class="title">Debug</div>
+        <div class="flex gap-4">
+          <Button size="xs" outline @click="onCopyLogFileUrl">
+            <Bug />
+            Copy Log File Url
+          </Button>
+        </div>
+      </div>
 
       <Divider />
 

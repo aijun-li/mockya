@@ -10,7 +10,9 @@ const isPWA = useMediaQuery('(display-mode: fullscreen), (display-mode: standalo
 const { checkForUpdates } = useVersionStore();
 
 onMounted(() => {
-  checkForUpdates();
+  setTimeout(() => {
+    checkForUpdates();
+  }, 2000);
 });
 </script>
 
