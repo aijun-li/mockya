@@ -12,6 +12,9 @@ export default defineConfig(({ command }) => ({
       registerType: 'autoUpdate',
       injectRegister: 'inline',
       includeManifestIcons: false,
+      workbox: {
+        cleanupOutdatedCaches: true,
+      },
       devOptions: {
         enabled: true,
       },

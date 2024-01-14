@@ -12,7 +12,8 @@ const asyncExec = promisify(exec);
 const changelogUrl = 'https://mirror.ghproxy.com/https://raw.githubusercontent.com/aijun-li/mockya/main/CHANGELOG.md';
 
 async function getLatestVersionUrl() {
-  const { stdout: registry } = await asyncExec('npm config get registry');
+  const { stdout } = await asyncExec('npm config get registry');
+  const registry = stdout.trim();
   logger.debug(`Registry: ${registry}`);
 
   const prefix = registry.endsWith('/') ? registry : `${registry}/`;
