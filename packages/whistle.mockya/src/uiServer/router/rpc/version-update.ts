@@ -9,8 +9,7 @@ import { z } from 'zod';
 
 const asyncExec = promisify(exec);
 
-// TODO: proxy
-const changelogUrl = 'https://raw.githubusercontent.com/aijun-li/mockya/main/CHANGELOG.md';
+const changelogUrl = 'https://mirror.ghproxy.com/https://raw.githubusercontent.com/aijun-li/mockya/main/CHANGELOG.md';
 
 async function getLatestVersionUrl() {
   const { stdout: registry } = await asyncExec('npm config get registry');
