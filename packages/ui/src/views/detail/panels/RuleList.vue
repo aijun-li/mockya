@@ -3,6 +3,7 @@ import { ContentCard, IconButton, RuleItem } from '@/components';
 import { Loading, Tooltip } from '@/daisy';
 import { useRuleListStore } from '@/store';
 import { BaseRule } from '@/types';
+import { track } from '@/utils/track';
 import { FileAddition, HandUp } from '@icon-park/vue-next';
 import { nextTick, ref } from 'vue';
 
@@ -24,6 +25,8 @@ function onCreateBtnClick() {
   nextTick(() => {
     createRuleRef.value?.focusEdit();
   });
+
+  track('create_rule_btn_click');
 }
 
 async function onCreateRule(name: string, exitEdit: () => void) {

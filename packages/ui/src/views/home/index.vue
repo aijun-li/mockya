@@ -2,6 +2,7 @@
 import { CollectionCard, ContentCard, CreateCollectionCard, CreateCollectionModal } from '@/components';
 import { Loading } from '@/daisy';
 import { useCollectionsStore } from '@/store';
+import { track } from '@/utils/track';
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 
@@ -20,6 +21,11 @@ fetchCollections().then(() => {
 });
 
 const createVisible = ref(false);
+
+function onCreateClick() {
+  createVisible.value = true;
+  track('create_collection_btn_click');
+}
 </script>
 
 <template>
@@ -29,7 +35,7 @@ const createVisible = ref(false);
 
       <div v-else class="w-full h-full">
         <div class="responsive-grid">
-          <CreateCollectionCard @click="createVisible = true" />
+          <CreateCollectionCard @click="onCreateClick" />
         </div>
         <div class="font-bold text-xl mt-8 mb-5">All Collections</div>
         <div class="responsive-grid">

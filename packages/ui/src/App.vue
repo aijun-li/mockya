@@ -25,7 +25,7 @@ onMounted(() => {
   if (currentTime == lastShowTime) {
     return;
   }
-  console.log('123');
+
   setTimeout(() => {
     checkForUpdates();
   }, 10 * 1000);

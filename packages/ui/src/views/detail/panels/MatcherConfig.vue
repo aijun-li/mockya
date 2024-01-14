@@ -2,6 +2,7 @@
 import { ContentCard, IconButton, MatcherItem } from '@/components';
 import { Tooltip } from '@/daisy';
 import { useRuleConfigStore } from '@/store';
+import { track } from '@/utils/track';
 import { FileAddition, HandUp } from '@icon-park/vue-next';
 import { computed } from 'vue';
 
@@ -28,6 +29,11 @@ const filteredMatcherList = computed(() => {
     return matcherList.value.filter((matcher) => !matcher.default);
   }
 });
+
+function onCreateClick() {
+  createMatcher();
+  track('create_matcher_btn_click');
+}
 </script>
 
 <template>
@@ -36,7 +42,7 @@ const filteredMatcherList = computed(() => {
       <div class="px-4 py-2 pr-3 flex items-center justify-between">
         <span>Matcher Config</span>
         <Tooltip class="flex text-xs" content="Add Matcher" position="left">
-          <IconButton @click="createMatcher">
+          <IconButton @click="onCreateClick">
             <FileAddition />
           </IconButton>
         </Tooltip>

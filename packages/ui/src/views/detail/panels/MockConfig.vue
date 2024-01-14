@@ -3,6 +3,7 @@ import { ContentCard, CreateMockModal, Editor, IconButton, MockDropdownList } fr
 import { GlobalEvents, updateSaveDelay } from '@/const';
 import { Tooltip } from '@/daisy';
 import { useRuleConfigStore } from '@/store';
+import { track } from '@/utils/track';
 import { FileAddition } from '@icon-park/vue-next';
 import { useDebounceFn, useEventBus } from '@vueuse/core';
 import { computed, ref, watch } from 'vue';
@@ -70,6 +71,11 @@ function onCreated(id?: number) {
   }
   selectedMockId.value = id;
 }
+
+function onCreateClick() {
+  createVisible.value = true;
+  track('create_mock_btn_click');
+}
 </script>
 
 <template>
@@ -78,7 +84,7 @@ function onCreated(id?: number) {
       <div class="px-4 py-2 pr-3 flex items-center justify-between">
         <span>Mock Config</span>
         <Tooltip class="flex text-xs" content="Add Mock" position="left">
-          <IconButton @click="createVisible = true">
+          <IconButton @click="onCreateClick">
             <FileAddition />
           </IconButton>
         </Tooltip>

@@ -142,7 +142,7 @@ export default router({
     if (process.env.WSL_DISTRO_NAME) {
       return `file://wsl$/${process.env.WSL_DISTRO_NAME}${logFile}`;
     } else {
-      return `file://wsl$/Ubuntu${logFile}`;
+      return `file://${logFile}`;
     }
   }),
 });
