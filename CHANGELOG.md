@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.1.7-alpha.6](https://github.com/aijun-li/mockya/compare/v0.1.7-alpha.5...v0.1.7-alpha.6) (2024-01-14)
+
+### Bug Fixes
+
+- solve pwa reload issue ([48b4eed](https://github.com/aijun-li/mockya/commit/48b4eedf8c8aa3d1affc4136f91fdc9aaf12893a))
+
 ## [0.1.7-alpha.5](https://github.com/aijun-li/mockya/compare/v0.1.7-alpha.4...v0.1.7-alpha.5) (2024-01-14)
 
 **Note:** Version bump only for package root
