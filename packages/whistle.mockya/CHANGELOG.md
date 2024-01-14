@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.1.7-alpha.4](https://github.com/aijun-li/mockya/compare/v0.1.7-alpha.3...v0.1.7-alpha.4) (2024-01-14)
+
+### Features
+
+- support copying log file url ([bf972ad](https://github.com/aijun-li/mockya/commit/bf972ad59d40dfb1fcfb8d17788bb2a9a689e35b))
+
 ## [0.1.7-alpha.3](https://github.com/aijun-li/mockya/compare/v0.1.7-alpha.2...v0.1.7-alpha.3) (2024-01-14)
 
 ### Bug Fixes
