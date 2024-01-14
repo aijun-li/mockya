@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.1.7](https://github.com/aijun-li/mockya/compare/v0.1.7-alpha.6...v0.1.7) (2024-01-14)
+
+### Features
+
+- optimize event tracking ([5ddb19b](https://github.com/aijun-li/mockya/commit/5ddb19b483d9a267ddded6a5222581bc41e62294))
+
 ## [0.1.7-alpha.6](https://github.com/aijun-li/mockya/compare/v0.1.7-alpha.5...v0.1.7-alpha.6) (2024-01-14)
 
 ### Bug Fixes
