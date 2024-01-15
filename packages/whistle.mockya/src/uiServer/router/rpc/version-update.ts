@@ -81,17 +81,17 @@ export default router({
         .map((line) => line.trim())
         .filter(Boolean)
         .some((line) => {
-          if (line.startsWith(`## [${latestVersion}]`)) {
+          if (line.startsWith('#') && line.includes(`[${latestVersion}]`)) {
             findState.active = true;
             return false;
           } else if (!findState.active) {
             return false;
-          } else if (line.startsWith(`## [${currentVersion}]`)) {
+          } else if (line.startsWith('#') && line.includes(`[${currentVersion}]`)) {
             return true;
-          } else if (line.startsWith('### Bug Fixes')) {
+          } else if (line.startsWith('#') && line.includes('Bug Fixes')) {
             findState.inFeatureBlock = false;
             findState.inFixBlock = true;
-          } else if (line.startsWith('### Features')) {
+          } else if (line.startsWith('#') && line.includes('Features')) {
             findState.inFeatureBlock = true;
             findState.inFixBlock = false;
           } else {
