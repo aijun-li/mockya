@@ -2,15 +2,15 @@
 import { IconButton } from '@/components';
 import { LocalStorageKey } from '@/const';
 import { Tooltip } from '@/daisy';
+import { CodeFormatMessage } from '@/types';
+import { handleError, workerApi } from '@/utils';
 import { EditorView, keymap } from '@codemirror/view';
 import { AlignTextLeft, ParagraphBreak } from '@icon-park/vue-next';
 import { useLocalStorage } from '@vueuse/core';
-import * as prettier from 'prettier';
-import babelPlugin from 'prettier/plugins/babel';
-import estreePlugin from 'prettier/plugins/estree';
-import { computed, nextTick, shallowRef } from 'vue';
+import { computed, nextTick, onUnmounted, shallowRef } from 'vue';
 import { Codemirror } from 'vue-codemirror';
 import { defaultExtensions } from './config';
+import formatWorkerScript from './format-worker?worker&url';
 
 defineExpose({
   format,
@@ -81,27 +81,35 @@ function getCursorPosition() {
   return ranges?.[0].anchor ?? 0;
 }
 
+const { postMessage: workerFormat, terminate: terminateWorker } = workerApi<CodeFormatMessage>(formatWorkerScript);
+
+onUnmounted(() => {
+  terminateWorker();
+});
+
 async function format() {
-  const result = await prettier.formatWithCursor(props.modelValue, {
-    cursorOffset: getCursorPosition(),
-    parser: 'json5',
-    plugins: [babelPlugin, estreePlugin],
-    singleQuote: true,
-  });
-
-  emit('update:modelValue', result.formatted);
-  emit('change', result.formatted);
-
-  nextTick(() => {
-    const newOffset = Math.max(0, result.cursorOffset);
-    cmView.value?.dispatch({
-      selection: {
-        anchor: newOffset,
-        head: newOffset,
-      },
+  try {
+    const result = await workerFormat({
+      code: props.modelValue,
+      cursorOffset: getCursorPosition(),
     });
-    cmView.value?.focus();
-  });
+
+    emit('update:modelValue', result.code);
+    emit('change', result.code);
+
+    nextTick(() => {
+      const newOffset = Math.max(0, result.cursorOffset);
+      cmView.value?.dispatch({
+        selection: {
+          anchor: newOffset,
+          head: newOffset,
+        },
+      });
+      cmView.value?.focus();
+    });
+  } catch (error) {
+    handleError(error);
+  }
 }
 
 function toggleLineWrap() {

@@ -81,7 +81,7 @@ function closeToast() {
           <div class="h-5 flex-center flex-none">
             <Component :is="Icon" />
           </div>
-          <div class="ml-1 text-sm whitespace-normal break-all">{{ content }}</div>
+          <div class="ml-1 text-sm whitespace-pre-wrap break-all">{{ content }}</div>
         </div>
       </div>
     </div>
