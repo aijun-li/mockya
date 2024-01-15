@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.2.2-alpha.0](https://github.com/aijun-li/mockya/compare/v0.2.1...v0.2.2-alpha.0) (2024-01-15)
+
+### Bug Fixes
+
+- solve parsing changelog issue ([172acaa](https://github.com/aijun-li/mockya/commit/172acaa4d28be725ac9e6764490d7fdac7c40da2))
+
 ## [0.2.1](https://github.com/aijun-li/mockya/compare/v0.2.0...v0.2.1) (2024-01-15)
 
 ### Bug Fixes
