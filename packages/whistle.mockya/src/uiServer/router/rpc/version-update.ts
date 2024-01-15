@@ -3,6 +3,7 @@ import { procedure, router } from '@/tools/trpc';
 import { pluginInstaller } from '@/utils';
 import axios from 'axios';
 import { exec } from 'child_process';
+import { compareVersions } from 'compare-versions';
 import path from 'path';
 import { promisify } from 'util';
 import { z } from 'zod';
@@ -29,9 +30,12 @@ async function getVersionInfo(mockVersion?: string) {
 
   const currentVersion = mockVersion ?? (require('../../../../package.json').version as string);
 
+  const canUpdate = compareVersions(latestVersion, currentVersion) === 1;
+
   return {
     currentVersion,
     latestVersion,
+    canUpdate,
   };
 }
 
@@ -45,9 +49,9 @@ export default router({
         .optional(),
     )
     .query(async ({ input }) => {
-      const { currentVersion, latestVersion } = await getVersionInfo(input?.currentVersion);
+      const { currentVersion, latestVersion, canUpdate } = await getVersionInfo(input?.currentVersion);
 
-      if (latestVersion === currentVersion) {
+      if (!canUpdate) {
         return {
           hasUpdates: false,
           changelog: {
@@ -119,12 +123,12 @@ export default router({
     }),
 
   updateVersion: procedure.mutation(async () => {
-    const { currentVersion, latestVersion } = await getVersionInfo();
+    const { currentVersion, latestVersion, canUpdate } = await getVersionInfo();
 
     logger.debug(`Install Directory: ${path.resolve(__dirname, '../../../..')}`);
     logger.debug(`Plugin Installer: ${pluginInstaller}`);
 
-    if (currentVersion === latestVersion) {
+    if (!canUpdate) {
       return false;
     }
 

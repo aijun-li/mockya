@@ -60,6 +60,7 @@
     "@prisma/client": "^5.8.0",
     "@trpc/server": "^10.40.0",
     "axios": "^1.6.5",
+    "compare-versions": "^6.1.0",
     "json5": "^2.2.3",
     "koa": "^2.14.2",
     "koa-bodyparser": "^4.2.1",
