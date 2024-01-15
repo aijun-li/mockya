@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.2.0](https://github.com/aijun-li/mockya/compare/v0.1.7...v0.2.0) (2024-01-15)
+
+**Note:** Version bump only for package whistle.mockya
+
 ## [0.1.7](https://github.com/aijun-li/mockya/compare/v0.1.7-alpha.6...v0.1.7) (2024-01-14)
 
 ### Features
