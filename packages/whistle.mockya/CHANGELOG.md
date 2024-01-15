@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.2.1](https://github.com/aijun-li/mockya/compare/v0.2.0...v0.2.1) (2024-01-15)
+
+### Bug Fixes
+
+- compare app versions correctly ([0a961be](https://github.com/aijun-li/mockya/commit/0a961beb3288a6c2af208a9135031b191f081cfe))
+
+### Features
+
+- improve code formatting performance ([c4452bd](https://github.com/aijun-li/mockya/commit/c4452bd4c7589dabfafcad67202b91eb0b36f1ca))
+
 # [0.2.0](https://github.com/aijun-li/mockya/compare/v0.1.7...v0.2.0) (2024-01-15)
 
 **Note:** Version bump only for package whistle.mockya
