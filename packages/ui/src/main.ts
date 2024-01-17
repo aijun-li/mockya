@@ -8,8 +8,11 @@ import App from './App.vue';
 import './antd.scss';
 import { router } from './router';
 import './style.css';
+import { initWebSocket } from './ws';
 
 registerSW({ immediate: true });
+
+initWebSocket();
 
 dayjs.extend(relativeTime);
 

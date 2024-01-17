@@ -1,5 +1,7 @@
 import db from '@/db';
+import { IntStatKey } from '@/shared/types';
 import { procedure, router } from '@/tools/trpc';
+import { broadcastStatsChange } from '@/ws/broadcast';
 
 import { z } from 'zod';
 
@@ -26,6 +28,10 @@ export default router({
       mockId: defaultMock.id,
     });
     await db.matcherCondition.create(matcher.id);
+
+    await db.stat.updateBy(IntStatKey.CreatedMatchers, 1);
+    broadcastStatsChange();
+
     const data = await db.matcher.getFull(matcher.id);
     return data;
   }),

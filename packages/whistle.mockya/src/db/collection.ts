@@ -23,6 +23,13 @@ const fullIncludeConfig = {
 };
 
 export default {
+  checkExist: async (id: string) => {
+    const extant = await prisma.collection.findUnique({
+      where: { id },
+    });
+    return Boolean(extant);
+  },
+
   get: (id: string) => {
     return prisma.collection.findUniqueOrThrow({
       where: {

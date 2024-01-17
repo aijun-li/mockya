@@ -1,9 +1,12 @@
 import JSON5 from 'json5';
 import Mock from 'mockjs';
+import sizeof from 'object-sizeof';
 import winston from 'winston';
 import db from './db';
 import baseLogger from './logger';
+import { IntStatKey } from './shared/types';
 import { JSONValue, MatchCandidate, OriginalReq } from './types';
+import { broadcastStatsChange } from './ws/broadcast';
 
 function sleep(time: number) {
   return new Promise<void>((resolve) => {
@@ -217,6 +220,12 @@ export default (server: Whistle.PluginServer, options: Whistle.PluginOptions) =>
       res.end(JSON.stringify(returnData));
       logger.info(`match: ${collection?.id}/${returnCandidate?.ruleId}/${returnCandidate?.matcherId}`);
       logger.info('mock: true');
+
+      await Promise.all([
+        db.stat.updateBy(IntStatKey.MockTimes, 1),
+        db.stat.updateBy(IntStatKey.MockDataSize, sizeof(returnData)),
+      ]);
+      broadcastStatsChange();
     } else {
       req.passThrough();
       logger.info('mock: false');

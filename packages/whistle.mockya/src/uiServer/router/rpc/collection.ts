@@ -1,5 +1,7 @@
 import db from '@/db';
+import { IntStatKey } from '@/shared/types';
 import { procedure, router } from '@/tools/trpc';
+import { broadcastStatsChange } from '@/ws/broadcast';
 import { z } from 'zod';
 
 export default router({
@@ -32,7 +34,15 @@ export default router({
     )
     .mutation(async ({ input }) => {
       const { id, name } = input;
+
+      const exist = await db.collection.checkExist(id);
       const data = await db.collection.upsert({ id, name });
+
+      if (!exist) {
+        await db.stat.updateBy(IntStatKey.CreatedCollections, 1);
+        broadcastStatsChange();
+      }
+
       return data;
     }),
 

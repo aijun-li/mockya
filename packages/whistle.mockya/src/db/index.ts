@@ -5,6 +5,7 @@ import mock from './mock';
 import mockHeader from './mock-header';
 import rule from './rule';
 import ruleCondition from './rule-condition';
+import stat from './stat';
 
 export default {
   collection,
@@ -14,4 +15,6 @@ export default {
   mockHeader,
   matcher,
   matcherCondition,
+
+  stat,
 };

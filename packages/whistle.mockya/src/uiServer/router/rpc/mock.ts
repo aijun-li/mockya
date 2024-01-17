@@ -1,5 +1,7 @@
 import db from '@/db';
+import { IntStatKey } from '@/shared/types';
 import { procedure, router } from '@/tools/trpc';
+import { broadcastStatsChange } from '@/ws/broadcast';
 import { z } from 'zod';
 
 export default router({
@@ -28,6 +30,10 @@ export default router({
     .mutation(async ({ input }) => {
       const { name, ruleId } = input;
       const data = await db.mock.create({ name, ruleId });
+
+      await db.stat.updateBy(IntStatKey.CreatedMockData, 1);
+      broadcastStatsChange();
+
       return data;
     }),
 

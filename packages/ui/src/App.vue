@@ -5,11 +5,14 @@ import { onMounted } from 'vue';
 import { RouterView } from 'vue-router';
 import { SideBar, VersionUpdateModal } from './components';
 import { LocalStorageKey } from './const';
-import { useVersionStore } from './store';
+import { useStatsStore, useVersionStore } from './store';
 
 const isPWA = useMediaQuery('(display-mode: fullscreen), (display-mode: standalone)');
 
 const { checkForUpdates } = useVersionStore();
+
+const { fetchStats } = useStatsStore();
+fetchStats();
 
 onMounted(() => {
   const storedTime = localStorage.getItem(LocalStorageKey.VersionUpdateShowTime);
