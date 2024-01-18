@@ -6,7 +6,7 @@ import db from './db';
 import baseLogger from './logger';
 import { IntStatKey } from './shared/types';
 import { JSONValue, MatchCandidate, OriginalReq } from './types';
-import { broadcastStatsChange } from './ws/broadcast';
+import { broadcastStatsChange, broadcastTrafficChange } from './ws/broadcast';
 
 function sleep(time: number) {
   return new Promise<void>((resolve) => {
@@ -59,6 +59,30 @@ function validateJSON5(code: string): JSONValue | undefined {
   } catch (error) {
     return undefined;
   }
+}
+
+function getReqTime(req: Whistle.PluginServerRequest) {
+  return new Promise<number>((resolve) => {
+    req.getReqSession((session) => {
+      if (typeof session === 'string') {
+        resolve(0);
+      } else {
+        resolve(session.requestTime);
+      }
+    });
+  });
+}
+
+function getRespBody(req: Whistle.PluginServerRequest) {
+  return new Promise<string | undefined>((resolve) => {
+    req.getSession((result) => {
+      if (typeof result === 'string' || !result.res.body) {
+        resolve(undefined);
+      } else {
+        resolve(result.res.body);
+      }
+    });
+  });
 }
 
 async function getBodyEntries(req: Whistle.PluginServerRequest) {
@@ -127,6 +151,8 @@ export default (server: Whistle.PluginServer, options: Whistle.PluginOptions) =>
     } else {
       logger.info(`collection: none`);
     }
+
+    const reqTime = await getReqTime(req);
 
     const url = new URL(req.originalReq.url);
     const path = url.pathname.trim();
@@ -211,15 +237,44 @@ export default (server: Whistle.PluginServer, options: Whistle.PluginOptions) =>
     const returnData = returnCandidate?.body;
     const delay = returnCandidate?.delay;
 
+    const baseTrafficItem = {
+      id: oReq.id,
+      url: oReq.url,
+      path,
+      queryEntries,
+      bodyEntries,
+      time: reqTime,
+    };
+
     if (returnData !== undefined) {
+      const broadcastData = {
+        ...baseTrafficItem,
+        match: true,
+        matchData: {
+          collectionId: collection!.id,
+          collectionName: collection!.name,
+          ruleId: returnCandidate!.ruleId,
+          delay: delay ?? 0,
+        },
+      };
       if (delay) {
+        broadcastTrafficChange(broadcastData);
         await sleep(delay * 1000);
       }
+
+      const finalData = JSON.stringify(returnData);
+
       res.setHeader('mockya', '1');
       res.setHeader('Content-Type', 'application/json; charset=UTF-8');
-      res.end(JSON.stringify(returnData));
+      res.end(finalData);
       logger.info(`match: ${collection?.id}/${returnCandidate?.ruleId}/${returnCandidate?.matcherId}`);
       logger.info('mock: true');
+
+      broadcastTrafficChange({
+        ...broadcastData,
+        complete: true,
+        resp: finalData,
+      });
 
       await Promise.all([
         db.stat.updateBy(IntStatKey.MockTimes, 1),
@@ -227,6 +282,20 @@ export default (server: Whistle.PluginServer, options: Whistle.PluginOptions) =>
       ]);
       broadcastStatsChange();
     } else {
+      const broadcastData = {
+        ...baseTrafficItem,
+        match: false,
+      };
+      broadcastTrafficChange(broadcastData);
+
+      getRespBody(req).then((resp) => {
+        broadcastTrafficChange({
+          ...broadcastData,
+          complete: true,
+          resp,
+        });
+      });
+
       req.passThrough();
       logger.info('mock: false');
     }

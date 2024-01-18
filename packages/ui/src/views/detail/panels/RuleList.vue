@@ -58,9 +58,9 @@ async function onUpdateRule(id: number, name: string, exitEdit: () => void) {
       id,
       name: newName,
     });
-
-    exitEdit();
   }
+
+  exitEdit();
 }
 </script>
 

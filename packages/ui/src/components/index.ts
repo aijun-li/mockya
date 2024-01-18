@@ -9,4 +9,6 @@ export { default as MockDropdownList } from './MockDropdownList.vue';
 export { default as MockListItem } from './MockListItem.vue';
 export { default as RuleItem } from './RuleItem.vue';
 export { default as SideBar } from './SideBar.vue';
+export { default as TrafficItemDetail } from './TrafficItemDetail.vue';
+export { default as TrafficListItem } from './TrafficListItem.vue';
 export { default as VersionUpdateModal } from './VersionUpdateModal.vue';

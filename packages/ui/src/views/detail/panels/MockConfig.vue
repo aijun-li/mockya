@@ -91,7 +91,7 @@ function onCreateClick() {
       </div>
     </template>
     <template #default>
-      <div class="p-4 flex flex-col h-full">
+      <div class="p-4 flex flex-col h-full w-full">
         <div class="mb-1 flex items-center">
           <MockDropdownList v-model="selectedMockId" @delete="onDeleteMock" @update="onUpdateMock" />
         </div>
