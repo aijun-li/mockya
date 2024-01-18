@@ -4,3 +4,4 @@ export * from './rule-config';
 export * from './rule-list';
 export * from './stats';
 export * from './version';
+export * from './traffic';

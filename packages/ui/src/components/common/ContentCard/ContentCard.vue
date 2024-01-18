@@ -15,7 +15,7 @@ const slots = defineSlots<Slots>();
     <div class="border-b border-base-300 text-xs font-semibold leading-6">
       <slot name="header" />
     </div>
-    <div class="flex-1 min-h-0">
+    <div class="flex-1 min-h-0 flex">
       <slot />
     </div>
   </div>

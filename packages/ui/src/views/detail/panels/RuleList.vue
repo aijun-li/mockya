@@ -5,7 +5,8 @@ import { useRuleListStore } from '@/store';
 import { BaseRule } from '@/types';
 import { track } from '@/utils/track';
 import { FileAddition, HandUp } from '@icon-park/vue-next';
-import { nextTick, ref } from 'vue';
+import { nextTick, ref, watchEffect } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
 
 const emptyRule = {
   name: 'new rule',
@@ -13,9 +14,27 @@ const emptyRule = {
 
 const { rules, createRule, updateRule, deleteRule, selectedRuleId, loading } = useRuleListStore();
 
+const route = useRoute();
+const router = useRouter();
+
 const createActive = ref(false);
 
 const createRuleRef = ref<InstanceType<typeof RuleItem> | null>(null);
+
+watchEffect(() => {
+  if (rules.value.length && route.query.ruleId) {
+    const target = rules.value.find((rule) => rule.id === Number(route.query.ruleId));
+    if (target) {
+      selectedRuleId.value = target.id;
+    }
+    router.replace({
+      query: {
+        ...route.query,
+        ruleId: undefined,
+      },
+    });
+  }
+});
 
 function onCreateBtnClick() {
   if (!createActive.value) {
@@ -58,9 +77,9 @@ async function onUpdateRule(id: number, name: string, exitEdit: () => void) {
       id,
       name: newName,
     });
-
-    exitEdit();
   }
+
+  exitEdit();
 }
 </script>
 

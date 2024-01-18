@@ -12,4 +12,26 @@ export enum IntStatKey {
 
 export enum SocketEventName {
   StatsUpdate = 'stats-update',
+  TrafficUpdate = 'traffic-update',
+}
+
+export interface TrafficItem {
+  id: string;
+  complete?: boolean;
+  url: string;
+  path: string;
+  queryEntries: string[][];
+  bodyEntries: string[][];
+  time: number;
+  resp?: any;
+  match: boolean;
+  matchData?: {
+    delay: number;
+    collectionId: string;
+    collectionName: string;
+    ruleId: number;
+    ruleName: string;
+    mockId: number;
+    mockName: string;
+  };
 }

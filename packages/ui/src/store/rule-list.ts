@@ -11,7 +11,7 @@ export const useRuleListStore = withRefs(
 
     const selectedRuleId = ref(0);
     const rules = ref<BaseRule[]>([]);
-    const loading = ref(false);
+    const loading = ref(true);
 
     watch(collectionId, async () => {
       rules.value = [];

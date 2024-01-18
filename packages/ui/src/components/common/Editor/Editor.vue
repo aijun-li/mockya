@@ -2,15 +2,14 @@
 import { IconButton } from '@/components';
 import { LocalStorageKey } from '@/const';
 import { Tooltip } from '@/daisy';
-import { CodeFormatMessage } from '@/types';
-import { handleError, workerApi } from '@/utils';
+import { useJsonFormat } from '@/hooks';
+import { handleError } from '@/utils';
 import { EditorView, keymap } from '@codemirror/view';
 import { AlignTextLeft, ParagraphBreak } from '@icon-park/vue-next';
 import { useLocalStorage } from '@vueuse/core';
-import { computed, nextTick, onUnmounted, shallowRef } from 'vue';
+import { computed, nextTick, shallowRef } from 'vue';
 import { Codemirror } from 'vue-codemirror';
 import { defaultExtensions } from './config';
-import formatWorkerScript from './format-worker?worker&url';
 
 defineExpose({
   format,
@@ -18,6 +17,8 @@ defineExpose({
 
 interface Props {
   modelValue: string;
+  readOnly?: boolean;
+  hideOperations?: boolean;
 }
 
 type Emits = {
@@ -81,15 +82,10 @@ function getCursorPosition() {
   return ranges?.[0].anchor ?? 0;
 }
 
-const { postMessage: workerFormat, terminate: terminateWorker } = workerApi<CodeFormatMessage>(formatWorkerScript);
-
-onUnmounted(() => {
-  terminateWorker();
-});
-
+const { formatJson } = useJsonFormat();
 async function format() {
   try {
-    const result = await workerFormat({
+    const result = await formatJson({
       code: props.modelValue,
       cursorOffset: getCursorPosition(),
     });
@@ -119,7 +115,7 @@ function toggleLineWrap() {
 
 <template>
   <div class="flex flex-col">
-    <div class="flex items-center justify-end">
+    <div v-if="!hideOperations" class="flex items-center justify-end">
       <Tooltip :content="`Line Wrap (${isMac ? '⇧ + ⌘ + Z' : 'Shift + Alt + Z'})`" position="left">
         <IconButton
           :class="{
@@ -141,6 +137,7 @@ function toggleLineWrap() {
       v-model="content"
       placeholder="Please enter your mock json data"
       :extensions="extensions"
+      :disabled="readOnly"
       @ready="cmView = $event.view"
     />
   </div>

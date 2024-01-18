@@ -7,7 +7,7 @@ import { SideBar, VersionUpdateModal } from './components';
 import { LocalStorageKey } from './const';
 import { Button, Loading } from './daisy';
 import { useHealthCheck } from './hooks';
-import { useStatsStore, useVersionStore } from './store';
+import { useStatsStore, useTrafficStore, useVersionStore } from './store';
 
 const isPWA = useMediaQuery('(display-mode: fullscreen), (display-mode: standalone)');
 
@@ -40,6 +40,9 @@ whenever(healthy, () => {
     checkForUpdates();
   }, 10 * 1000);
 });
+
+const { start } = useTrafficStore();
+start();
 </script>
 
 <template>

@@ -6,9 +6,13 @@ import { useRuleConfigStore } from '@/store';
 import { track } from '@/utils/track';
 import { FileAddition } from '@icon-park/vue-next';
 import { useDebounceFn, useEventBus } from '@vueuse/core';
-import { computed, ref, watch } from 'vue';
+import { computed, ref, watch, watchEffect } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
 
 const { selectedRule, deleteMock, updateMock } = useRuleConfigStore();
+
+const route = useRoute();
+const router = useRouter();
 
 const mockList = computed(() => selectedRule.value?.mocks ?? []);
 
@@ -36,6 +40,21 @@ watch(selectedMockId, () => {
 
 watch(defaultMockId, () => {
   selectedMockId.value = defaultMockId.value ?? 0;
+});
+
+watchEffect(() => {
+  if (mockList.value.length && route.query.mockId) {
+    const target = mockList.value.find((mock) => mock.id === Number(route.query.mockId));
+    if (target) {
+      selectedMockId.value = target.id;
+    }
+    router.replace({
+      query: {
+        ...route.query,
+        mockId: undefined,
+      },
+    });
+  }
 });
 
 const saveCode = useDebounceFn((params: { id: number; body: string }) => {
@@ -91,7 +110,7 @@ function onCreateClick() {
       </div>
     </template>
     <template #default>
-      <div class="p-4 flex flex-col h-full">
+      <div class="p-4 flex flex-col h-full w-full">
         <div class="mb-1 flex items-center">
           <MockDropdownList v-model="selectedMockId" @delete="onDeleteMock" @update="onUpdateMock" />
         </div>

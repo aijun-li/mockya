@@ -7,8 +7,14 @@ export type MatchCandidate = {
   pathLength: number;
   isDefault: number;
   createdAt: number;
+
   delay: number;
-  body: JSONValue;
+  collectionId: string;
+  collectionName: string;
   ruleId: number;
+  ruleName: string;
+  mockId: number;
+  mockName: string;
+  body: JSONValue;
   matcherId: number;
 };
