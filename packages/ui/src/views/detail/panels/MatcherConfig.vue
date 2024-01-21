@@ -49,7 +49,7 @@ function onCreateClick() {
       </div>
     </template>
     <template #default>
-      <div v-if="filteredMatcherList.length" class="p-4 text-sm overflow-auto h-full">
+      <div v-if="filteredMatcherList.length" class="p-4 text-sm overflow-auto h-full w-full">
         <template v-for="(matcher, index) in filteredMatcherList" :key="matcher.id">
           <div v-if="index !== 0" class="divider my-2" />
           <MatcherItem
@@ -62,7 +62,7 @@ function onCreateClick() {
           />
         </template>
       </div>
-      <div v-else class="p-4 text-lg h-full flex-center flex-col">
+      <div v-else class="p-4 text-lg h-full w-full flex-center flex-col">
         <HandUp class="mb-4" :size="36" />
         <span>Create One Matcher</span>
         <span class="text-xs text-center">add url-path/conditions to use FALLBACK matcher</span>
