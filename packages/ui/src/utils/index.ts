@@ -1,3 +1,4 @@
+export * from './env';
 export * from './error';
 export * from './pinia';
 export * from './worker';

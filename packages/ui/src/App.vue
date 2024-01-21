@@ -3,7 +3,7 @@ import { DizzyFace } from '@icon-park/vue-next';
 import { useMediaQuery, whenever } from '@vueuse/core';
 import dayjs from 'dayjs';
 import { RouterView } from 'vue-router';
-import { SideBar, VersionUpdateModal } from './components';
+import { CommandPalette, SideBar, VersionUpdateModal } from './components';
 import { LocalStorageKey } from './const';
 import { Button, Loading } from './daisy';
 import { useHealthCheck } from './hooks';
@@ -14,10 +14,12 @@ const isPWA = useMediaQuery('(display-mode: fullscreen), (display-mode: standalo
 const { checkForUpdates } = useVersionStore();
 const { fetchStats } = useStatsStore();
 const { healthy, healthChecked, healthCheckLoading, checkHealth } = useHealthCheck();
+const { start: startTraffic } = useTrafficStore();
 
 checkHealth();
 
 whenever(healthy, () => {
+  startTraffic();
   fetchStats();
 });
 
@@ -40,9 +42,6 @@ whenever(healthy, () => {
     checkForUpdates();
   }, 10 * 1000);
 });
-
-const { start } = useTrafficStore();
-start();
 </script>
 
 <template>
@@ -58,6 +57,8 @@ start();
     </div>
 
     <VersionUpdateModal />
+
+    <CommandPalette />
   </div>
 
   <div v-else-if="healthChecked" class="h-screen w-screen flex flex-col items-center text-center">

@@ -110,6 +110,9 @@ importers:
       vue-codemirror:
         specifier: ^6.1.1
         version: 6.1.1(codemirror@6.0.1)(vue@3.4.7)
+      vue-command-palette:
+        specifier: ^0.2.3
+        version: 0.2.3
       vue-router:
         specifier: ^4.2.5
         version: 4.2.5(vue@3.4.7)
@@ -6091,6 +6094,11 @@ packages:
     resolution: {integrity: sha512-xckBUXyTIqT97tq2x2AMb+g163b5JFysYk0x4qxNFwbfQkmNZoiRHb6sPzI9/QV33WeuvVYBUIiD4NzNIyqaRQ==}
     dev: true
 
+  /fuse.js@6.6.2:
+    resolution: {integrity: sha512-cJaJkxCCxC8qIIcPBF9yGxY0W/tVZS3uEISDxhYIdtk8OL93pe+6Zj7LjCqVV4dzbqcriOZ+kQ/NE4RXZHsIGA==}
+    engines: {node: '>=10'}
+    dev: false
+
   /gauge@4.0.4:
     resolution: {integrity: sha512-f9m+BEN5jkg6a0fZjleidjN51VE1X+mPFQ2DJ0uv1V39oCLCbsGe6yjbBnp7eK7z/+GAon99a3nHuqbuuthyPg==}
     engines: {node: ^12.13.0 || ^14.15.0 || >=16.0.0}
@@ -7979,6 +7987,10 @@ packages:
       minipass: 3.3.6
       yallist: 4.0.0
 
+  /mitt@3.0.1:
+    resolution: {integrity: sha512-vKivATfr97l2/QBCYAkXYDbrIWPM2IIKEl7YPhjCvKlG3kE2gm+uBo6nEXK3M5/Ffh/FLpKExzOQ3JJoJGFKBw==}
+    dev: false
+
   /mkdirp@1.0.4:
     resolution: {integrity: sha512-vVqVZQyf3WLx2Shd0qJ9xuvqgAyKPLAiqITEtqW0oIUjzo3PePDd6fW9iFz30ef7Ysp/oiWqbhszeGWW2T6Gzw==}
     engines: {node: '>=10'}
@@ -8071,6 +8083,12 @@ packages:
     resolution: {integrity: sha512-eSRppjcPIatRIMC1U6UngP8XFcz8MQWGQdt1MTBQ7NaAmvXDfvNxbvWV3x2y6CdEUciCSsDHDQZbhYaB8QEo2g==}
     engines: {node: ^10 || ^12 || ^13.7 || ^14 || >=15.0.1}
     hasBin: true
+
+  /nanoid@4.0.2:
+    resolution: {integrity: sha512-7ZtY5KTCNheRGfEFxnedV5zFiORN1+Y1N6zvPTnHQd8ENUvfaDBeuJDZb2bN/oXwXxu3qkTXDzy57W5vAmDTBw==}
+    engines: {node: ^14 || ^16 || >=18}
+    hasBin: true
+    dev: false
 
   /nanopop@2.3.0:
     resolution: {integrity: sha512-fzN+T2K7/Ah25XU02MJkPZ5q4Tj5FpjmIYq4rvoHX4yb16HzFdCO6JxFFn5Y/oBhQ8no8fUZavnyIv9/+xkBBw==}
@@ -10916,6 +10934,14 @@ packages:
       '@codemirror/view': 6.21.2
       codemirror: 6.0.1(@lezer/common@1.2.0)
       vue: 3.4.7(typescript@5.2.2)
+    dev: false
+
+  /vue-command-palette@0.2.3:
+    resolution: {integrity: sha512-5ibmwN0BPscAhPPZLDD5KbbxfuNgdR9E/tkjGnw3JDwMGkL1dBcCqVC3rGrcWgK4QanLq6/Xh0a/RtdsZyU+Hg==}
+    dependencies:
+      fuse.js: 6.6.2
+      mitt: 3.0.1
+      nanoid: 4.0.2
     dev: false
 
   /vue-demi@0.14.6(vue@3.4.7):

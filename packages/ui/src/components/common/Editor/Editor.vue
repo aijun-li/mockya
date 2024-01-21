@@ -3,7 +3,7 @@ import { IconButton } from '@/components';
 import { LocalStorageKey } from '@/const';
 import { Tooltip } from '@/daisy';
 import { useJsonFormat } from '@/hooks';
-import { handleError } from '@/utils';
+import { handleError, isMac } from '@/utils';
 import { EditorView, keymap } from '@codemirror/view';
 import { AlignTextLeft, ParagraphBreak } from '@icon-park/vue-next';
 import { useLocalStorage } from '@vueuse/core';
@@ -43,8 +43,6 @@ const content = computed({
 });
 
 const wrapLine = useLocalStorage(LocalStorageKey.EditorLineWrap, false);
-
-const isMac = navigator.platform.toLowerCase().includes('mac');
 
 const keyMap = keymap.of([
   {

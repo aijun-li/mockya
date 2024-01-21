@@ -1,10 +1,14 @@
 <script lang="ts" setup>
-import { Button, Tooltip, toast } from '@/daisy';
+import { Button, Tooltip } from '@/daisy';
+import { useCommandPaletteStore } from '@/store';
+import { isMac } from '@/utils';
 import { Analysis, Home, MonitorOne, Search, Setting } from '@icon-park/vue-next';
 import { useMediaQuery } from '@vueuse/core';
 import { useRouter } from 'vue-router';
 
 const router = useRouter();
+
+const { visible: paletteVisible } = useCommandPaletteStore();
 
 const topConfigs = [
   {
@@ -16,9 +20,9 @@ const topConfigs = [
   },
   {
     icon: Search,
-    tip: 'Search',
+    tip: isMac ? 'Search (Cmd+K)' : 'Search (Ctrl+K)',
     handler: () => {
-      toast.warning('Not Implemented 嘿嘿');
+      paletteVisible.value = true;
     },
   },
 ];

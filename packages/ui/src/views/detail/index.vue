@@ -4,7 +4,7 @@ import { LocalStorageKey } from '@/const';
 import { Hero } from '@/daisy';
 import { useDetailStore, useRuleConfigStore, useRuleListStore } from '@/store';
 import { HandLeft } from '@icon-park/vue-next';
-import { onUnmounted } from 'vue';
+import { onUnmounted, watchEffect } from 'vue';
 import BasicConfigPanel from './panels/BasicConfig.vue';
 import MatcherConfigPanel from './panels/MatcherConfig.vue';
 import MockConfigPanel from './panels/MockConfig.vue';
@@ -28,7 +28,9 @@ onUnmounted(() => {
   rules.value = [];
 });
 
-setDetailCollectionId(props.id);
+watchEffect(() => {
+  setDetailCollectionId(props.id);
+});
 </script>
 
 <template>
