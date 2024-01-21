@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.3.0](https://github.com/aijun-li/mockya/compare/v0.2.2...v0.3.0) (2024-01-21)
+
+### Features
+
+- basic Command Palette ([286ebfe](https://github.com/aijun-li/mockya/commit/286ebfed61e845a45b13bb1714daae64dd5a158d))
+- network traffic visualization ([163f1a0](https://github.com/aijun-li/mockya/commit/163f1a08728dbf282312fb51340e9d06268ec237))
+- optimize server check ([4686ba5](https://github.com/aijun-li/mockya/commit/4686ba5a06879490c613f8493d6159cec7efabd5))
+
 ## [0.2.2](https://github.com/aijun-li/mockya/compare/v0.2.2-alpha.0...v0.2.2) (2024-01-17)
 
 ### Features
