@@ -27,6 +27,6 @@ export interface WorkerResponse<T> {
 }
 
 export interface CodeFormatMessage {
-  cursorOffset: number;
+  cursorOffset?: number;
   code: string;
 }

@@ -24,7 +24,7 @@ watch(
     if (props.item.resp !== undefined) {
       try {
         console.log('start format');
-        const result = await formatJson({ code: props.item.resp, cursorOffset: 0 });
+        const result = await formatJson({ code: props.item.resp });
         resp.value = result.code;
       } catch {
         resp.value = undefined;

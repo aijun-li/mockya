@@ -5,7 +5,9 @@ import estreePlugin from 'prettier/plugins/estree';
 
 self.addEventListener('message', async (event: MessageEvent<WorkerRequest<CodeFormatMessage>>) => {
   try {
-    const formattedCode = await formatCode(event.data.message);
+    const withCursor = Boolean(event.data.message.cursorOffset);
+    const format = withCursor ? formatCodeWithCursor : formatCode;
+    const formattedCode = await format(event.data.message);
 
     self.postMessage({
       id: event.data.id,
@@ -19,8 +21,8 @@ self.addEventListener('message', async (event: MessageEvent<WorkerRequest<CodeFo
   }
 });
 
-async function formatCode(data: CodeFormatMessage): Promise<CodeFormatMessage> {
-  const { code, cursorOffset } = data;
+async function formatCodeWithCursor(data: CodeFormatMessage): Promise<CodeFormatMessage> {
+  const { code, cursorOffset = 0 } = data;
 
   const result = await prettier.formatWithCursor(code, {
     cursorOffset,
@@ -32,5 +34,17 @@ async function formatCode(data: CodeFormatMessage): Promise<CodeFormatMessage> {
   return {
     code: result.formatted,
     cursorOffset: result.cursorOffset,
+  };
+}
+
+async function formatCode(data: CodeFormatMessage): Promise<CodeFormatMessage> {
+  const result = await prettier.format(data.code, {
+    parser: 'json5',
+    plugins: [babelPlugin, estreePlugin],
+    singleQuote: true,
+  });
+
+  return {
+    code: result,
   };
 }

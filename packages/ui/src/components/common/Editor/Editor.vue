@@ -83,16 +83,17 @@ function getCursorPosition() {
 const { formatJson } = useJsonFormat();
 async function format() {
   try {
+    const isLargeFile = props.modelValue.length > 10_000;
     const result = await formatJson({
       code: props.modelValue,
-      cursorOffset: getCursorPosition(),
+      cursorOffset: isLargeFile ? 0 : getCursorPosition(),
     });
 
     emit('update:modelValue', result.code);
     emit('change', result.code);
 
     nextTick(() => {
-      const newOffset = Math.max(0, result.cursorOffset);
+      const newOffset = Math.max(0, result.cursorOffset ?? 0);
       cmView.value?.dispatch({
         selection: {
           anchor: newOffset,
