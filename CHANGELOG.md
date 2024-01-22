@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.3.1-alpha.1](https://github.com/aijun-li/mockya/compare/v0.3.1-alpha.0...v0.3.1-alpha.1) (2024-01-22)
+
+### Bug Fixes
+
+- darwin-arm64 support ([8d27561](https://github.com/aijun-li/mockya/commit/8d27561d09402fc343140d1d636fe97e69d88424))
+
 ## [0.3.1-alpha.0](https://github.com/aijun-li/mockya/compare/v0.3.0...v0.3.1-alpha.0) (2024-01-21)
 
 ### Bug Fixes
