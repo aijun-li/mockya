@@ -3,6 +3,7 @@ import { Dot } from '@icon-park/vue-next';
 import dayjs from 'dayjs';
 import { computed } from 'vue';
 import { TrafficItem } from 'whistle.mockya/src/shared/types';
+import { Loading } from '@icon-park/vue-next';
 
 interface Props {
   item: TrafficItem;
