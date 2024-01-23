@@ -2,7 +2,7 @@
 import { useCollectionsStore, useCommandPaletteStore, useRuleConfigStore, useRuleListStore } from '@/store';
 import { isMac } from '@/utils';
 import { Analysis, CodeBrackets, FileCode, Home, MonitorOne, NotebookOne, Setting } from '@icon-park/vue-next';
-import { onClickOutside, useMagicKeys, whenever } from '@vueuse/core';
+import { onClickOutside, onKeyDown } from '@vueuse/core';
 import { computed, ref } from 'vue';
 import { Command } from 'vue-command-palette';
 import { useRouter } from 'vue-router';
@@ -26,22 +26,21 @@ onClickOutside(dialogEl, (event) => {
   }
 });
 
-const keys = useMagicKeys({
-  passive: false,
-  onEventFired: (e) => {
-    if ((isMac && e.metaKey && e.code === 'KeyK') || (!isMac && e.ctrlKey && e.code === 'KeyK')) {
+onKeyDown(
+  'k',
+  (e) => {
+    if ((isMac && e.metaKey) || (!isMac && e.ctrlKey)) {
       e.preventDefault();
+      visible.value = !visible.value;
     }
   },
-});
-const keyCmdK = isMac ? keys['Cmd+K'] : keys['Ctrl+K'];
-const keyEsc = keys['Escape'];
+  { dedupe: true },
+);
 
-whenever(keyCmdK, () => {
-  visible.value = !visible.value;
-});
-whenever(keyEsc, () => {
-  visible.value = false;
+onKeyDown('Escape', () => {
+  if (visible.value) {
+    visible.value = false;
+  }
 });
 
 const pagesConfig = [
