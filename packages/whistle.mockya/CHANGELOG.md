@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.3.2](https://github.com/aijun-li/mockya/compare/v0.3.1...v0.3.2) (2024-01-23)
+
+### Bug Fixes
+
+- optimize Command+K on MacOS ([f40568f](https://github.com/aijun-li/mockya/commit/f40568fce21d69116aa72809a7cf78e6b4915c67))
+
 ## [0.3.1](https://github.com/aijun-li/mockya/compare/v0.3.1-alpha.1...v0.3.1) (2024-01-22)
 
 **Note:** Version bump only for package whistle.mockya
