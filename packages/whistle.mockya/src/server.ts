@@ -7,6 +7,7 @@ import baseLogger from './logger';
 import { IntStatKey } from './shared/types';
 import { JSONValue, MatchCandidate, OriginalReq } from './types';
 import { broadcastStatsChange, broadcastTrafficChange } from './ws/broadcast';
+import { getNodeVersion, getWhistleVersion } from './utils';
 
 function sleep(time: number) {
   return new Promise<void>((resolve) => {
@@ -133,7 +134,13 @@ function matchCandidateCompareFn(a: MatchCandidate, b: MatchCandidate) {
 }
 
 export default (server: Whistle.PluginServer, options: Whistle.PluginOptions) => {
-  baseLogger.debug(`Node Version: ${process.version}`);
+  baseLogger.debug(`Node Version: ${getNodeVersion()}`);
+  baseLogger.debug(`Whistle Version: ${getWhistleVersion()}`);
+
+  process.on('pforkError', (info) => {
+    console.error(info);
+    baseLogger.error(JSON.stringify(info, null, 2));
+  });
 
   // handle http request
   server.on('request', async (req: Whistle.PluginServerRequest, res: Whistle.PluginServerResponse) => {
