@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.3.3-alpha.2](https://github.com/aijun-li/mockya/compare/v0.3.3-alpha.1...v0.3.3-alpha.2) (2024-02-01)
+
+### Bug Fixes
+
+- change prisma engine type ([44d9a00](https://github.com/aijun-li/mockya/commit/44d9a006e3d55cc7eebb45c2d7738e325a41b7c6))
+
 ## [0.3.3-alpha.1](https://github.com/aijun-li/mockya/compare/v0.3.3-alpha.0...v0.3.3-alpha.1) (2024-02-01)
 
 ### Features
