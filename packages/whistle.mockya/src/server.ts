@@ -133,6 +133,8 @@ function matchCandidateCompareFn(a: MatchCandidate, b: MatchCandidate) {
 }
 
 export default (server: Whistle.PluginServer, options: Whistle.PluginOptions) => {
+  baseLogger.debug(`Node Version: ${process.version}`);
+
   // handle http request
   server.on('request', async (req: Whistle.PluginServerRequest, res: Whistle.PluginServerResponse) => {
     const oReq = req.originalReq;
@@ -141,16 +143,8 @@ export default (server: Whistle.PluginServer, options: Whistle.PluginOptions) =>
       reqId: oReq.id,
     });
 
-    logger.info(`url: ${oReq.url}`);
-
     const collection = await getTargetCollection(oReq, logger);
     const rules = collection?.rules ?? [];
-
-    if (collection) {
-      logger.info(`collection: ${collection.name} (#${collection.id})`);
-    } else {
-      logger.info(`collection: none`);
-    }
 
     const reqTime = await getReqTime(req);
 
@@ -160,9 +154,6 @@ export default (server: Whistle.PluginServer, options: Whistle.PluginOptions) =>
     const queryEntries = Array.from(url.searchParams.entries());
     const bodyEntries = await getBodyEntries(req);
     const fullEntries = [...queryEntries, ...bodyEntries];
-
-    logger.info(`query: ${JSON.stringify(queryEntries)}`);
-    logger.info(`body: ${JSON.stringify(bodyEntries)}`);
 
     const availableRules = rules.filter(
       (rule) =>
@@ -282,8 +273,6 @@ export default (server: Whistle.PluginServer, options: Whistle.PluginOptions) =>
       res.setHeader('mockya', '1');
       res.setHeader('Content-Type', 'application/json; charset=UTF-8');
       res.end(finalData);
-      logger.info(`match: ${collection?.id}/${returnCandidate?.ruleId}/${returnCandidate?.matcherId}`);
-      logger.info('mock: true');
 
       broadcastTrafficChange({
         ...broadcastData,
@@ -312,7 +301,6 @@ export default (server: Whistle.PluginServer, options: Whistle.PluginOptions) =>
       });
 
       req.passThrough();
-      logger.info('mock: false');
     }
   });
 
