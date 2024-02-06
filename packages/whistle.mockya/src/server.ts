@@ -8,6 +8,7 @@ import { IntStatKey } from './shared/types';
 import { JSONValue, MatchCandidate, OriginalReq } from './types';
 import { broadcastStatsChange, broadcastTrafficChange } from './ws/broadcast';
 import { getNodeVersion, getWhistleVersion } from './utils';
+import { inspect } from 'util';
 
 function sleep(time: number) {
   return new Promise<void>((resolve) => {
@@ -137,9 +138,16 @@ export default (server: Whistle.PluginServer, options: Whistle.PluginOptions) =>
   baseLogger.debug(`Node Version: ${getNodeVersion()}`);
   baseLogger.debug(`Whistle Version: ${getWhistleVersion()}`);
 
-  process.on('pforkError', (info) => {
-    console.error(info);
-    baseLogger.error(JSON.stringify(info, null, 2));
+  process.on('error', (error) => {
+    baseLogger.error(inspect(error));
+  });
+
+  process.on('unhandledRejection', (error) => {
+    baseLogger.error(inspect(error));
+  });
+
+  process.on('uncaughtException', (error) => {
+    baseLogger.error(inspect(error));
   });
 
   // handle http request
