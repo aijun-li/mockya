@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.3.3-alpha.4](https://github.com/aijun-li/mockya/compare/v0.3.3-alpha.3...v0.3.3-alpha.4) (2024-02-06)
+
+### Features
+
+- optimize logging ([7de156a](https://github.com/aijun-li/mockya/commit/7de156a754225c7c4db0453bfeac2ab0fe9a9896))
+
 ## [0.3.3-alpha.3](https://github.com/aijun-li/mockya/compare/v0.3.3-alpha.2...v0.3.3-alpha.3) (2024-02-01)
 
 ### Bug Fixes
