@@ -1,4 +1,6 @@
+import logger from '@/logger';
 import prisma from '@/tools/prisma';
+import { inspect } from 'util';
 
 const fullIncludeConfig = {
   rules: {
@@ -72,8 +74,14 @@ export default {
     });
   },
 
-  getAll: () => {
-    return prisma.collection.findMany();
+  getAll: async () => {
+    try {
+      const res = await prisma.collection.findMany();
+      return res;
+    } catch (error) {
+      logger.error(inspect(error));
+      throw error;
+    }
   },
 
   getAllFull: () => {
