@@ -62,8 +62,8 @@ const keyMap = keymap.of([
     },
   },
   {
-    win: 'Shift-Alt-z',
-    mac: 'Shift-Cmd-z',
+    win: 'Shift-Alt-x',
+    mac: 'Shift-Cmd-x',
     run: () => {
       toggleLineWrap();
       return true;
@@ -115,7 +115,7 @@ function toggleLineWrap() {
 <template>
   <div class="flex flex-col">
     <div v-if="!hideOperations" class="flex items-center justify-end">
-      <Tooltip :content="`Line Wrap (${isMac ? '⇧ + ⌘ + Z' : 'Shift + Alt + Z'})`" position="left">
+      <Tooltip :content="`Line Wrap (${isMac ? '⇧ + ⌘ + X' : 'Shift + Alt + X'})`" position="left">
         <IconButton
           :class="{
             'text-success': wrapLine,
