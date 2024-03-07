@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.3.3](https://github.com/aijun-li/mockya/compare/v0.3.3-alpha.5...v0.3.3) (2024-03-07)
+
+### Features
+
+- optimize editor keymap ([64c3eab](https://github.com/aijun-li/mockya/commit/64c3eabd25df2effcde55bd72c15ff3280463fb3))
+- switch to library engine ([ffa35eb](https://github.com/aijun-li/mockya/commit/ffa35ebd2d257f9e5650dd2be98bf4884ed0fbe2))
+
 ## [0.3.3-alpha.5](https://github.com/aijun-li/mockya/compare/v0.3.3-alpha.4...v0.3.3-alpha.5) (2024-02-06)
 
 ### Features
