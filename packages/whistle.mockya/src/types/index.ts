@@ -15,6 +15,16 @@ export type MatchCandidate = {
   ruleName: string;
   mockId: number;
   mockName: string;
-  body: JSONValue;
+  body: string | (() => Promise<string>);
   matcherId: number;
+};
+
+export type ComposedReq = {
+  url: string;
+  method: string;
+  host: string;
+  path: string;
+  headers: Record<string, string>;
+  query: Record<string, string>;
+  body?: JSONValue;
 };

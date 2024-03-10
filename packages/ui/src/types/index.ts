@@ -1,3 +1,5 @@
+import { CodeLang } from '@shared/types';
+
 export * from './collection';
 export * from './matcher';
 export * from './mock';
@@ -29,4 +31,5 @@ export interface WorkerResponse<T> {
 export interface CodeFormatMessage {
   cursorOffset?: number;
   code: string;
+  lang?: CodeLang;
 }

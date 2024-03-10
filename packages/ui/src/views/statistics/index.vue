@@ -1,9 +1,9 @@
 <script lang="ts" setup>
 import { ContentCard } from '@/components';
 import { useStatsStore } from '@/store';
+import { IntStatKey } from '@shared/types';
 import numeral from 'numeral';
 import { computed } from 'vue';
-import { IntStatKey } from 'whistle.mockya/src/shared/types';
 
 const { stats } = useStatsStore();
 

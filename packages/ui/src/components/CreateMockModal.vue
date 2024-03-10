@@ -2,6 +2,7 @@
 import { FormInput } from '@/components';
 import { Button, Modal } from '@/daisy';
 import { useRuleConfigStore } from '@/store';
+import { CodeLang } from '@shared/types';
 import { whenever } from '@vueuse/core';
 import { computed, ref } from 'vue';
 
@@ -30,6 +31,7 @@ const visible = computed({
 });
 
 const name = ref('');
+const lang = ref(CodeLang.JSON);
 
 const nameInput = ref<InstanceType<typeof FormInput>>();
 
@@ -53,10 +55,14 @@ function validateName(name: string) {
 
 async function onCreate() {
   if (nameInput.value?.validate()) {
-    const data = await createMock(name.value);
+    const data = await createMock(name.value, lang.value);
     emit('created', data?.id);
     close();
   }
+}
+
+function onLangChange(e: Event) {
+  lang.value = (e.target as HTMLInputElement).value as CodeLang;
 }
 </script>
 
@@ -70,6 +76,36 @@ async function onCreate() {
         :validate-fn="validateName"
         @keydown.enter.prevent="onCreate"
       />
+
+      <div class="flex items-center">
+        <label class="label">
+          <span class="label-text font-semibold text-base">Language</span>
+        </label>
+        <div class="flex gap-8 ml-8">
+          <label class="flex items-center">
+            <input
+              class="radio radio-sm"
+              type="radio"
+              name="mock-lang"
+              :value="CodeLang.JSON"
+              :checked="lang === CodeLang.JSON"
+              @change="onLangChange"
+            />
+            <span class="label-text ml-2 cursor-pointer">JSON</span>
+          </label>
+          <label class="flex items-center">
+            <input
+              class="radio radio-sm"
+              type="radio"
+              name="mock-lang"
+              :value="CodeLang.JavaScript"
+              :checked="lang === CodeLang.JavaScript"
+              @change="onLangChange"
+            />
+            <span class="label-text ml-2 cursor-pointer">JavaScript</span>
+          </label>
+        </div>
+      </div>
     </template>
     <template #action>
       <Button type="ghost" @click="close">Cancel</Button>

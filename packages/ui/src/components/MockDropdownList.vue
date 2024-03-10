@@ -2,6 +2,7 @@
 import { Input } from '@/daisy';
 import { useRuleConfigStore } from '@/store';
 import { Down } from '@icon-park/vue-next';
+import { CodeLang } from '@shared/types';
 import { onClickOutside } from '@vueuse/core';
 import { computed, ref, watch } from 'vue';
 import MockListItem from './MockListItem.vue';
@@ -83,7 +84,16 @@ function onInputEsc() {
         class="flex items-center pl-3 pr-8 inset-0 absolute cursor-pointer text-sm"
         @click="active = true"
       >
-        <span class="min-w-0 truncate">{{ selectedMock?.name ?? '' }}</span>
+        <span class="min-w-0 truncate">{{ selectedMock.name ?? '' }}</span>
+        <span
+          class="ml-2 text-xs"
+          :class="{
+            'text-info': selectedMock.lang === CodeLang.JSON,
+            'text-warning': selectedMock.lang === CodeLang.JavaScript,
+          }"
+        >
+          {{ selectedMock.lang === CodeLang.JSON ? 'JSON' : 'JS' }}
+        </span>
       </div>
       <Input
         ref="inputRef"

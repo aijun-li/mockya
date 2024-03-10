@@ -61,6 +61,7 @@ export default defineConfig(({ command }) => ({
   },
   resolve: {
     alias: {
+      '@shared': path.resolve(__dirname, '../whistle.mockya/src/shared'),
       '@': path.resolve(__dirname, 'src'),
     },
   },

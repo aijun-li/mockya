@@ -3,6 +3,7 @@ import { Input } from '@/daisy';
 import { useConfirm } from '@/hooks';
 import { BaseMock } from '@/types';
 import { Check, Close, Delete, Edit } from '@icon-park/vue-next';
+import { CodeLang } from '@shared/types';
 import { whenever } from '@vueuse/core';
 import { computed, nextTick, ref } from 'vue';
 import { IconButton } from '.';
@@ -83,7 +84,16 @@ function onEditCancel() {
     @mouseleave="hovered = false"
   >
     <div v-if="!editActive" class="flex-1 min-w-0 truncate text-sm leading-6">
-      {{ mock.name }}
+      <span>{{ mock.name }}</span>
+      <span
+        class="ml-2 text-xs"
+        :class="{
+          'text-info': mock.lang === CodeLang.JSON,
+          'text-warning': mock.lang === CodeLang.JavaScript,
+        }"
+      >
+        {{ mock.lang === CodeLang.JSON ? 'JSON' : 'JS' }}
+      </span>
     </div>
     <Input
       v-else

@@ -35,3 +35,8 @@ export interface TrafficItem {
     mockName: string;
   };
 }
+
+export enum CodeLang {
+  JavaScript = 'javascript',
+  JSON = 'json',
+}

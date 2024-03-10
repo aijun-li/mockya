@@ -1,9 +1,8 @@
 <script lang="ts" setup>
-import { Dot } from '@icon-park/vue-next';
+import { Dot, Loading } from '@icon-park/vue-next';
+import { TrafficItem } from '@shared/types';
 import dayjs from 'dayjs';
 import { computed } from 'vue';
-import { TrafficItem } from 'whistle.mockya/src/shared/types';
-import { Loading } from '@icon-park/vue-next';
 
 interface Props {
   item: TrafficItem;

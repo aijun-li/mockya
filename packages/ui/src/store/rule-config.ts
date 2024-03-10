@@ -2,6 +2,7 @@ import { trpc } from '@/service';
 import { UpdateConditionParams } from '@/types';
 import { BaseRuleConfig, Rule } from '@/types/rule';
 import { handleError, withRefs } from '@/utils';
+import { CodeLang } from '@shared/types';
 import { defineStore } from 'pinia';
 import { computed, ref, watch } from 'vue';
 import { useRuleListStore } from '.';
@@ -67,10 +68,11 @@ export const useRuleConfigStore = withRefs(
       }
     }
 
-    async function createMock(name: string) {
+    async function createMock(name: string, lang: CodeLang) {
       try {
         const data = await trpc.createMock.mutate({
           name,
+          lang,
           ruleId: selectedRuleId.value,
         });
         await fetchRuleConfig();

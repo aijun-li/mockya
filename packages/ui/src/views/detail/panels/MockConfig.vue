@@ -5,6 +5,7 @@ import { Tooltip } from '@/daisy';
 import { useRuleConfigStore } from '@/store';
 import { track } from '@/utils/track';
 import { FileAddition } from '@icon-park/vue-next';
+import { CodeLang } from '@shared/types';
 import { useDebounceFn, useEventBus } from '@vueuse/core';
 import { computed, ref, watch, watchEffect } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
@@ -25,6 +26,7 @@ const selectedMockId = ref(defaultMockId.value ?? 0);
 const selectedMock = computed(() => mockList.value.find((mock) => mock.id === selectedMockId.value));
 
 const code = ref(selectedMock.value?.body ?? '');
+const lang = computed(() => (selectedMock.value?.lang as CodeLang) ?? CodeLang.JSON);
 
 const bus = useEventBus(GlobalEvents.ChangeSelectMock);
 
@@ -115,7 +117,7 @@ function onCreateClick() {
           <MockDropdownList v-model="selectedMockId" @delete="onDeleteMock" @update="onUpdateMock" />
         </div>
 
-        <Editor v-model="code" class="editor flex-1 min-h-0" @change="onCodeChange" />
+        <Editor v-model="code" class="editor flex-1 min-h-0" :lang="lang" @change="onCodeChange" />
       </div>
 
       <CreateMockModal v-model="createVisible" @created="onCreated" />

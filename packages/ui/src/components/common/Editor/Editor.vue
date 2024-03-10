@@ -2,14 +2,15 @@
 import { IconButton } from '@/components';
 import { LocalStorageKey } from '@/const';
 import { Tooltip } from '@/daisy';
-import { useJsonFormat } from '@/hooks';
+import { useCodeFormat } from '@/hooks';
 import { handleError, isMac } from '@/utils';
 import { EditorView, keymap } from '@codemirror/view';
 import { AlignTextLeft, ParagraphBreak } from '@icon-park/vue-next';
+import { CodeLang } from '@shared/types';
 import { useLocalStorage } from '@vueuse/core';
 import { computed, nextTick, shallowRef } from 'vue';
 import { Codemirror } from 'vue-codemirror';
-import { defaultExtensions } from './config';
+import { getDefaultExtensions } from './config';
 
 defineExpose({
   format,
@@ -17,6 +18,8 @@ defineExpose({
 
 interface Props {
   modelValue: string;
+  lang: CodeLang;
+  wrap?: boolean;
   readOnly?: boolean;
   hideOperations?: boolean;
 }
@@ -71,22 +74,27 @@ const keyMap = keymap.of([
   },
 ]);
 
-const extensions = computed(() =>
-  wrapLine.value ? [...defaultExtensions, keyMap, EditorView.lineWrapping] : [...defaultExtensions, keyMap],
-);
+const extensions = computed(() => {
+  const forceWrap = Boolean(props.wrap);
+  const defaultExtensions = getDefaultExtensions(props.lang);
+  return forceWrap || wrapLine.value
+    ? [...defaultExtensions, keyMap, EditorView.lineWrapping]
+    : [...defaultExtensions, keyMap];
+});
 
 function getCursorPosition() {
   const ranges = cmView.value?.state.selection.ranges;
   return ranges?.[0].anchor ?? 0;
 }
 
-const { formatJson } = useJsonFormat();
+const { formatCode } = useCodeFormat();
 async function format() {
   try {
     const isLargeFile = props.modelValue.length > 10_000;
-    const result = await formatJson({
+    const result = await formatCode({
       code: props.modelValue,
       cursorOffset: isLargeFile ? 0 : getCursorPosition(),
+      lang: props.lang,
     });
 
     emit('update:modelValue', result.code);

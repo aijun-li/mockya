@@ -1,9 +1,9 @@
 <script lang="ts" setup>
-import { useJsonFormat } from '@/hooks';
+import { useCodeFormat } from '@/hooks';
 import { Correct, Error } from '@icon-park/vue-next';
+import { CodeLang, TrafficItem } from '@shared/types';
 import { ref, watch } from 'vue';
 import { useRouter } from 'vue-router';
-import { TrafficItem } from 'whistle.mockya/src/shared/types';
 import { Editor } from '.';
 
 interface Props {
@@ -14,7 +14,7 @@ const props = defineProps<Props>();
 
 const resp = ref<any>();
 
-const { formatJson } = useJsonFormat();
+const { formatCode } = useCodeFormat();
 
 const router = useRouter();
 
@@ -24,7 +24,7 @@ watch(
     if (props.item.resp !== undefined) {
       try {
         console.log('start format');
-        const result = await formatJson({ code: props.item.resp });
+        const result = await formatCode({ code: props.item.resp });
         resp.value = result.code;
       } catch {
         resp.value = undefined;
@@ -137,7 +137,7 @@ function jumpToMock() {
 
       <div class="section">
         <div class="title section-title">Response</div>
-        <Editor v-if="resp !== undefined" v-model="resp" read-only hide-operations />
+        <Editor v-if="resp !== undefined" v-model="resp" :lang="CodeLang.JSON" wrap read-only hide-operations />
       </div>
     </div>
   </div>

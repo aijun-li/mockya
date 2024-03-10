@@ -86,6 +86,7 @@ model Mock {
   default Boolean      @default(false)
   headers MockHeader[]
   body    String       @default("")
+  lang    String       @default("json") // "json" | "javascript"
 
   matchers Matcher[]
 

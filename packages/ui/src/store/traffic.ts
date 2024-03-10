@@ -1,8 +1,8 @@
 import { withRefs } from '@/utils';
 import { socket } from '@/ws';
+import { SocketEventName, TrafficItem } from '@shared/types';
 import { defineStore } from 'pinia';
 import { ref } from 'vue';
-import { SocketEventName, TrafficItem } from 'whistle.mockya/src/shared/types';
 
 const MAX_LEN = 300;
 

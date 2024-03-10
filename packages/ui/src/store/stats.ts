@@ -1,9 +1,9 @@
 import { trpc } from '@/service';
 import { handleError, withRefs } from '@/utils';
 import { socket } from '@/ws';
+import { IntStatKey, SocketEventName } from '@shared/types';
 import { defineStore } from 'pinia';
 import { ref } from 'vue';
-import { IntStatKey, SocketEventName } from 'whistle.mockya/src/shared/types';
 
 type StatItem = { key: IntStatKey; value: number };
 type Stats = Partial<Record<IntStatKey, number>>;

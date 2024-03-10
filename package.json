@@ -12,7 +12,9 @@
     "build:be": "pnpm -F whistle.mockya run build",
     "dev": "pnpm -r --parallel run dev",
     "dev:fe": "pnpm -F @mockya/ui run dev",
-    "dev:be": "pnpm -F whistle.mockya run dev"
+    "dev:be": "pnpm -F whistle.mockya run dev",
+    "db:migrate-dev": "pnpm -F whistle.mockya run db:migrate-dev",
+    "db:push-dev": "pnpm -F whistle.mockya run db:push-dev"
   },
   "devDependencies": {
     "@commitlint/cli": "^17.7.1",

@@ -1,7 +1,11 @@
 import { CompletionContext } from '@codemirror/autocomplete';
+import { esLint, javascript } from '@codemirror/lang-javascript';
 import { linter } from '@codemirror/lint';
 import { EditorView } from '@codemirror/view';
+import { CodeLang } from '@shared/types';
+import { basicSetup } from 'codemirror';
 import { json5, json5Language, json5ParseLinter } from 'codemirror-json5';
+import { Linter as JsLinter } from 'eslint-linter-browserify';
 import Mock from 'mockjs';
 
 const completionRules = [
@@ -57,4 +61,12 @@ export const theme = EditorView.theme({
     },
 });
 
-export const defaultExtensions = [json5(), linter(json5ParseLinter()), theme, autoComplete];
+const jsLinter = linter(esLint(new JsLinter()));
+
+export function getDefaultExtensions(lang: CodeLang) {
+  if (lang === CodeLang.JSON) {
+    return [basicSetup, json5(), linter(json5ParseLinter()), theme, autoComplete];
+  } else {
+    return [basicSetup, javascript(), jsLinter, theme, autoComplete];
+  }
+}

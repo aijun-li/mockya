@@ -1,3 +1,4 @@
+import { CodeLang } from '@/shared/types';
 import prisma from '@/tools/prisma';
 
 const fullIncludeConfig = {
@@ -62,6 +63,7 @@ export default {
         data: {
           default: true,
           name: 'Default',
+          lang: CodeLang.JSON,
           rule: {
             connect: {
               id: rule.id,
