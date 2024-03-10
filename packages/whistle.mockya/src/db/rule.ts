@@ -51,6 +51,7 @@ export default {
       const rule = await tx.rule.create({
         data: {
           name,
+          path: '/',
           collection: {
             connect: {
               id: collectionId,

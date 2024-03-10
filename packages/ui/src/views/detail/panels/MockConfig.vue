@@ -15,13 +15,15 @@ const { selectedRule, deleteMock, updateMock } = useRuleConfigStore();
 const route = useRoute();
 const router = useRouter();
 
+const defaultMatcher = computed(() => selectedRule.value?.matchers.find((matcher) => matcher.default));
+
 const mockList = computed(() => selectedRule.value?.mocks ?? []);
 
 const createVisible = ref(false);
 
 const defaultMockId = computed(() => mockList.value.find((mock) => mock.default)?.id);
 
-const selectedMockId = ref(defaultMockId.value ?? 0);
+const selectedMockId = ref(defaultMatcher.value?.mockId ?? defaultMockId.value ?? 0);
 
 const selectedMock = computed(() => mockList.value.find((mock) => mock.id === selectedMockId.value));
 
@@ -40,8 +42,8 @@ watch(selectedMockId, () => {
   code.value = selectedMock.value?.body ?? '';
 });
 
-watch(defaultMockId, () => {
-  selectedMockId.value = defaultMockId.value ?? 0;
+watch([defaultMockId, () => defaultMatcher.value?.id], () => {
+  selectedMockId.value = defaultMatcher.value?.mockId ?? defaultMockId.value ?? 0;
 });
 
 watchEffect(() => {
