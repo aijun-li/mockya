@@ -1,13 +1,23 @@
 <script lang="ts" setup>
 import { useCollectionsStore, useCommandPaletteStore, useRuleConfigStore, useRuleListStore } from '@/store';
+import { CommandPaletteItem } from '@/types';
 import { isMac } from '@/utils';
-import { Analysis, CodeBrackets, FileCode, Home, MonitorOne, NotebookOne, Setting } from '@icon-park/vue-next';
+import {
+  Analysis,
+  CodeBrackets,
+  FileCode,
+  Home,
+  MonitorOne,
+  NotebookOne,
+  Setting,
+  Terminal,
+} from '@icon-park/vue-next';
 import { onClickOutside, onKeyDown } from '@vueuse/core';
 import { computed, ref } from 'vue';
 import { Command } from 'vue-command-palette';
 import { useRouter } from 'vue-router';
 
-const { visible } = useCommandPaletteStore();
+const { visible, actionsConfig } = useCommandPaletteStore();
 
 const dialogEl = ref<HTMLDivElement | null>(null);
 
@@ -102,6 +112,13 @@ const mocksConfig = computed(() =>
 const groups = computed(() =>
   [
     {
+      title: 'Actions',
+      items: actionsConfig.value.map((a) => ({
+        ...a,
+        icon: Terminal,
+      })),
+    },
+    {
       title: 'Mocks',
       items: mocksConfig.value,
     },
@@ -125,10 +142,15 @@ const groups = computed(() =>
     },
   ].filter((group) => group.items.length),
 );
+
+function onItemSelect(item: CommandPaletteItem) {
+  item.perform();
+  visible.value = false;
+}
 </script>
 
 <template>
-  <Command.Dialog ref="dialogEl" :visible="visible" theme="mockya-palette">
+  <Command.Dialog ref="dialogEl" :visible="visible" theme="easy-mock-palette">
     <template #header>
       <Command.Input placeholder="Search..." />
     </template>
@@ -139,13 +161,7 @@ const groups = computed(() =>
             v-for="item in group.items"
             :key="item.id"
             :data-value="item.label"
-            :perform="item.perform"
-            @select="
-              () => {
-                item.perform();
-                visible = false;
-              }
-            "
+            @select="onItemSelect(item)"
           >
             <component :is="item.icon" />
             {{ item.label }}
@@ -159,7 +175,7 @@ const groups = computed(() =>
 </template>
 
 <style lang="scss">
-.mockya-palette {
+.easy-mock-palette {
   @apply m-0 mx-auto flex justify-center;
 
   [command-dialog-mask] {

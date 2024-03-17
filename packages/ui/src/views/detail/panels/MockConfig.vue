@@ -2,7 +2,7 @@
 import { ContentCard, CreateMockModal, Editor, IconButton, MockDropdownList } from '@/components';
 import { GlobalEvents, updateSaveDelay } from '@/const';
 import { Tooltip } from '@/daisy';
-import { useRuleConfigStore } from '@/store';
+import { useCommandPaletteStore, useRuleConfigStore } from '@/store';
 import { track } from '@/utils/track';
 import { FileAddition } from '@icon-park/vue-next';
 import { CodeLang } from '@shared/types';
@@ -99,6 +99,17 @@ function onCreateClick() {
   createVisible.value = true;
   track('create_mock_btn_click');
 }
+
+const { registerActions } = useCommandPaletteStore();
+registerActions([
+  {
+    id: 'create-mock',
+    label: 'Create Mock',
+    perform: () => {
+      onCreateClick();
+    },
+  },
+]);
 </script>
 
 <template>

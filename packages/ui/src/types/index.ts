@@ -33,3 +33,10 @@ export interface CodeFormatMessage {
   code: string;
   lang?: CodeLang;
 }
+
+export interface CommandPaletteItem {
+  id: string | number;
+  icon: Component;
+  label: string;
+  perform: () => void;
+}

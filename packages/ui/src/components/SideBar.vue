@@ -8,7 +8,7 @@ import { useRouter } from 'vue-router';
 
 const router = useRouter();
 
-const { visible: paletteVisible } = useCommandPaletteStore();
+const { showCommandPalette } = useCommandPaletteStore();
 
 const topConfigs = [
   {
@@ -21,9 +21,7 @@ const topConfigs = [
   {
     icon: Search,
     tip: isMac ? 'Search (Cmd+K)' : 'Search (Ctrl+K)',
-    handler: () => {
-      paletteVisible.value = true;
-    },
+    handler: showCommandPalette,
   },
 ];
 

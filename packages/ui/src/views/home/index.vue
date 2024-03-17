@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { CollectionCard, ContentCard, CreateCollectionCard, CreateCollectionModal } from '@/components';
 import { Loading } from '@/daisy';
-import { useCollectionsStore } from '@/store';
+import { useCollectionsStore, useCommandPaletteStore } from '@/store';
 import { track } from '@/utils/track';
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
@@ -26,6 +26,17 @@ function onCreateClick() {
   createVisible.value = true;
   track('create_collection_btn_click');
 }
+
+const { registerActions } = useCommandPaletteStore();
+registerActions([
+  {
+    id: 'create-collection',
+    label: 'Create Collection',
+    perform: () => {
+      onCreateClick();
+    },
+  },
+]);
 </script>
 
 <template>

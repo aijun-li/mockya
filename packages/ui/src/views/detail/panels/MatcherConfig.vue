@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { ContentCard, IconButton, MatcherItem } from '@/components';
 import { Tooltip } from '@/daisy';
-import { useRuleConfigStore } from '@/store';
+import { useCommandPaletteStore, useRuleConfigStore } from '@/store';
 import { track } from '@/utils/track';
 import { FileAddition, HandUp } from '@icon-park/vue-next';
 import { computed } from 'vue';
@@ -34,6 +34,17 @@ function onCreateClick() {
   createMatcher();
   track('create_matcher_btn_click');
 }
+
+const { registerActions } = useCommandPaletteStore();
+registerActions([
+  {
+    id: 'create-matcher',
+    label: 'Create Matcher',
+    perform: () => {
+      onCreateClick();
+    },
+  },
+]);
 </script>
 
 <template>

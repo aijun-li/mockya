@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { ContentCard, IconButton, RuleItem } from '@/components';
 import { Loading, Tooltip } from '@/daisy';
-import { useRuleListStore } from '@/store';
+import { useCommandPaletteStore, useRuleListStore } from '@/store';
 import { BaseRule } from '@/types';
 import { track } from '@/utils/track';
 import { FileAddition, HandUp } from '@icon-park/vue-next';
@@ -81,6 +81,17 @@ async function onUpdateRule(id: number, name: string, exitEdit: () => void) {
 
   exitEdit();
 }
+
+const { registerActions } = useCommandPaletteStore();
+registerActions([
+  {
+    id: 'create-rule',
+    label: 'Create Rule',
+    perform: () => {
+      onCreateBtnClick();
+    },
+  },
+]);
 </script>
 
 <template>

@@ -2,7 +2,7 @@
 import { ContentCard, IconButton } from '@/components';
 import { updateSaveDelay } from '@/const';
 import { Button, Input, Toggle } from '@/daisy';
-import { useRuleConfigStore, useRuleListStore } from '@/store';
+import { useCommandPaletteStore, useRuleConfigStore, useRuleListStore } from '@/store';
 import { UpdateConditionParams } from '@/types';
 import { Plus, ReduceOne } from '@icon-park/vue-next';
 import { useDebounceFn } from '@vueuse/core';
@@ -31,6 +31,26 @@ const onConditionFieldInput = useDebounceFn((params: UpdateConditionParams) => {
 const onConditionDelete = (id: number) => {
   deleteRuleCondition(id);
 };
+
+const { registerActions } = useCommandPaletteStore();
+registerActions([
+  {
+    id: 'create-rule-condition',
+    label: 'Create Rule Condition',
+    perform: () => {
+      onConditionCreate();
+    },
+  },
+  {
+    id: 'toggle-rule-enabled',
+    label: 'Toggle Rule Enabled',
+    perform: () => {
+      const old = selectedRule.value!.enabled;
+      selectedRule.value!.enabled = !old;
+      onEnabledChange(!old);
+    },
+  },
+]);
 </script>
 
 <template>
