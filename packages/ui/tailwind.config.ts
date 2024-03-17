@@ -11,6 +11,9 @@ const remToPx = (max = 500, step = 4) =>
 const tailwindConfig: Config = {
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx,vue}'],
   plugins: [daisyui],
+  daisyui: {
+    darkTheme: 'light',
+  },
   theme: {
     spacing: {
       ...remToPx(),
