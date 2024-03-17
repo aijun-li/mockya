@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { IconButton } from '@/components';
-import { Input } from '@/daisy';
+import { Input, Indicator } from '@/daisy';
 import { useConfirm } from '@/hooks';
 import { BaseRule } from '@/types';
 import { Check, Close, Delete, Dot, Edit, FileCode } from '@icon-park/vue-next';
@@ -15,12 +15,14 @@ interface Props {
   rule: BaseRule;
   initEdit?: boolean;
   selected?: boolean;
+  marked?: boolean;
 }
 
 type Emits = {
   'edit-confirm': [name: string, exitEdit: () => void];
   'edit-cancel': [];
   'delete': [];
+  'toggle-enabled': [boolean];
 };
 
 const props = withDefaults(defineProps<Props>(), {
@@ -77,6 +79,12 @@ function onIconClick(e: Event) {
     focusEdit();
   }
 }
+
+function onDblClick() {
+  if (!editActive.value) {
+    emit('toggle-enabled', !props.rule.enabled);
+  }
+}
 </script>
 
 <template>
@@ -89,14 +97,17 @@ function onIconClick(e: Event) {
     @mouseenter="hovered = true"
     @mouseleave="hovered = false"
   >
-    <FileCode
+    <Indicator
       :class="{
         'mr-1': editActive,
         'mr-2': !editActive,
       }"
-      :size="14"
-      @click="onIconClick"
-    />
+      type="secondary"
+      :visible="marked"
+      start
+    >
+      <FileCode :size="14" @click="onIconClick" />
+    </Indicator>
 
     <template v-if="!editActive">
       <div class="flex-1 truncate mr-1">
@@ -132,6 +143,6 @@ function onIconClick(e: Event) {
       </IconButton>
     </template>
 
-    <Dot class="ml-1" :class="[rule.enabled ? 'text-success' : 'text-base-300']" />
+    <Dot class="ml-1" :class="[rule.enabled ? 'text-success' : 'text-base-300']" @dblclick="onDblClick" />
   </div>
 </template>

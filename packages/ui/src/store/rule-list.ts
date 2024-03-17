@@ -2,7 +2,7 @@ import { trpc } from '@/service';
 import { BaseRule } from '@/types';
 import { handleError, withRefs } from '@/utils';
 import { defineStore } from 'pinia';
-import { ref, watch } from 'vue';
+import { reactive, ref, watch } from 'vue';
 import { useDetailStore } from './detail';
 
 export const useRuleListStore = withRefs(
@@ -12,6 +12,8 @@ export const useRuleListStore = withRefs(
     const selectedRuleId = ref(0);
     const rules = ref<BaseRule[]>([]);
     const loading = ref(true);
+
+    const markedRuleIds = reactive(new Set<number>());
 
     watch(collectionId, async () => {
       rules.value = [];
@@ -47,7 +49,7 @@ export const useRuleListStore = withRefs(
       }
     }
 
-    async function updateRule(params: { id: number; name: string }) {
+    async function updateRule(params: { id: number; name?: string; enabled?: boolean }) {
       try {
         await trpc.updateRule.mutate(params);
         // await fetchRuleList();
@@ -68,6 +70,18 @@ export const useRuleListStore = withRefs(
       }
     }
 
+    function markRule(id: number) {
+      markedRuleIds.add(id);
+    }
+
+    function unmarkRule(id: number) {
+      markedRuleIds.delete(id);
+    }
+
+    function checkRuleMarked(id: number) {
+      return markedRuleIds.has(id);
+    }
+
     return {
       loading,
       selectedRuleId,
@@ -76,6 +90,10 @@ export const useRuleListStore = withRefs(
       createRule,
       updateRule,
       deleteRule,
+
+      markRule,
+      unmarkRule,
+      checkRuleMarked,
     };
   }),
 );

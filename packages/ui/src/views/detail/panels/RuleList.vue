@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { ContentCard, IconButton, RuleItem } from '@/components';
 import { Loading, Tooltip } from '@/daisy';
-import { useCommandPaletteStore, useRuleListStore } from '@/store';
+import { useCommandPaletteStore, useRuleConfigStore, useRuleListStore } from '@/store';
 import { BaseRule } from '@/types';
 import { track } from '@/utils/track';
 import { FileAddition, HandUp } from '@icon-park/vue-next';
@@ -12,7 +12,9 @@ const emptyRule = {
   name: 'new rule',
 } as BaseRule;
 
-const { rules, createRule, updateRule, deleteRule, selectedRuleId, loading } = useRuleListStore();
+const { rules, createRule, updateRule, deleteRule, selectedRuleId, loading, markRule, unmarkRule, checkRuleMarked } =
+  useRuleListStore();
+const { selectedRule } = useRuleConfigStore();
 
 const route = useRoute();
 const router = useRouter();
@@ -92,6 +94,26 @@ registerActions([
     },
   },
 ]);
+
+function onRuleClick(id: number) {
+  selectedRuleId.value = id;
+  unmarkRule(id);
+}
+
+async function onToggleRuleEnabled(id: number, enabled: boolean) {
+  const target = rules.value.find((rule) => rule.id === id);
+  if (target) {
+    target.enabled = enabled;
+    await updateRule({
+      id,
+      enabled,
+    });
+
+    if (id === selectedRuleId.value && selectedRule.value) {
+      selectedRule.value.enabled = enabled;
+    }
+  }
+}
 </script>
 
 <template>
@@ -123,9 +145,11 @@ registerActions([
             class="rule-item"
             :rule="rule"
             :selected="selectedRuleId === rule.id"
+            :marked="checkRuleMarked(rule.id)"
             @delete="onDeleteRule(rule.id)"
             @edit-confirm="(name, exitEdit) => onUpdateRule(rule.id, name, exitEdit)"
-            @click="selectedRuleId = rule.id"
+            @click="onRuleClick(rule.id)"
+            @toggle-enabled="(enabled) => onToggleRuleEnabled(rule.id, enabled)"
           />
         </div>
 
