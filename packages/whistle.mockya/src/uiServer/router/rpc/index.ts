@@ -1,6 +1,6 @@
 import { mergeRouters } from '@/tools/trpc';
 import type Koa from 'koa';
-import { createKoaMiddleware } from '@/utils/trpc-koa-adapter';
+import { createKoaMiddleware } from 'trpc-koa-adapter';
 import collectionRouter from './collection';
 import matcherRouter from './matcher';
 import matcherConditionRouter from './matcher-condition';
