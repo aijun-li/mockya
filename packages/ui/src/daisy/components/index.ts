@@ -10,3 +10,6 @@ export * from './range';
 export * from './toast';
 export * from './toggle';
 export * from './tooltip';
+export * from './checkbox';
+export * from './indicator';
+export * from './badge';
