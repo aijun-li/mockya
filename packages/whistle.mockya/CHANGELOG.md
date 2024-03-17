@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.4.1](https://github.com/aijun-li/mockya/compare/v0.4.0...v0.4.1) (2024-03-17)
+
+### Features
+
+- support rule marking & quick enabled toggling ([0a31481](https://github.com/aijun-li/mockya/commit/0a314816722c3584c53e92c09186f25de5e28818))
+
 # [0.4.0](https://github.com/aijun-li/mockya/compare/v0.3.3...v0.4.0) (2024-03-10)
 
 ### Features
