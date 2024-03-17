@@ -12,7 +12,7 @@ const emptyRule = {
   name: 'new rule',
 } as BaseRule;
 
-const { rules, createRule, updateRule, deleteRule, selectedRuleId, loading, markRule, unmarkRule, checkRuleMarked } =
+const { rules, createRule, updateRule, deleteRule, selectedRuleId, loading, unmarkRule, checkRuleMarked } =
   useRuleListStore();
 const { selectedRule } = useRuleConfigStore();
 

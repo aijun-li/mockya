@@ -1,4 +1,5 @@
 import { CodeLang } from '@shared/types';
+import { Component } from 'vue';
 
 export * from './collection';
 export * from './matcher';
