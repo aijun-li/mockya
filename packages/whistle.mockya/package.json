@@ -1,6 +1,6 @@
 {
   "name": "whistle.mockya",
-  "version": "0.4.1",
+  "version": "0.4.2",
   "description": "API mock plugin for whistle",
   "keywords": [
     "whistle",
@@ -29,7 +29,8 @@
     "public",
     "prisma",
     "scripts",
-    "CHANGELOG.md"
+    "CHANGELOG.md",
+    "README.md"
   ],
   "whistleConfig": {
     "hintUrl": "/api/hint",
