@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.4.2](https://github.com/aijun-li/mockya/compare/v0.4.0...v0.4.2) (2024-03-18)
+
+### Features
+
+- support actions in command palette ([2cb2d0e](https://github.com/aijun-li/mockya/commit/2cb2d0e84154172a4249034c684c3bb0dc5be5cc))
+- support rule marking & quick enabled toggling ([0a31481](https://github.com/aijun-li/mockya/commit/0a314816722c3584c53e92c09186f25de5e28818))
+- use new trpc-koa-adapter supporting onError ([7823312](https://github.com/aijun-li/mockya/commit/7823312fb2442534920a903f2f551d790fe040df))
+
 ## [0.4.1](https://github.com/aijun-li/mockya/compare/v0.4.0...v0.4.1) (2024-03-17)
 
 ### Features
